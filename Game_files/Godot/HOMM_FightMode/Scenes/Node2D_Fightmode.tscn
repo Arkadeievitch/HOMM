@@ -5,23 +5,23 @@
 [ext_resource path="res://Code/Player1.gd" type="Script" id=3]
 [ext_resource path="res://Code/Player2.gd" type="Script" id=4]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 64 )
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0, 0.0156863, 1, 1, 0.12549, 0, 1, 1 )
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 64, 64 )
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 64, 64 )
@@ -48,12 +48,12 @@ script = ExtResource( 3 )
 [node name="Collision_P1" type="CollisionShape2D" parent="Grid/Player1"]
 position = Vector2( 32, -32 )
 scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 
 [node name="Sprite_P1" type="Sprite" parent="Grid/Player1/Collision_P1"]
 position = Vector2( -64, -64 )
 scale = Vector2( 0.2, 0.25 )
-texture = SubResource( 2 )
+texture = SubResource( 3 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 128, 128, 640, 512 )
@@ -66,12 +66,12 @@ script = ExtResource( 4 )
 [node name="Collision_P2" type="CollisionShape2D" parent="Grid/Player2"]
 position = Vector2( -32, -32 )
 scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="Sprite_P2" type="Sprite" parent="Grid/Player2/Collision_P2"]
 position = Vector2( -64, -64 )
 scale = Vector2( 0.2, 0.25 )
-texture = SubResource( 4 )
+texture = SubResource( 6 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 128, 128, 640, 512 )

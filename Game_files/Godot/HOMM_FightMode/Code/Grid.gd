@@ -12,7 +12,7 @@ onready var Obstacle = preload("res://Scenes/Obstacle.tscn")
 
 #_______________________________________________
 func _ready():
-
+	
 	# Create the grid Array
 	for x in range(grid_size.x):
 		grid.append([])
@@ -37,13 +37,25 @@ func _ready():
 
 
 #_______________________________________________
+func is_cell_vacant(pos, direction):
 # Return True if the cell is vacant and False otherwise
-func is_cell_vacant():
-	pass
-	
+	var grid_pos = world_to_map(pos) + direction
+	if grid_pos.x < grid_size.x and grid_pos.x >= 0:
+		if grid_pos.y < grid_size.y and grid_pos.y >= 0:
+			return true if grid[grid_pos.x][grid_pos.y] ==null else false
+	return false
+		
+		
 #_______________________________________________
+func update_child_pos(child):
 # Move a child to a new position in the grid array
 # Returns the new target world postion of the child
-func update_child_po(child, new_pos, direction):
-	pass
+	var grid_pos = world_to_map(child.position)
+	print(grid_pos)
+	grid[grid_pos.x][grid_pos.y] = null
 	
+	var new_grid_pos = grid_pos + child.direction # .direction NOT WORKING!
+	grid[new_grid_pos.x][new_grid_pos.y] = child
+	
+	var target_pos = map_to_world(new_grid_pos) + half_tile_size
+	return target_pos
