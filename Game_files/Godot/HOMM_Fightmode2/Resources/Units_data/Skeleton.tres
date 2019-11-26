@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Units_data/BaseStats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+Unit_name = "Unit name"
+Max_Health = null
+Damage = null
+Displacement = null
+Initiative = null
+Attack = null
+Defense = null

@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://TurnQueue.gd" type="Script" id=1]
+[ext_resource path="res://Units/0_Example/CreatureNode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Units/0_Example/ExampleStats.tres" type="Resource" id=3]
+[ext_resource path="res://Units/Skeleton/SkeletonStats.tres" type="Resource" id=4]
+
+[node name="MAIN_BattleScene" type="Node2D"]
+
+[node name="TurnQueue" type="YSort" parent="."]
+script = ExtResource( 1 )
+
+[node name="Creature" parent="TurnQueue" instance=ExtResource( 2 )]
+position = Vector2( 416, 288 )
+stats = ExtResource( 3 )
+
+[node name="Creature2" parent="TurnQueue" instance=ExtResource( 2 )]
+modulate = Color( 0.733333, 0.113725, 0.113725, 1 )
+position = Vector2( 1184, 288 )
+stats = ExtResource( 4 )

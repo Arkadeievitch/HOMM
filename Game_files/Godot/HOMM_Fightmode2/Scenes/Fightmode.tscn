@@ -1,29 +1,109 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Code/Fightmode_Node2D.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Code/Player1.gd" type="Script" id=3]
-[ext_resource path="res://Code/Player2.gd" type="Script" id=4]
-[ext_resource path="res://Code/Fighter.gd" type="Script" id=5]
+[ext_resource path="res://Code/Player2.gd" type="Script" id=3]
+[ext_resource path="res://Code/Fighter.gd" type="Script" id=4]
+[ext_resource path="res://Code/Unit_info.gd" type="Script" id=5]
+[ext_resource path="res://Resources/Units_data/Skeleton.tres" type="Resource" id=6]
+[ext_resource path="res://Code/Stats.gd" type="Script" id=7]
+[ext_resource path="res://Code/Skills.gd" type="Script" id=8]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Sprite
+#
+#var displacement : 			int = 4
+#var initiative : 			float = 5.0
+#
+#onready var Player2 = get_node(\"Player2\")
+#onready var Scene = get_parent()
+#var half_tile_size : 		int = 24
+#
+#var is_active : 			bool= false
+#var calculate_priority : 	bool= false
+#
+##var speed : = 0
+#var target : 				Vector2 = Vector2()
+#var last_position : 		Vector2 = Vector2()
+##var move_direction : = Vector2()
+#
+#var priority : float
+#
+#var Disp_Tiles = load(\"res://Scenes/Import_objects/Ground_Tiles.tscn\")
+#var Target_Tile = load(\"res://Scenes/Import_objects/Ground_Tile_target.tscn\")
+#
+#var new_tile
+#var all_tiles
+#
+#signal player_ready
+#
+## ________________________________________________________________________________
+## Called when the node enters the scene tree for the first time.
+#func _ready():
+#	priority = initiative
+#	set_process_input(true)
+#
+#	emit_signal(\"player_ready\")
+#
+## ________________________________________________________________________________
+#func _input(event):
+#
+#	# apply displacement
+#	if event.is_action_pressed('ui_leftclic') and is_active==true:
+#		last_position = position
+#		target = Vector2(get_global_mouse_position().x, get_global_mouse_position().y)
+#		position = target
+#
+#		all_tiles = get_children() # delete the displacement tiles
+#		var i : = 0
+#		for n in range(0, 2*displacement+1, 1):
+#			for m in range(0, 2*displacement+1, 1):
+#				all_tiles[i].queue_free()
+#				i += 1
+#
+#		priority = 0
+#		calculate_priority = true
+#		is_active = false
+#
+#	if event.is_action_pressed('ui_leftclic'):
+#		if Scene.PRIORITIES.Prio_player1 > Scene.PRIORITIES.Prio_player2:
+#			draw_displacement_tiles()
+#			is_active = true
+#
+#	# calculate priority
+#	if event.is_action_pressed('ui_leftclic') and is_active==false:
+#		priority += initiative/2
+#
+"
 
 [node name="Scene" type="Node2D"]
 script = ExtResource( 1 )
-
-[node name="Player1" type="Sprite" parent="."]
-position = Vector2( 312, 288 )
-scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 2 )
-script = ExtResource( 3 )
 
 [node name="Player2" type="Sprite" parent="."]
 modulate = Color( 0.756863, 0.14902, 0.14902, 1 )
 position = Vector2( 696, 120 )
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 192, 144 )
+position = Vector2( 288, 264 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Player1" type="Sprite" parent="Position2D"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+script = SubResource( 1 )
+
+[node name="Unit_info" type="Node" parent="Position2D"]
 script = ExtResource( 5 )
-[connection signal="player_ready" from="Player1" to="." method="_on_player_ready"]
-[connection signal="player_ready" from="Player2" to="." method="_on_player_ready"]
+starting_stats = ExtResource( 6 )
+
+[node name="UnitStats" type="Node" parent="Position2D/Unit_info"]
+script = ExtResource( 7 )
+
+[node name="Skills" type="Node" parent="Position2D/Unit_info"]
+script = ExtResource( 8 )

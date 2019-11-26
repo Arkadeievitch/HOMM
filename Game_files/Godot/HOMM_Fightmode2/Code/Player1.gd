@@ -62,19 +62,3 @@ func _input(event):
 	if event.is_action_pressed('ui_leftclic') and is_active==false:
 		priority += initiative/2
 
-# ________________________________________________________________________________
-# Function to generate displacement tiles from player posiion
-func draw_displacement_tiles():
-
-	for n in range(-displacement, displacement+1):
-		for m in range(-displacement, displacement+1):
-			new_tile = Disp_Tiles.instance()
-			add_child(new_tile)
-
-			new_tile.position = Vector2(n*half_tile_size*2,
-				m*half_tile_size*2)
-
-func _on_scene_is_ready():
-	if Scene.PRIORITIES.Prio_player1 > Scene.PRIORITIES.Prio_player2:
-		draw_displacement_tiles()
-		is_active = true
