@@ -12,20 +12,19 @@ var STATS
 func _ready():
 	STATS = get_node("Character/Stats")
 	Priority = STATS.INITIATIVE
-	pass
+	
+	$".".connect("Priorities_calculated", self, "_input")
 
-func _process(delta):
-
-	pass
 
 func _input(event):
-	
-	if Input.is_action_pressed("ui_leftclic"): # ! Ne gère pas plusieurs joueurs ayant la même priorité
+	# Play if unit has highest priority (defined in Turn_Characters node) and increment priority otherwise.
+	if Input.is_action_just_pressed("ui_leftclic"):
 		
-		if Priority == get_parent().Highest_priority:
-			print(STATS.MAX_HP)
+		yield(get_parent(), "Priorities_calculated")
+		
+		if is_active == true:
 			Priority = 0.0
+			is_active = false
 		else:
 			Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)
 			
-	pass
