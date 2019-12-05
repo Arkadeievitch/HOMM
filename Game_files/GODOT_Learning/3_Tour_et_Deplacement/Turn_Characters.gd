@@ -44,6 +44,7 @@ func _input(event):
 		
 		emit_signal("Priorities_calculated")
 			
-#		print("Last player : ", Char_to_activate)	#
-#		print("_") 		#
+		print("Last player : ", Char_to_activate+1)	#
+		print("_") 		#
+		print("_") 		#
 		

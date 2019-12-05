@@ -3,10 +3,9 @@
 [ext_resource path="res://Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Characters/Stats.gd" type="Script" id=3]
-[ext_resource path="res://Characters/Char1/Temporary.gd" type="Script" id=4]
+[ext_resource path="res://Characters/Temporary.gd" type="Script" id=4]
 
 [node name="Character1" type="Node2D"]
-position = Vector2( 456, 312 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -20,8 +19,8 @@ texture = ExtResource( 2 )
 [node name="Stats" type="Node" parent="Character"]
 script = ExtResource( 3 )
 MAX_HP = 10
-DAMAGE = 2
-DISPLACEMENT = 4
+DAMAGE = 3
+DISPLACEMENT = 3
 INITIATIVE = 2
 
 [node name="Temporary" type="Position2D" parent="."]
