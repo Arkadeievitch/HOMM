@@ -39,7 +39,7 @@ func _input(event):
 				Highest_priority = Priorities[i] 
 				Char_to_activate = i
 			
-		print("Start --- ", Priorities) 		#
+#		print("Start --- ", Priorities) 		#
 		get_child(Char_to_activate).is_active = true
 		
 		emit_signal("Priorities_calculated")

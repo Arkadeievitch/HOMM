@@ -6,7 +6,11 @@
 [ext_resource path="res://Characters/Char1/Temporary.gd" type="Script" id=4]
 
 [node name="Character1" type="Node2D"]
+position = Vector2( 456, 312 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Character" type="Position2D" parent="."]
 
@@ -17,6 +21,7 @@ texture = ExtResource( 2 )
 script = ExtResource( 3 )
 MAX_HP = 10
 DAMAGE = 2
+DISPLACEMENT = 4
 INITIATIVE = 2
 
 [node name="Temporary" type="Position2D" parent="."]

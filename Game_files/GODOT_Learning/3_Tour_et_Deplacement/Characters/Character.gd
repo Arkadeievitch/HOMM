@@ -15,7 +15,8 @@ func _ready():
 	STATS = get_node("Character/Stats")
 	Priority = STATS.INITIATIVE
 	
-	$".".connect("Priorities_calculated", self, "_input")
+	if get_node("/root/Battlefield") != null:
+		$".".connect("Priorities_calculated", self, "_input")
 
 #_________________________________
 #func _process(delta):
@@ -29,14 +30,18 @@ func _input(event):
 	# and increment priority otherwise.
 	if Input.is_action_just_pressed("ui_leftclic"):
 		
-		yield(get_parent(), "Priorities_calculated")
+		if get_node("/root/Battlefield") != null:
+			yield(get_parent(), "Priorities_calculated")
 		
-		if is_active == true:
-			Priority = 0.0
-			is_active = false
-#			delete_displacement_tiles()
-		else:
-			Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)
+			if is_active == true:
+				Priority = 0.0
+				is_active = false
+	#			delete_displacement_tiles()
+			else:
+				Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)
+			
+			
+			
 			
 #_________________________________
 #func draw_displacement_tiles():
@@ -51,15 +56,3 @@ func _input(event):
 #
 #			new_tile.position = Vector2(n*half_tile_size*2, m*half_tile_size*2)
 
-#_________________________________
-#func delete_displacement_tiles(): 
-#	var all_children
-#
-#	all_children = get_children() 
-#
-#	var i : = 0
-#
-#	for n in range(0, 2*STATS.DISPLACEMENT+1, 1):
-#		for m in range(0, 2*STATS.DISPLACEMENT+1, 1):
-#			all_children[i].queue_free()
-#			i += 1
