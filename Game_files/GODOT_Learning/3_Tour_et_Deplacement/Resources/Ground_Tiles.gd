@@ -4,9 +4,8 @@ var Disp_Tiles_target = load("res://Resources/Ground_Tile_target.tscn")
 
 func _ready():
 	
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	pass 
+	
 func _process(delta):
 	
 	

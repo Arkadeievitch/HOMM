@@ -7,17 +7,27 @@ var Disp_Tiles = load("res://Resources/Ground_Tiles.tscn")
 #_________________________________
 func _ready():
 	STATS = get_parent().get_node("Character/Stats")
+	
+	if get_node("/root/Battlefield") != null:
+		$".".connect("Priorities_calculated", self, "_input")
+	
+	yield(get_parent().get_parent(), "Priorities_calculated")
+	if get_parent().is_active ==true:
+		draw_displacement_tiles()
+	
 
 #_________________________________
 func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic"):
-		
+		if get_child_count()!=0:
+			delete_all_displacement_tiles()
+			
+		if get_parent().is_active ==true:
+			displace_unit()
+			
+		yield(get_parent().get_parent(), "Priorities_calculated")
 		if get_parent().is_active ==true:
 			draw_displacement_tiles()
-			get_parent().is_active = false
-		else:
-			if get_child_count()!=0:
-				delete_all_displacement_tiles()
 
 
 #================================================================
@@ -60,3 +70,9 @@ func delete_all_displacement_tiles():
 
 	for i in range(0, get_child_count(), 1):
 		all_children[i].queue_free()
+		
+func displace_unit():
+	
+	get_parent().is_active = false
+	get_parent().Priority = 0.0
+	pass

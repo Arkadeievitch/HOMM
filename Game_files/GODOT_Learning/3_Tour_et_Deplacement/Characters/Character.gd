@@ -17,17 +17,15 @@ func _ready():
 	
 	if get_node("/root/Battlefield") != null:
 		$".".connect("Priorities_calculated", self, "_input")
-	
+
 #_________________________________
 func _input(event):
-	# Play if unit has highest priority (defined in Turn_Characters node) 
-	# and increment priority otherwise.
+	
 	if Input.is_action_just_pressed("ui_leftclic"):
 		
 		if get_node("/root/Battlefield") != null:
 			yield(get_parent(), "Priorities_calculated")
 			if is_active == true:
-				Priority = 0.0
-				
+				pass
 			else:
 				Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)

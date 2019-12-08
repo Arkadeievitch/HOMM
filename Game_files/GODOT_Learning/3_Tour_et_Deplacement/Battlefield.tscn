@@ -6,11 +6,11 @@
 [ext_resource path="res://Characters/Char3/Character3.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Mouse_Cursor.gd" type="Script" id=5]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=1]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 width = 12
 
 [node name="Battlefield" type="Node2D"]
@@ -38,4 +38,4 @@ __meta__ = {
 
 [node name="Sprite" type="Sprite" parent="Mouse_Cursor"]
 scale = Vector2( 1, 12 )
-texture = SubResource( 1 )
+texture = SubResource( 2 )
