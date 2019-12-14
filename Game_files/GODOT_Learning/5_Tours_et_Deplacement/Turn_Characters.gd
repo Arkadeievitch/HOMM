@@ -11,26 +11,22 @@ signal Priorities_calculated
 
 #______________________________________
 func _ready():
-	self.connect("Priorities_calculated", self, "_input")
-	
-	Char_number = get_child_count()
-	
-	connect_to_children()
-	
-	for i in Char_number:
-		Priorities.append(0)
-	
+	connect_Turn_to_signals()
+	count_children_and_build_priority_array()
 	activate_player_with_priority()
-	
+	print(Priorities)#
 
 #______________________________________
 func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic") :
-		yield()
+		print("Turn")
+		yield(get_node("/root/Battlefield"), "action_finished")
 		activate_player_with_priority()
+		print("Turn end")
+		
 
-
-#______________________________________
+#========================================================================
+#______________________________________1
 func activate_player_with_priority():
 	Highest_priority = 0
 		
@@ -42,16 +38,22 @@ func activate_player_with_priority():
 			Char_to_activate = i
 	
 	get_child(Char_to_activate).is_active = true
-	
 	emit_signal("Priorities_calculated")
 
-#______________________________________
+#______________________________________2
 func update_priorities():
-		
 	for i in Char_number:
 		Priorities[i] = get_child(i).get("Priority")
-		
-func connect_to_children():
+
+#______________________________________3
+func connect_Turn_to_signals():
+	if get_node("/root/Battlefield") != null:
+		self.connect("Priorities_calculated", self, "connect_Turn_to_itself")
+		get_node("/root/Battlefield").connect("action_finished", self, "connect_Turn_to_Battlefield")
 	
+#______________________________________4
+func count_children_and_build_priority_array():
+	Char_number = get_child_count()
 	for i in Char_number:
-		get_child(i).connect("End_of_Displacement", self, "_input")
+		Priorities.append(0)
+	
