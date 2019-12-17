@@ -27,3 +27,5 @@ MAX_HP = 12
 DAMAGE = 2
 DISPLACEMENT = 2
 INITIATIVE = 2
+
+[node name="Tween" type="Tween" parent="."]
