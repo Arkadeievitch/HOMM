@@ -55,12 +55,12 @@ func activate_player_with_priority():
 	
 	get_child(Char_to_activate).active_turn = true
 	
-	print("TURN ", Count_Turn_number)
-	print(Priorities)
-	print("Active : ", Char_to_activate)
-	var activation = [get_child(0).active_turn, get_child(1).active_turn, get_child(2).active_turn]
-	print(activation)
-	print("SIGNAL : Priorities")
+#	print("TURN ", Count_Turn_number)
+#	print(Priorities)
+#	print("Active : ", Char_to_activate)
+#	var activation = [get_child(0).active_turn, get_child(1).active_turn, get_child(2).active_turn]
+#	print(activation)
+#	print("SIGNAL : Priorities")
 	
 	emit_signal("Priorities_retrieved")
 #___2___
