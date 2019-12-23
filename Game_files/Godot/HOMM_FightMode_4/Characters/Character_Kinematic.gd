@@ -13,6 +13,7 @@ var TWEEN : Node
 var TURN : Node
 var MOUSE : Node
 
+signal action
 signal end_of_action
 signal end_of_priority_calculation
 
@@ -20,28 +21,26 @@ var Target_position : Vector2
 
 #_________________________________
 func _ready():
-#	self.position = Vector2(round(self.position.x/64)*64, round(self.position.y/64)*64)
 	list_other_nodes()
 	Priority = float(STATS.INITIATIVE)
 	Target_position = self.position
-	TWEEN.connect("tween_completed", self, "On_Tween_completion")
+	connect_Turn()
 
 func _process(delta):
-#	if TURN.a_tween_is_active == false:
 	if Input.is_action_just_pressed("ui_leftclic"):
 		if active_turn == true && displacement_allowed == true:
 			displacement()
 			yield(TWEEN,"tween_completed")
+			emit_signal("action")
 			end_displacement()
-			signal_end_of_action()
+			emit_signal("end_of_action")
 		else:
 			increment_Priority()
-			signal_end_of_priority_calculation()
+			emit_signal("end_of_priority_calculation")
 	
 	displacement_allowed = false
 
 #=========================================
-#___1___
 func list_other_nodes():
 	STATS = get_node("icon/Stats")
 	TWEEN = get_node("Tween")
@@ -49,20 +48,20 @@ func list_other_nodes():
 	TURN = get_parent()
 	
 func displacement():
-	if abs(MOUSE.Active_target.x) <= 1:
+	if abs(MOUSE.Tile_target.x) <= 1:
 		Target_position = Vector2(	round(get_global_mouse_position().x/64)*64+32,
 									round(get_global_mouse_position().y/64)*64
-									+round(MOUSE.Active_target.y/32)*32)
+									+round(MOUSE.Tile_offset.y/32)*32)
 	else:
-		if abs(MOUSE.Active_target.y) <= 1:
+		if abs(MOUSE.Tile_target.y) <= 1:
 			Target_position = Vector2(	round(get_global_mouse_position().x/64)*64
-										+round(MOUSE.Active_target.x/32)*32,
+										+round(MOUSE.Tile_offset.x/32)*32,
 										round(get_global_mouse_position().y/64)*64-32)
 		else:
 			Target_position = Vector2(	round(get_global_mouse_position().x/64)*64
-										+round(MOUSE.Active_target.x/32)*32,
+										+round(MOUSE.Tile_offset.x/32)*32,
 										round(get_global_mouse_position().y/64)*64
-										+round(MOUSE.Active_target.y/32)*32)
+										+round(MOUSE.Tile_offset.y/32)*32)
 	TWEEN.interpolate_property(self, 
 								"position", 
 								self.global_position, 
@@ -75,22 +74,26 @@ func displacement():
 func end_displacement():
 		Priority = 0.0
 		active_turn = false
-#___2___
-func signal_end_of_action():
-#	print("SIGNAL : End of Action")
-	emit_signal("end_of_action")
-#___3___
-func signal_end_of_priority_calculation():
-#	print("SIGNAL : End of Priority calculation")
-	emit_signal("end_of_priority_calculation")
-#___4___
+	
 func increment_Priority():
 	Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)
 	
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
+func connect_Turn():
+	TWEEN.connect("tween_completed", self, "onTweenCompletion")
+	for i in TURN.get_child_count():
+		TURN.get_child(i).connect("action", self, "Character_attacked")
+	
 func allowing_movement():
 	displacement_allowed = true
 
-func On_Tween_completion():
+func onTweenCompletion(Object_argument, NodePath_Key_argument):
+#	print(Object_argument, " ", NodePath_Key_argument)
 	pass
+	
+func Character_attacked():
+	if (active_turn ==false 
+	&& abs(MOUSE.Action_target.x - self.global_position.x) < 64
+	&& abs(MOUSE.Action_target.y - self.global_position.y) < 64):
+		print(STATS.NAME, " is attacked")

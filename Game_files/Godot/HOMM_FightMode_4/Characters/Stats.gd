@@ -1,5 +1,6 @@
 extends Node
 
+export var NAME : String
 export var MAX_HP : int
 export var NUMBER : int
 
@@ -7,14 +8,23 @@ export var DAMAGE : int
 export var DISPLACEMENT : int
 export var INITIATIVE : int
 
+var TOTAL_HP : int
+
 func _ready():
+	TOTAL_HP = NUMBER * MAX_HP
 	if MAX_HP == 0:
 		print("Dead Character")
 	if NUMBER == 0:
 		print("Dead Character")
-	if DAMAGE == 0:
-		pass
 	if DISPLACEMENT == 0:
 		print("Character can't move")
+	if DAMAGE == 0:
+		DAMAGE = 1
 	if INITIATIVE == 0:
-		print("Initiative =  0 : Character will never play")
+		INITIATIVE = 1
+
+func UpdateNumberFromHP():
+	NUMBER = ceil(float(TOTAL_HP)/float(MAX_HP))
+
+func TakeDamage(Damage_taken):
+	TOTAL_HP = max(0,TOTAL_HP - Damage_taken)

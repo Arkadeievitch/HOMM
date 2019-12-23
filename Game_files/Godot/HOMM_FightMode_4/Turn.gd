@@ -39,6 +39,7 @@ func _process(delta):
 		signal_1_received = false 
 		signal_2_received = false
 		signal_2_counter = 0
+		Victory()
 		update_priorities()
 		activate_player_with_priority()
 		emit_signal("Priorities_retrieved")
@@ -66,6 +67,28 @@ func count_children_and_build_priority_array():
 	for i in Char_number:
 		Priorities.append(0)
 #___4___
+func Victory():
+	var Player_in_each_side = [0, 0, 0]
+	var Victory_condition : int = 0
+	var Winner
+	
+	for i in get_child_count():
+		if get_child(i).Side == 1:
+			Player_in_each_side[0] +=1
+		elif get_child(i).Side == 2:
+			Player_in_each_side[1] +=1
+		else:
+			Player_in_each_side[2] +=1
+			
+	for i in Player_in_each_side.size():
+		if Player_in_each_side[1] == 0:
+			Victory_condition += 1
+			
+	if Victory_condition == 2:
+		for i in Player_in_each_side.size():
+			if Player_in_each_side[i] > 0:
+				Winner = i+1
+		print("Player ", Winner," VICTORY")
 
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
