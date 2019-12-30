@@ -26,17 +26,26 @@ func _ready():
 	Target_position = self.position
 	connect_Turn()
 
+# warning-ignore:unused_argument
 func _process(delta):
 	if Input.is_action_just_pressed("ui_leftclic"):
-		if active_turn == true && displacement_allowed == true:
+		if (active_turn == true && displacement_allowed == true):
 			displacement()
 			yield(TWEEN,"tween_completed")
 			emit_signal("action")
 			end_displacement()
 			emit_signal("end_of_action")
-		else:
+		elif(active_turn == true 
+			&& MOUSE.Tile_target.x - self.position.x < 32 
+			&& MOUSE.Tile_target.y - self.position.y < 32):
+			emit_signal("action")
+			end_displacement()
+			emit_signal("end_of_action")
+		elif active_turn == false :
 			increment_Priority()
 			emit_signal("end_of_priority_calculation")
+		else:
+			print("clicked outside")
 	
 	displacement_allowed = false
 
@@ -48,12 +57,12 @@ func list_other_nodes():
 	TURN = get_parent()
 	
 func displacement():
-	if abs(MOUSE.Tile_target.x) <= 1:
+	if abs(MOUSE.Tile_offset.x) <= 1:
 		Target_position = Vector2(	round(get_global_mouse_position().x/64)*64+32,
 									round(get_global_mouse_position().y/64)*64
 									+round(MOUSE.Tile_offset.y/32)*32)
 	else:
-		if abs(MOUSE.Tile_target.y) <= 1:
+		if abs(MOUSE.Tile_offset.y) <= 1:
 			Target_position = Vector2(	round(get_global_mouse_position().x/64)*64
 										+round(MOUSE.Tile_offset.x/32)*32,
 										round(get_global_mouse_position().y/64)*64-32)
@@ -81,8 +90,10 @@ func increment_Priority():
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
 func connect_Turn():
+# warning-ignore:return_value_discarded
 	TWEEN.connect("tween_completed", self, "onTweenCompletion")
 	for i in TURN.get_child_count():
+# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("action", self, "Character_attacked")
 	
 func allowing_movement():
@@ -93,7 +104,10 @@ func onTweenCompletion(Object_argument, NodePath_Key_argument):
 	pass
 	
 func Character_attacked():
+	if active_turn ==false :
+		print(MOUSE.Action_target, " is mouse")
+		print(self.global_position, " is ", STATS.NAME)		
 	if (active_turn ==false 
-	&& abs(MOUSE.Action_target.x - self.global_position.x) < 64
-	&& abs(MOUSE.Action_target.y - self.global_position.y) < 64):
+	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
+	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):
 		print(STATS.NAME, " is attacked")

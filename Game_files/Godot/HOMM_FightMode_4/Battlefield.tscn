@@ -14,7 +14,7 @@
 script = ExtResource( 1 )
 
 [node name="Character1_v2" parent="Turn" instance=ExtResource( 2 )]
-position = Vector2( 800, 288 )
+position = Vector2( 96, 96 )
 Side = 1
 
 [node name="Character2_v2" parent="Turn" instance=ExtResource( 3 )]
@@ -22,7 +22,7 @@ position = Vector2( 1056, 288 )
 Side = 2
 
 [node name="Character3_v2" parent="Turn" instance=ExtResource( 4 )]
-position = Vector2( 928, 416 )
+position = Vector2( 224, 96 )
 Side = 1
 
 [node name="Background" type="Node" parent="."]
@@ -32,4 +32,4 @@ script = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="Mouse_Cursor" parent="Mouse" instance=ExtResource( 7 )]
-position = Vector2( 640, 264 )
+position = Vector2( 224, 192 )

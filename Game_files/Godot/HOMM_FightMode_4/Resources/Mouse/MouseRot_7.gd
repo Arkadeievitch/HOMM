@@ -12,6 +12,6 @@ func _ready():
 func _process(delta):
 	for i in range(Character_number) :
 		if Characters[i].active_turn == false :
-			if 		abs(self.global_position.x-Characters[i].global_position.x) < 30:
-				if 	abs(self.global_position.y-Characters[i].global_position.y) < 30:
+			if 		abs(self.global_position.x-Characters[i].global_position.x) <= 32:
+				if 	abs(self.global_position.y-Characters[i].global_position.y) <= 32:
 					emit_signal("rotate_7")

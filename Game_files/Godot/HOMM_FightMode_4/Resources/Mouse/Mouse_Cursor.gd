@@ -8,13 +8,12 @@ func _ready():
 	connect_to_rotations()
 
 func _process(delta):
-	self.position = Vector2(get_global_mouse_position().x, 
-							get_global_mouse_position().y)
+	self.global_position = Vector2(	get_global_mouse_position().x, 
+									get_global_mouse_position().y)
 	Tile_offset = Vector2(24, -24)
-	Tile_target = Vector2(	round(self.position.x/32)*32 + round(Tile_offset.x/32)*32, 
-							round(self.position.y/32)*32 + round(Tile_offset.y/32)*32)
-	Action_target = Vector2(	round(self.position.x/32)*32 - round(Tile_offset.x/32)*32, 
-								round(self.position.y/32)*32 - round(Tile_offset.y/32)*32)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Tile_target
 
 func connect_to_rotations():
 	get_child(1).connect("rotate_1", self, "rotation_1")
@@ -28,49 +27,49 @@ func connect_to_rotations():
 	
 func rotation_1():
 	Tile_offset = Vector2(0, 32)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_2():
 	Tile_offset = Vector2(-24, 24)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_3():
 	Tile_offset = Vector2(-32, 0)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_4():
 	Tile_offset = Vector2(-24, -24)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_5():
 	Tile_offset = Vector2(0, -32)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_6():
 	Tile_offset = Vector2(24, -24)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_7():
 	Tile_offset = Vector2(32, 0)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)
 func rotation_8():
 	Tile_offset = Vector2(24, 24)
-	Tile_target = Vector2(	self.position.x + Tile_offset.x, 
-							self.position.y + Tile_offset.x)
-	Action_target = Vector2(	self.position.x - Tile_offset.x, 
-								self.position.y - Tile_offset.x)
+	Tile_target = Vector2(	self.global_position.x + Tile_offset.x, 
+							self.global_position.y + Tile_offset.y)
+	Action_target = Vector2(	self.global_position.x - Tile_offset.x, 
+								self.global_position.y - Tile_offset.y)

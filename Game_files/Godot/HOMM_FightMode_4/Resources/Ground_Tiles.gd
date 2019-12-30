@@ -9,8 +9,8 @@ func _ready():
 	
 # Show active tile or not
 func _physics_process(delta):
-	if abs(get_local_mouse_position().x+MOUSE.Tile_offset.x) <32:
-		if abs(get_local_mouse_position().y+MOUSE.Tile_offset.y) <32:
+	if abs(get_local_mouse_position().x+MOUSE.Tile_offset.x) <= 32:
+		if abs(get_local_mouse_position().y+MOUSE.Tile_offset.y) <= 32:
 			if get_child_count()==0:
 				var add_child = Target_Tile.instance()
 				add_child(add_child, true)

@@ -4,13 +4,14 @@ var TURN
 var STATS
 var displacement_allowed : bool = false
 var Disp_Tiles = load("res://Resources/Ground_Tiles.tscn")
+var Active_Border = load("res://Resources/Active_Border.tscn")
 
 func _ready():
 	STATS = get_parent().get_node("icon/Stats")
 	TURN = get_node("/root/Battlefield/Turn")
 		
 func _input(event):
-	if Input.is_action_just_pressed("ui_leftclic") && displacement_allowed == true:
+	if Input.is_action_just_pressed("ui_leftclic") :
 		Delete_all_displacement_tiles()
 	displacement_allowed = false
 		
@@ -20,7 +21,7 @@ func Delete_all_displacement_tiles():
 	var all_children
 	all_children = get_children() 
 
-	if get_child_count()!=0:
+	if get_child_count()>0:
 		for i in range(0, get_child_count(), 1):
 			all_children[i].queue_free()
 		
@@ -40,7 +41,10 @@ func Draw_displacement_tiles():
 	var Characters_positions = []
 	var Character_number = TURN.get_child_count()
 	
-	if get_parent().active_turn ==true:
+	if get_parent().active_turn == true:
+		var add_child = Active_Border.instance()
+		add_child(add_child, true)
+		
 		for i in Character_number:
 			Characters_positions.append(0)
 			Characters_positions[i] = TURN.get_child(i).position
