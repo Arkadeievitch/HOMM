@@ -57,20 +57,7 @@ func list_other_nodes():
 	TURN = get_parent()
 	
 func displacement():
-	if abs(MOUSE.Tile_offset.x) <= 1:
-		Target_position = Vector2(	round(get_global_mouse_position().x/64)*64+32,
-									round(get_global_mouse_position().y/64)*64
-									+round(MOUSE.Tile_offset.y/32)*32)
-	else:
-		if abs(MOUSE.Tile_offset.y) <= 1:
-			Target_position = Vector2(	round(get_global_mouse_position().x/64)*64
-										+round(MOUSE.Tile_offset.x/32)*32,
-										round(get_global_mouse_position().y/64)*64-32)
-		else:
-			Target_position = Vector2(	round(get_global_mouse_position().x/64)*64
-										+round(MOUSE.Tile_offset.x/32)*32,
-										round(get_global_mouse_position().y/64)*64
-										+round(MOUSE.Tile_offset.y/32)*32)
+	
 	TWEEN.interpolate_property(self, 
 								"position", 
 								self.global_position, 
@@ -90,23 +77,21 @@ func increment_Priority():
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
 func connect_Turn():
-# warning-ignore:return_value_discarded
+	# warning-ignore:return_value_discarded
 	TWEEN.connect("tween_completed", self, "onTweenCompletion")
 	for i in TURN.get_child_count():
-# warning-ignore:return_value_discarded
+		# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("action", self, "Character_attacked")
 	
-func allowing_movement():
+func allowing_movement(Target_tile_position):
 	displacement_allowed = true
+	Target_position = Target_tile_position
 
 func onTweenCompletion(Object_argument, NodePath_Key_argument):
 #	print(Object_argument, " ", NodePath_Key_argument)
 	pass
 	
 func Character_attacked():
-	if active_turn ==false :
-		print(MOUSE.Action_target, " is mouse")
-		print(self.global_position, " is ", STATS.NAME)		
 	if (active_turn ==false 
 	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
 	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):

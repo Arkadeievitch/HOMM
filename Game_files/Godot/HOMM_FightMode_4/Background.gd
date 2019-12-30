@@ -1,7 +1,7 @@
 extends Node
 
-var Checker_Tiles = load("res://Resources/Checker_Tiles.tscn")
-var onetwo : bool = false
+#var Checker_Tiles = load("res://Resources/Checker_Tiles.tscn")
+#var onetwo : bool = false
 
 #func _ready():
 #	Draw_checker_tiles()

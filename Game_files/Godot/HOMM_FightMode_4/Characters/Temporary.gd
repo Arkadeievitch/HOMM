@@ -10,6 +10,7 @@ func _ready():
 	STATS = get_parent().get_node("icon/Stats")
 	TURN = get_node("/root/Battlefield/Turn")
 		
+# warning-ignore:unused_argument
 func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic") :
 		Delete_all_displacement_tiles()
@@ -76,5 +77,5 @@ func Draw_displacement_tiles():
 		else:
 			print("DISPLACEMENT = 0")
 
-func allowing_movement():
+func allowing_movement(Tile_position):
 	displacement_allowed = true

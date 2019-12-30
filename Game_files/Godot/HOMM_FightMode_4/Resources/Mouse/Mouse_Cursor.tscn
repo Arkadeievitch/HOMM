@@ -56,14 +56,13 @@ script = ExtResource( 11 )
 
 [node name="Tile_target" type="Sprite" parent="."]
 modulate = Color( 0.25098, 0.427451, 0.705882, 1 )
-position = Vector2( -24, 24 )
+position = Vector2( -1.90735e-006, 1.90735e-006 )
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 12 )
 script = ExtResource( 13 )
 
 [node name="Action_target" type="Sprite" parent="."]
 modulate = Color( 0.258824, 0.737255, 0.203922, 1 )
-position = Vector2( 24, -24 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 12 )
 script = ExtResource( 14 )

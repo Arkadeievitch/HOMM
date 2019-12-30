@@ -8,6 +8,7 @@ func _ready():
 	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
 	
 # Show active tile or not
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	if abs(get_local_mouse_position().x+MOUSE.Tile_offset.x) <= 32:
 		if abs(get_local_mouse_position().y+MOUSE.Tile_offset.y) <= 32:

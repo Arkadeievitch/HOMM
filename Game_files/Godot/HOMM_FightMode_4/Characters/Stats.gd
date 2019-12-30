@@ -24,7 +24,7 @@ func _ready():
 		INITIATIVE = 1
 
 func UpdateNumberFromHP():
-	NUMBER = ceil(float(TOTAL_HP)/float(MAX_HP))
+	NUMBER = int(ceil(float(float(TOTAL_HP)/float(MAX_HP))))
 
 func TakeDamage(Damage_taken):
-	TOTAL_HP = max(0,TOTAL_HP - Damage_taken)
+	TOTAL_HP = int(max(0,TOTAL_HP - Damage_taken))

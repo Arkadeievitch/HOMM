@@ -9,6 +9,7 @@ func _ready():
 	Characters = get_node("/root/Battlefield/Turn").get_children()
 	Character_number = get_node("/root/Battlefield/Turn").Char_number
 	
+# warning-ignore:unused_argument
 func _process(delta):
 	for i in range(Character_number) :
 		if Characters[i].active_turn == false :

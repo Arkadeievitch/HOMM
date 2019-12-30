@@ -27,6 +27,7 @@ func _ready():
 		TWEENS.append(0)
 		TWEENS[i] = get_child(i).get_node("Tween")
 	
+# warning-ignore:unused_argument
 func _process(delta):
 	for i in TWEENS.size():
 		if TWEENS[i].is_active()==true:
@@ -94,7 +95,9 @@ func Victory():
 #___CONNECT___
 func connect_Turn_to_signals():
 	for i in get_child_count():
+		# warning-ignore:return_value_discarded
 		get_child(i).connect("end_of_action", self, "on_Action_signal_in_Turn")
+		# warning-ignore:return_value_discarded
 		get_child(i).connect("end_of_priority_calculation", self, "on_priority_signal_in_Turn")
 func Connect_Temporary_to_Priority_signal():
 	for i in get_child_count():
