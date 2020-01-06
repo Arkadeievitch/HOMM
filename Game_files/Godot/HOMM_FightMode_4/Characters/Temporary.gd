@@ -12,7 +12,7 @@ func _ready():
 		
 # warning-ignore:unused_argument
 func _input(event):
-	if Input.is_action_just_pressed("ui_leftclic") :
+	if Input.is_action_just_pressed("ui_leftclic") && displacement_allowed ==true :
 		Delete_all_displacement_tiles()
 	displacement_allowed = false
 		

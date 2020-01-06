@@ -13,6 +13,8 @@ var signal_1_received : bool = false
 var signal_2_received : bool = false
 var signal_2_counter : int = 0
 
+var pass_turn : bool = false
+
 signal Priorities_retrieved
 
 func _ready():
@@ -36,13 +38,16 @@ func _process(delta):
 			a_tween_is_active = false
 	
 	if (signal_1_received == true 
-	&& signal_2_received ==true):
+	&&  signal_2_received == true
+	&&  pass_turn == true):
+		
 		signal_1_received = false 
 		signal_2_received = false
 		signal_2_counter = 0
 		Victory()
 		update_priorities()
 		activate_player_with_priority()
+		print("Priorities retrieved")###
 		emit_signal("Priorities_retrieved")
 		
 #========================================================================
@@ -112,4 +117,6 @@ func on_priority_signal_in_Turn():
 	signal_2_counter +=1
 	if signal_2_counter==get_child_count()-1:
 		signal_2_received = true
-	
+		
+func allowing_movement(Target_tile_position):
+	pass_turn = true

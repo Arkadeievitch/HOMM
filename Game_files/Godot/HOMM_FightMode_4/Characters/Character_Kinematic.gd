@@ -24,28 +24,28 @@ func _ready():
 	list_other_nodes()
 	Priority = float(STATS.INITIATIVE)
 	Target_position = self.position
+	connect_to_characters()
 	connect_Turn()
 
 # warning-ignore:unused_argument
 func _process(delta):
 	if Input.is_action_just_pressed("ui_leftclic"):
-		if (active_turn == true && displacement_allowed == true):
+		if active_turn == true && displacement_allowed == true:
 			displacement()
 			yield(TWEEN,"tween_completed")
 			emit_signal("action")
-			end_displacement()
 			emit_signal("end_of_action")
+			end_displacement()
 		elif(active_turn == true 
 			&& MOUSE.Tile_target.x - self.position.x < 32 
 			&& MOUSE.Tile_target.y - self.position.y < 32):
 			emit_signal("action")
-			end_displacement()
 			emit_signal("end_of_action")
-		elif active_turn == false :
-			increment_Priority()
-			emit_signal("end_of_priority_calculation")
-		else:
+			end_displacement()
+		elif active_turn == true :
 			print("clicked outside")
+		else:
+			pass
 	
 	displacement_allowed = false
 
@@ -79,10 +79,15 @@ func increment_Priority():
 func connect_Turn():
 	# warning-ignore:return_value_discarded
 	TWEEN.connect("tween_completed", self, "onTweenCompletion")
+	
+func connect_to_characters():
 	for i in TURN.get_child_count():
 		# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("action", self, "Character_attacked")
+		# warning-ignore:return_value_discarded
+		TURN.get_child(i).connect("end_of_action", self, "increment_priorities")
 	
+
 func allowing_movement(Target_tile_position):
 	displacement_allowed = true
 	Target_position = Target_tile_position
@@ -96,3 +101,7 @@ func Character_attacked():
 	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
 	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):
 		print(STATS.NAME, " is attacked")
+func increment_priorities():
+	if active_turn == false :
+		increment_Priority()
+		emit_signal("end_of_priority_calculation")
