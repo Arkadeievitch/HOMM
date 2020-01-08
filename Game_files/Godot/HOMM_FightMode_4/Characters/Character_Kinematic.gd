@@ -101,6 +101,10 @@ func Character_attacked():
 	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
 	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):
 		print(STATS.NAME, " is attacked")
+		print(STATS.NUMBER, " is attacked")
+		if STATS.NUMBER == 0:
+			self.queue_free()
+			
 func increment_priorities():
 	if active_turn == false :
 		increment_Priority()
