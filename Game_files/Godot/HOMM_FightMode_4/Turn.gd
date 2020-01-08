@@ -87,7 +87,7 @@ func Victory():
 			Player_in_each_side[2] +=1
 			
 	for i in Player_in_each_side.size():
-		if Player_in_each_side[1] == 0:
+		if Player_in_each_side[i] == 0:
 			Victory_condition += 1
 			
 	if Victory_condition == 2:
