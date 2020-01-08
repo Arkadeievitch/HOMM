@@ -47,7 +47,7 @@ func _process(delta):
 		Victory()
 		update_priorities()
 		activate_player_with_priority()
-		print("Priorities retrieved")###
+#		print("Priorities retrieved")###
 		emit_signal("Priorities_retrieved")
 		
 #========================================================================

@@ -97,11 +97,25 @@ func onTweenCompletion(Object_argument, NodePath_Key_argument):
 	pass
 	
 func Character_attacked():
+	var Damage_taken : int = 0
+	
 	if (active_turn ==false 
 	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
 	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):
 		print(STATS.NAME, " is attacked")
-		print(STATS.NUMBER, " is attacked")
+		for i in TURN.get_child_count():
+			if TURN.get_child(i).active_turn == true:
+				
+				Damage_taken = TURN.get_child(i).get_node("icon/Stats").DAMAGE
+		
+		STATS.TakeDamage(Damage_taken)
+		STATS.UpdateNumberFromHP()
+		
+		if STATS.NUMBER > 1:
+			print(STATS.NUMBER, " units left")
+		else:
+			print(STATS.NUMBER, " unit left")
+			
 		if STATS.NUMBER == 0:
 			self.queue_free()
 			
