@@ -2,8 +2,6 @@ extends KinematicBody2D
 
 class_name Character
 
-export var Side : int
-
 var Priority : float = 0.0
 var active_turn : bool = false
 var displacement_allowed : bool = false
@@ -16,16 +14,15 @@ var MOUSE : Node
 signal action
 signal end_of_action
 signal end_of_priority_calculation
+signal dead_character
 
 var Target_position : Vector2
 
-#_________________________________
 func _ready():
-	list_other_nodes()
+	getNodesfromTree()
+	ConnectSelf()
 	Priority = float(STATS.INITIATIVE)
 	Target_position = self.position
-	connect_to_characters()
-	connect_Turn()
 
 # warning-ignore:unused_argument
 func _process(delta):
@@ -50,7 +47,7 @@ func _process(delta):
 	displacement_allowed = false
 
 #=========================================
-func list_other_nodes():
+func getNodesfromTree():
 	STATS = get_node("icon/Stats")
 	TWEEN = get_node("Tween")
 	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
@@ -71,33 +68,35 @@ func end_displacement():
 		Priority = 0.0
 		active_turn = false
 	
-func increment_Priority():
+func calculate_Priority():
 	Priority += float(STATS.INITIATIVE) / float(get_parent().Char_number)
+	
+func allowing_movement(Target_tile_position): # triggered by child target tile
+	displacement_allowed = true
+	Target_position = Target_tile_position
 	
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
-func connect_Turn():
+func ConnectSelf():
 	# warning-ignore:return_value_discarded
 	TWEEN.connect("tween_completed", self, "onTweenCompletion")
 	
-func connect_to_characters():
+	# Se connecte aux autres personnages
 	for i in TURN.get_child_count():
 		# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("action", self, "Character_attacked")
 		# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("end_of_action", self, "increment_priorities")
-	
 
-func allowing_movement(Target_tile_position):
-	displacement_allowed = true
-	Target_position = Target_tile_position
-
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
 func onTweenCompletion(Object_argument, NodePath_Key_argument):
 #	print(Object_argument, " ", NodePath_Key_argument)
 	pass
 	
 func Character_attacked():
 	var Damage_taken : int = 0
+	var ATTACKER
 	
 	if (active_turn ==false 
 	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
@@ -105,21 +104,23 @@ func Character_attacked():
 		print(STATS.NAME, " is attacked")
 		for i in TURN.get_child_count():
 			if TURN.get_child(i).active_turn == true:
-				
-				Damage_taken = TURN.get_child(i).get_node("icon/Stats").DAMAGE
+				ATTACKER = TURN.get_child(i).get_node("icon/Stats")
+				Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
 		
 		STATS.TakeDamage(Damage_taken)
 		STATS.UpdateNumberFromHP()
 		
 		if STATS.NUMBER > 1:
-			print(STATS.NUMBER, " units left")
+			print(STATS.NUMBER, " members left in ", STATS.NAME, "unit")
 		else:
-			print(STATS.NUMBER, " unit left")
+			print(STATS.NUMBER, " ", STATS.NAME, " left")
 			
 		if STATS.NUMBER == 0:
+			print(STATS.NAME, " is dead")
 			self.queue_free()
-			
+			emit_signal("dead_character")
+	
 func increment_priorities():
 	if active_turn == false :
-		increment_Priority()
+		calculate_Priority()
 		emit_signal("end_of_priority_calculation")

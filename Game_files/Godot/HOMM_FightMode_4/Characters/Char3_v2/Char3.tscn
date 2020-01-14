@@ -23,6 +23,7 @@ texture = ExtResource( 3 )
 
 [node name="Stats" type="Node" parent="icon"]
 script = ExtResource( 4 )
+SIDE = 1
 NAME = "Green"
 MAX_HP = 8
 NUMBER = 4

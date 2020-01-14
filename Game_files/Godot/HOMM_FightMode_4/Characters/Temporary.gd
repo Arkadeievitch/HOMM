@@ -7,9 +7,8 @@ var Disp_Tiles = load("res://Resources/Ground_Tiles.tscn")
 var Active_Border = load("res://Resources/Active_Border.tscn")
 
 func _ready():
-	STATS = get_parent().get_node("icon/Stats")
-	TURN = get_node("/root/Battlefield/Turn")
-		
+	getNodesfromTree()
+	
 # warning-ignore:unused_argument
 func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic") && displacement_allowed ==true :
@@ -17,7 +16,6 @@ func _input(event):
 	displacement_allowed = false
 		
 #================================================================
-#___1___
 func Delete_all_displacement_tiles(): 
 	var all_children
 	all_children = get_children() 
@@ -26,6 +24,10 @@ func Delete_all_displacement_tiles():
 		for i in range(0, get_child_count(), 1):
 			all_children[i].queue_free()
 		
+func getNodesfromTree():
+	STATS = get_parent().get_node("icon/Stats")
+	TURN = get_node("/root/Battlefield/Turn")
+	
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
 func connect_Temporary_to_signals():
@@ -33,7 +35,6 @@ func connect_Temporary_to_signals():
 	&& TURN.is_connected("Priorities_retrieved", self, "Draw_displacement_tiles") == false) :
 		TURN.connect("Priorities_retrieved", self, "Draw_displacement_tiles")
 	
-#___SIG 1___
 func Draw_displacement_tiles():
 
 	var new_tile
@@ -77,5 +78,8 @@ func Draw_displacement_tiles():
 		else:
 			print("DISPLACEMENT = 0")
 
+# warning-ignore:unused_argument
 func allowing_movement(Tile_position):
 	displacement_allowed = true
+	
+	
