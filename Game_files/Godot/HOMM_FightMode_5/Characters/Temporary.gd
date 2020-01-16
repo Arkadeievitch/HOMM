@@ -2,39 +2,37 @@ extends Position2D
 
 var TURN
 var STATS
+var MOUSE
+
 var displacement_allowed : bool = false
 var Disp_Tiles = load("res://Resources/Ground_Tiles.tscn")
 var Active_Border = load("res://Resources/Active_Border.tscn")
+	
+signal Tiles_deleted
 
 func _ready():
 	getNodesfromTree()
-	
+
 # warning-ignore:unused_argument
-func _input(event):
-	if Input.is_action_just_pressed("ui_leftclic") && displacement_allowed ==true :
-		Delete_all_displacement_tiles()
+func _process(delta):
 	displacement_allowed = false
 		
 #================================================================
-func Delete_all_displacement_tiles(): 
-	var all_children
-	all_children = get_children() 
-
-	if get_child_count()>0:
-		for i in range(0, get_child_count(), 1):
-			all_children[i].queue_free()
-		
 func getNodesfromTree():
 	STATS = get_parent().get_node("icon/Stats")
 	TURN = get_node("/root/Battlefield/Turn")
+	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
 	
 #===SIGNALS FUNCTIONS==================================================
-#___CONNECT___
+#___CONNECT___ (Called by TURN)
 func connect_Temporary_to_signals():
-	if (TURN != null 
-	&& TURN.is_connected("Priorities_retrieved", self, "Draw_displacement_tiles") == false) :
+	if (TURN != null &&
+	TURN.is_connected("Priorities_retrieved", self, "Draw_displacement_tiles") == false):
 		TURN.connect("Priorities_retrieved", self, "Draw_displacement_tiles")
-	
+	if (MOUSE != null &&
+	MOUSE.is_connected("mouse_clic", self, "Delete_all_displacement_tiles") == false):
+		MOUSE.connect("mouse_clic", self, "Delete_all_displacement_tiles")
+		
 func Draw_displacement_tiles():
 
 	var new_tile
@@ -43,7 +41,6 @@ func Draw_displacement_tiles():
 	var Characters_positions = []
 	var Character_number = TURN.get_child_count()
 	
-	print(STATS.NAME,"  priority is ", get_parent().active_turn)
 	if get_parent().active_turn == true:
 		var add_child = Active_Border.instance()
 		add_child(add_child, true)
@@ -79,6 +76,22 @@ func Draw_displacement_tiles():
 		else:
 			print("DISPLACEMENT = 0")
 
+func Delete_all_displacement_tiles(action, Tile_target): 
+	var all_children
+	all_children = get_children() 
+	
+	if ((get_parent().active_turn == true 
+		&&  displacement_allowed == true 
+		&& get_child_count() > 0)
+		|| 
+		(get_parent().active_turn == true 
+		&& abs(Tile_target.x - self.global_position.x) <= 32 
+		&& abs(Tile_target.y - self.global_position.y) <= 32
+		&& get_child_count() > 0)):
+			for i in range(0, get_child_count(), 1):
+				all_children[i].queue_free()
+			emit_signal("Tiles_deleted", action, Tile_target)
+	
 # warning-ignore:unused_argument
 func allowing_movement(Tile_position):
 	displacement_allowed = true

@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Turn.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Minotaur/Minotaur.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Characters/Skeleton/Skeleton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Characters/Vampire/Vampire.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Background.gd" type="Script" id=5]
-[ext_resource path="res://Resources/Mouse/Mouse.gd" type="Script" id=6]
-[ext_resource path="res://Resources/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Resources/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=6]
 
 [node name="Battlefield" type="Node2D"]
 
@@ -28,7 +27,6 @@ position = Vector2( 320, 128 )
 script = ExtResource( 5 )
 
 [node name="Mouse" type="Node" parent="."]
-script = ExtResource( 6 )
 
-[node name="Mouse_Cursor" parent="Mouse" instance=ExtResource( 7 )]
+[node name="Mouse_Cursor" parent="Mouse" instance=ExtResource( 6 )]
 position = Vector2( 576, 320 )

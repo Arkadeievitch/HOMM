@@ -9,9 +9,8 @@ var Count_Turn_number : int = 1
 var TWEENS = []
 var a_tween_is_active : bool = false
 
-var signal_1_received : bool = false
-var signal_2_received : bool = false
-var signal_2_counter : int = 0
+var all_char_signals_received : bool = false
+var signal_counter : int = 0
 
 var pass_turn : bool = false
 
@@ -95,9 +94,7 @@ func Victory():
 func ConnectSelf():
 	for i in get_child_count():
 		# warning-ignore:return_value_discarded
-		get_child(i).connect("end_of_action", self, "on_Action_signal_in_Turn")
-		# warning-ignore:return_value_discarded
-		get_child(i).connect("end_of_priority_calculation", self, "on_priority_signal_in_Turn")
+		get_child(i).connect("end_of_calculation", self, "on_priority_signal_in_Turn")
 		# warning-ignore:return_value_discarded
 		get_child(i).connect("dead_character", self, "on_Death")
 
@@ -105,24 +102,18 @@ func Connect_Temporary_to_Priority_signal():
 	for i in get_child_count():
 		get_child(i).get_node("Temporary").connect_Temporary_to_signals()
 		
-func on_Action_signal_in_Turn():
-	signal_1_received = true
-	PrepareNextTurn()
-
 func on_priority_signal_in_Turn():
-	signal_2_counter +=1
-	if signal_2_counter==get_child_count()-1:
-		signal_2_received = true
+	signal_counter +=1
+	if signal_counter==get_child_count():
+		all_char_signals_received = true
 	PrepareNextTurn()
 		
 func PrepareNextTurn():
-	if (signal_1_received == true 
-	&&  signal_2_received == true
+	if (all_char_signals_received == true
 	&&  pass_turn == true):
 		
-		signal_1_received = false 
-		signal_2_received = false
-		signal_2_counter = 0
+		all_char_signals_received = false
+		signal_counter = 0
 		retrieve_priorities()
 		activate_player_with_priority()
 		Count_Turn_number += 1

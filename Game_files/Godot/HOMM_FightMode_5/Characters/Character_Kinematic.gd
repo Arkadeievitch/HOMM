@@ -10,39 +10,53 @@ var STATS : Node
 var TWEEN : Node
 var TURN : Node
 var MOUSE : Node
+var TEMPORARY : Node
 
 signal action
 signal end_of_action
-signal end_of_priority_calculation
+signal end_of_calculation
 signal dead_character
 
-var Target_position : Vector2
+var Action_position : Vector2
+var Tile_position : Vector2
+var Mouse_Tile_position : Vector2
 
 func _ready():
 	getNodesfromTree()
 	ConnectSelf()
 	Priority = float(STATS.INITIATIVE)
-	Target_position = self.position
+	Action_position = self.position
 
 # warning-ignore:unused_argument
 func _process(delta):
 	if Input.is_action_just_pressed("ui_leftclic"):
+		yield(MOUSE,"mouse_clic")
 		if active_turn == true && displacement_allowed == true:
 			displacement()
 			yield(TWEEN,"tween_completed")
-			print("Signal ", STATS.NAME," : action")
-			emit_signal("action")
-			print("Signal  ", STATS.NAME,"  : end of action")
+			emit_signal("action", Action_position, Tile_position)
+			# Attaque la cible => calcul des dégâts.
+			# Supprime la cible si elle meurt.
 			emit_signal("end_of_action")
-			end_displacement()
+			# Si inactif : incrémente les priorités
+			end_Displacement()
+			emit_signal("end_of_calculation")
+			# TURN : au bout N signaux, 
+				# Mets à jour les priorités et active le personnage prioritaire.
+				# Signal Priorities_retrieved
 		elif(active_turn == true 
-			&& MOUSE.Tile_target.x - self.position.x < 32 
-			&& MOUSE.Tile_target.y - self.position.y < 32):
-			print("Signal  ", STATS.NAME,"  : action")
-			emit_signal("action")
-			print("Signal  ", STATS.NAME,"  : end of action")
+			&& abs(Mouse_Tile_position.x - self.global_position.x) <= 32 
+			&& abs(Mouse_Tile_position.y - self.global_position.y) <= 32):
+			emit_signal("action", Action_position, Tile_position)
+			# Attaque la cible => calcul des dégâts.
+			# Supprime la cible si elle meurt.
 			emit_signal("end_of_action")
-			end_displacement()
+			# Si inactif : incrémente les priorités
+			end_Displacement()
+			emit_signal("end_of_calculation")
+			# TURN : au bout N signaux, 
+				# Mets à jour les priorités et active le personnage prioritaire.
+				# Signal Priorities_retrieved
 		elif active_turn == true :
 			print("clicked outside")
 		else:
@@ -56,18 +70,19 @@ func getNodesfromTree():
 	TWEEN = get_node("Tween")
 	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
 	TURN = get_parent()
+	TEMPORARY = get_node("Temporary")
 	
 func displacement():
 	TWEEN.interpolate_property(self, 
 								"position", 
 								self.global_position, 
-								Target_position, 
+								Tile_position, 
 								0.5, 
 								Tween.TRANS_LINEAR, 
 								Tween.EASE_OUT)
 	TWEEN.start()
 
-func end_displacement():
+func end_Displacement():
 		Priority = 0.0
 		active_turn = false
 	
@@ -76,7 +91,7 @@ func calculate_Priority():
 	
 func allowing_movement(Target_tile_position): # triggered by child target tile
 	displacement_allowed = true
-	Target_position = Target_tile_position
+	Tile_position = Target_tile_position
 	
 #===SIGNALS FUNCTIONS==================================================
 #___CONNECT___
@@ -84,32 +99,42 @@ func ConnectSelf():
 	# warning-ignore:return_value_discarded
 	TWEEN.connect("tween_completed", self, "onTweenCompletion")
 	# warning-ignore:return_value_discarded
-	MOUSE.connect("mouse_clic", self, "Character_attacked")
+	TEMPORARY.connect("Tiles_deleted", self, "saveMousePositions")
 	# Se connecte aux autres personnages
 	for i in TURN.get_child_count():
 		# warning-ignore:return_value_discarded
-#		TURN.get_child(i).connect("action", self, "Character_attacked")
-		# warning-ignore:return_value_discarded
 		TURN.get_child(i).connect("end_of_action", self, "increment_priorities")
-
+		# warning-ignore:return_value_discarded
+		TURN.get_child(i).connect("action", self, "Character_attacked")
+	
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
 func onTweenCompletion(Object_argument, NodePath_Key_argument):
-#	print(Object_argument, " ", NodePath_Key_argument)
 	pass
 
-func Character_attacked(Target_position):
+func saveMousePositions(action, tile):
+	Action_position = action
+	Mouse_Tile_position = tile
+	
+func increment_priorities():
+	if active_turn == false :
+		calculate_Priority()
+		emit_signal("end_of_calculation")
+	
+# warning-ignore:unused_argument
+func Character_attacked(Action_position, Tile_position):
 	var Damage_taken : int = 0
 	var ATTACKER
 	
-	if (active_turn == false 
-	&& abs(Target_position.x - self.global_position.x) <= 32
-	&& abs(Target_position.y - self.global_position.y) <= 32):
+	for i in TURN.get_child_count():
+		if TURN.get_child(i).active_turn == true:
+			ATTACKER = TURN.get_child(i).get_node("icon/Stats")
+				
+	if (active_turn == false && ATTACKER.SIDE != STATS.SIDE 
+	&& abs(Action_position.x - self.global_position.x) <= 32
+	&& abs(Action_position.y - self.global_position.y) <= 32):
 		print(STATS.NAME, " is attacked")
-		for i in TURN.get_child_count():
-			if TURN.get_child(i).active_turn == true:
-				ATTACKER = TURN.get_child(i).get_node("icon/Stats")
-				Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
+		Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
 		
 		STATS.TakeDamage(Damage_taken)
 		STATS.UpdateNumberFromHP()
@@ -123,38 +148,3 @@ func Character_attacked(Target_position):
 			print(STATS.NAME, " is dead")
 			self.queue_free()
 			emit_signal("dead_character")
-			
-#func Character_attacked():
-#	var Damage_taken : int = 0
-#	var ATTACKER
-#
-#	print(STATS.NAME, " position: ", self.global_position)
-#	print("Mouse target position: ", MOUSE.Action_target, " for ", STATS.NAME)
-#
-#	if (active_turn == false 
-#	&& abs(MOUSE.Action_target.x - self.global_position.x) <= 32
-#	&& abs(MOUSE.Action_target.y - self.global_position.y) <= 32):
-#		print(STATS.NAME, " is attacked")
-#		for i in TURN.get_child_count():
-#			if TURN.get_child(i).active_turn == true:
-#				ATTACKER = TURN.get_child(i).get_node("icon/Stats")
-#				Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
-#
-#		STATS.TakeDamage(Damage_taken)
-#		STATS.UpdateNumberFromHP()
-#
-#		if STATS.NUMBER > 1:
-#			print(STATS.NUMBER, " members left in ", STATS.NAME, " unit")
-#		else:
-#			print(STATS.NUMBER, " ", STATS.NAME, " left")
-#
-#		if STATS.NUMBER == 0:
-#			print(STATS.NAME, " is dead")
-#			self.queue_free()
-#			emit_signal("dead_character")
-	
-func increment_priorities():
-	print(STATS.NAME," try to play")
-	if active_turn == false :
-		calculate_Priority()
-		emit_signal("end_of_priority_calculation")

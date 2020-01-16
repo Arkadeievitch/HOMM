@@ -1,5 +1,7 @@
 extends Sprite
 
+var MOUSE_ROTATIONS
+
 func _ready():
 	connect_to_rotations()
 
@@ -8,22 +10,23 @@ func _process(delta):
 	self.rotation_degrees = 0
 	
 func connect_to_rotations():
+	MOUSE_ROTATIONS = get_parent().get_node("Rotations")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(1).connect("rotate_1", self, "rotation_1")
+	MOUSE_ROTATIONS.get_child(0).connect("rotate_1", self, "rotation_1")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(2).connect("rotate_2", self, "rotation_2")
+	MOUSE_ROTATIONS.get_child(1).connect("rotate_2", self, "rotation_2")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(3).connect("rotate_3", self, "rotation_3")
+	MOUSE_ROTATIONS.get_child(2).connect("rotate_3", self, "rotation_3")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(4).connect("rotate_4", self, "rotation_4")
+	MOUSE_ROTATIONS.get_child(3).connect("rotate_4", self, "rotation_4")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(5).connect("rotate_5", self, "rotation_5")
+	MOUSE_ROTATIONS.get_child(4).connect("rotate_5", self, "rotation_5")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(6).connect("rotate_6", self, "rotation_6")
+	MOUSE_ROTATIONS.get_child(5).connect("rotate_6", self, "rotation_6")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(7).connect("rotate_7", self, "rotation_7")
+	MOUSE_ROTATIONS.get_child(6).connect("rotate_7", self, "rotation_7")
 # warning-ignore:return_value_discarded
-	get_parent().get_child(8).connect("rotate_8", self, "rotation_8")
+	MOUSE_ROTATIONS.get_child(7).connect("rotate_8", self, "rotation_8")
 
 func rotation_1():
 	self.rotation_degrees = -45

@@ -20,8 +20,8 @@ func _process(delta):
 			pass
 #			active_character = i
 		else:
-			if( 	abs(self.global_position.x-Characters[i].global_position.x) <= 32
-				&& 	abs(self.global_position.y-Characters[i].global_position.y) <= 32):
+			if( 	abs(self.global_position.x-Characters[i].global_position.x) <= 31
+				&& 	abs(self.global_position.y-Characters[i].global_position.y) <= 31):
 					emit_signal("rotate_4")
 
 func connectMouse():

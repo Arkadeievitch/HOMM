@@ -8,4 +8,3 @@ func _ready():
 # warning-ignore:unused_argument
 func _process(delta):
 	self.global_position = MOUSE.Action_target
-
