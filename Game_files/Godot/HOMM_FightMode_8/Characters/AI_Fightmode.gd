@@ -1,4 +1,3 @@
-# AI
 extends Position2D
 
 var TURN : Node
@@ -11,14 +10,14 @@ var ALL_STATS = []
 
 var DISPLACEMENT : int
 
-var onRange_Enemy_counter: int = 0
+var onRange_Enemy_counter : int = 0
 var onRange_Enemies = []
 var onRange_Enemies_scores = []
 
 var Character_number
 
 var ENEMY_STATS = []
-var Enemy_counter: int = 0
+var Enemy_counter : int = 0
 var Enemies = []
 var Enemies_scores = []
 
@@ -32,11 +31,11 @@ var Tiles_scores = []
 var Action_target : Vector2
 var Tile_target : Vector2
 
-func _ready():
-	retrieveNodes()
-
-func AI_Fightmode(Mouse_ActionTarget, Mouse_TileTarget):
+#==============================================
+func AI_Fightmode():
 	print("AI playing ---")
+	initialize()
+	retrieveNodes()
 	retrieveEnemies()
 	
 	retrieveOnRangeEnemies()
@@ -49,13 +48,31 @@ func AI_Fightmode(Mouse_ActionTarget, Mouse_TileTarget):
 	scoreTiles()
 	chooseTile()
 	print("--- AI played")
-	
+	return
 	# renvoi à l'algorithme d'action:
-	Mouse_ActionTarget = Action_target
-	Mouse_TileTarget = Tile_target
 	# Action_target
 	# Tile_target
+
 #==============================================
+func initialize():
+	ALL_TEMPORARY = []
+	ALL_STATS = []
+
+	onRange_Enemy_counter = 0
+	onRange_Enemies = []
+	onRange_Enemies_scores = []
+
+	ENEMY_STATS = []
+	Enemy_counter = 0
+	Enemies = []
+	Enemies_scores = []
+
+	chosenOne = 0
+
+	Tile_counter = 0
+	TileList = []
+	Tiles_scores = []
+
 func retrieveNodes():
 	TURN = get_node("/root/Battlefield/Turn")
 	Character_number = TURN.get_child_count()
@@ -183,6 +200,7 @@ func retrieveTiles():
 		&& (abs(CurrentTilePosition.x) != DISPLACEMENT+1
 		|| abs(CurrentTilePosition.y) != DISPLACEMENT+1)):
 			Tile_counter +=1
+			TileList.append(0)
 			TileList[Tile_counter] = CurrentTilePosition
 			
 		CurrentTilePosition = Vector2(Action_target.x+64, Action_target.y-64)
@@ -296,16 +314,14 @@ func chooseTile():
 		Tile_target = TileList[0]
 	else:
 	# en l'absence de cible convaincante, on vise la tuile la plus proche du centre.
+		var PreviousTarget = Vector2(2000, 2000)
 		for i in TEMPORARY.get_child_count():
 			var BattlefieldCenter = Vector2(800, 450)
-			var PreviousTarget = Vector2(2000, 2000)
 			
-			CurrentTilePosition = TEMPORARY.get_child(i).position
-			if abs(TEMPORARY.get_child(i).position.x - BattlefieldCenter.x) <= PreviousTarget.x:
-				PreviousTarget.x = TEMPORARY.get_child(i).position.x
-				Tile_target = TEMPORARY.get_child(i).global_position
-				if abs(TEMPORARY.get_child(i).position.y - BattlefieldCenter.x) < PreviousTarget.y:
-					PreviousTarget = TEMPORARY.get_child(i).position.y
-					Tile_target = TEMPORARY.get_child(i).global_position
-	
-		
+			CurrentTilePosition = TEMPORARY.get_child(i).global_position
+			if abs(CurrentTilePosition.x - BattlefieldCenter.x) <= PreviousTarget.x:
+				PreviousTarget.x = TEMPORARY.get_child(i).global_position.x
+				Tile_target = CurrentTilePosition
+				if abs(TEMPORARY.get_child(i).global_position.y - BattlefieldCenter.x) < PreviousTarget.y:
+					PreviousTarget.y = TEMPORARY.get_child(i).global_position.y
+					Tile_target = CurrentTilePosition

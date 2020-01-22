@@ -39,7 +39,6 @@ func _ready():
 	connectSelf()
 	retrievePriorities()
 	activatePlayer()
-	print(Priorities)
 
 #==============================================================
 func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
@@ -51,16 +50,16 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		
 		var Dead_index : int = 0
 		apply_death = false
+		print("NewTurn")
 		
 		# 1 / Active player
 		for i in Character_number:
+			TEMPORARY[i].deleteDisplacementTiles()
 			if CHARACTERS[i].active_turn == true:
 				if STATS[i].player == 1:
 					IA[i].AI_Fightmode()
 					Mouse_ActionTarget = IA[i].Action_target
 					Mouse_TileTarget = IA[i].Tile_target
-					
-				TEMPORARY[i].deleteDisplacementTiles()
 				CHARACTERS[i]._PlayAction(Mouse_ActionTarget, Mouse_TileTarget)
 				if CharacterIsMoving == true:
 					yield(TWEENS[i],"tween_completed")

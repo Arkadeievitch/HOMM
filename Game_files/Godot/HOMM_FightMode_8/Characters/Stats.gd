@@ -36,6 +36,4 @@ func UpdateNumberFromHP():
 	NUMBER = int(ceil(float(float(TOTAL_HP)/float(MAX_HP))))
 
 func TakeDamage(Damage_taken):
-	print("Before: ", TOTAL_HP)
 	TOTAL_HP = int(max(0,TOTAL_HP - Damage_taken))
-	print("After: ", TOTAL_HP)

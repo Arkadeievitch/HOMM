@@ -26,7 +26,8 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _process(delta):
-	displacement_allowed = false
+	if STATS.player == 0:
+		displacement_allowed = false
 
 #=========================================
 func getNodesfromTree():
@@ -65,6 +66,8 @@ func _PassiveAction(action, tile):
 # warning-ignore:unused_argument
 func _PlayAction(action, tile):
 	Action_position = action
+	if STATS.player == 1:
+		Tile_position = tile
 	
 	var SelfPosition = self.global_position
 	if(active_turn == true
@@ -91,9 +94,11 @@ func Nothing(Path_name, Object_name):
 	pass
 	
 # warning-ignore:unused_argument
-func Character_attacked(Action_position, Tile_position):
+func Character_attacked(Action_position2, Tile_position2):
 	var Damage_taken : int = 0
 	var ATTACKER
+	Action_position2 = Action_position
+	Tile_position2 = Tile_position
 	
 	if (active_turn == false 
 	&& abs(Action_position.x - self.global_position.x) <= 32
@@ -104,7 +109,7 @@ func Character_attacked(Action_position, Tile_position):
 				ATTACKER = TURN.get_child(i).get_node("icon/Stats")
 				
 		if ATTACKER.SIDE != STATS.SIDE :
-			print(STATS.NAME, " is attacked")
+			print(STATS.NAME, " is attacked by ", ATTACKER.NAME)
 			Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
 			
 			STATS.TakeDamage(Damage_taken)
