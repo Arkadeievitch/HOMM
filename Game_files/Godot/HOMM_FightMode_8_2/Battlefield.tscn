@@ -22,10 +22,10 @@ position = Vector2( 768, 384 )
 position = Vector2( 320, 320 )
 
 [node name="Vampire" parent="Turn" instance=ExtResource( 4 )]
-position = Vector2( 320, 128 )
+position = Vector2( 320, 192 )
 
 [node name="BlackDragon" parent="Turn" instance=ExtResource( 5 )]
-position = Vector2( 768, 128 )
+position = Vector2( 768, 192 )
 
 [node name="Background" type="Node" parent="."]
 script = ExtResource( 6 )
@@ -33,7 +33,3 @@ script = ExtResource( 6 )
 [node name="Mouse" type="Node" parent="."]
 
 [node name="Mouse_Cursor" parent="Mouse" instance=ExtResource( 7 )]
-position = Vector2( 576, 320 )
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
