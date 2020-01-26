@@ -8,23 +8,25 @@
 
 [sub_resource type="DynamicFont" id=2]
 size = 88
+extra_spacing_top = -15
 font_data = ExtResource( 3 )
 
 [node name="Button" type="Button"]
 margin_left = 1.0
-margin_top = 1.0
-margin_right = 298.0
-margin_bottom = 148.0
+margin_right = 672.0
+margin_bottom = 96.0
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1.24, -0.36 )
+scale = Vector2( 2.24, 0.64 )
 texture = ExtResource( 1 )
 centered = false
 offset = Vector2( -1, -1 )
 script = ExtResource( 2 )
 
-[node name="Label_Engage" type="Label" parent="Sprite"]
-margin_right = 299.0
-margin_bottom = 147.0
+[node name="Label_Engage" type="Label" parent="."]
+margin_right = 671.0
+margin_bottom = 92.0
 theme = SubResource( 1 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.219608, 0.113725, 0.00392157, 1 )
