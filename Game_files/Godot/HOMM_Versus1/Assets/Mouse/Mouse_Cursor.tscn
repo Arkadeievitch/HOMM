@@ -1,0 +1,67 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor_Boussole.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor_Sprite.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor_R_16x16.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Mouse/Tile_target.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor_F_12x12.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Mouse/Action_target.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Mouse/MouseRot_1.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Mouse/MouseRot_2.gd" type="Script" id=9]
+[ext_resource path="res://Assets/Mouse/MouseRot_3.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Mouse/MouseRot_4.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Mouse/MouseRot_5.gd" type="Script" id=12]
+[ext_resource path="res://Assets/Mouse/MouseRot_6.gd" type="Script" id=13]
+[ext_resource path="res://Assets/Mouse/MouseRot_7.gd" type="Script" id=14]
+[ext_resource path="res://Assets/Mouse/MouseRot_8.gd" type="Script" id=15]
+
+[node name="Mouse_Cursor" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Mouse_Cursor_Boussole" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Tile_target" type="Sprite" parent="."]
+position = Vector2( -1.90735e-006, 1.90735e-006 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+
+[node name="Action_target" type="Sprite" parent="."]
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
+
+[node name="Rotations" type="Position2D" parent="."]
+
+[node name="MouseRot_1_N" type="Position2D" parent="Rotations"]
+position = Vector2( 0, -32 )
+script = ExtResource( 8 )
+
+[node name="MouseRot_2_NE" type="Position2D" parent="Rotations"]
+position = Vector2( 24, -24 )
+script = ExtResource( 9 )
+
+[node name="MouseRot_3_E" type="Position2D" parent="Rotations"]
+position = Vector2( 32, 0 )
+script = ExtResource( 10 )
+
+[node name="MouseRot_4_SE" type="Position2D" parent="Rotations"]
+position = Vector2( 24, 24 )
+script = ExtResource( 11 )
+
+[node name="MouseRot_5_S" type="Position2D" parent="Rotations"]
+position = Vector2( 0, 32 )
+script = ExtResource( 12 )
+
+[node name="MouseRot_6_SO" type="Position2D" parent="Rotations"]
+position = Vector2( -24, 24 )
+script = ExtResource( 13 )
+
+[node name="MouseRot_7_O" type="Position2D" parent="Rotations"]
+position = Vector2( -32, 0 )
+script = ExtResource( 14 )
+
+[node name="MouseRot_8_NO" type="Position2D" parent="Rotations"]
+position = Vector2( -24, -24 )
+script = ExtResource( 15 )

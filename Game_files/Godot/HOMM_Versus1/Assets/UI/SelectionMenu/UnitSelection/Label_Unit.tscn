@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Fonts/Theme_MediumGothic.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Units/BlackDragon/BlackDragon64x64.png" type="Texture" id=2]
+[ext_resource path="res://Assets/UI/SelectionMenu/Unit_BG.gd" type="Script" id=3]
+
+[node name="Label_Unit1" type="Label"]
+margin_left = 32.0
+margin_top = -32.0
+margin_right = 155.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 246.861, 38.0483 )
+theme = ExtResource( 1 )
+text = "Unit name"
+valign = 1
+
+[node name="Unit1" type="Sprite" parent="."]
+position = Vector2( 192, 32 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Unit_BG" type="ColorRect" parent="Unit1"]
+show_behind_parent = true
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = 32.0
+script = ExtResource( 3 )
+
+[node name="UnitCounter" type="Label" parent="."]
+margin_left = -64.0
+margin_bottom = 64.0
+theme = ExtResource( 1 )
+text = "666"
+align = 1
+valign = 1
