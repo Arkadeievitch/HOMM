@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/UI/SelectionMenu/Table_Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/UI/SelectionMenu/Button_Engage/Button_Engage.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=3]
 
 [node name="SelectionMenu" type="Control"]
 anchor_right = 1.0
@@ -20,3 +21,6 @@ margin_bottom = 768.0
 [node name="Table_Player2" parent="." instance=ExtResource( 1 )]
 margin_left = 832.0
 margin_right = 1344.0
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]
+position = Vector2( 640, 256 )

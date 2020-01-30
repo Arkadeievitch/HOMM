@@ -24,6 +24,5 @@ func onEngagePressed():
 			var Unit_number = int(UNITS1.get_child(i).get_node("UnitCounter").text)
 			
 			
-			
 		
 		emit_signal("Engaged_pressed", Side, IA, TileColor, Units_name, Unit_counters)

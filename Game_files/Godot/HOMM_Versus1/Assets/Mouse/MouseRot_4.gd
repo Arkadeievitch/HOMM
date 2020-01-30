@@ -9,20 +9,21 @@ var Character_number
 var TURN
 
 func _ready():
-	TURN = get_node("/root/Battlefield/Turn")
-	update_character_arrays()
+	if has_node("/root/Battlefield") == true:
+		TURN = get_node("/root/Battlefield/Turn")
+		update_character_arrays()
 	
 # warning-ignore:unused_argument
 func _process(delta):
-	update_character_arrays()
-	for i in range(Character_number) :
-		if Characters[i].active_turn == true :
-			pass
-#			active_character = i
-		else:
-			if( 	abs(self.global_position.x-Characters[i].global_position.x) <= 31
-				&& 	abs(self.global_position.y-Characters[i].global_position.y) <= 31):
-					emit_signal("rotate_4")
+	if has_node("/root/Battlefield") == true:
+		update_character_arrays()
+		for i in range(Character_number) :
+			if Characters[i].active_turn == true :
+				pass
+			else:
+				if( 	abs(self.global_position.x-Characters[i].global_position.x) <= 31
+					&& 	abs(self.global_position.y-Characters[i].global_position.y) <= 31):
+						emit_signal("rotate_4")
 
 func update_character_arrays():
 	Characters = TURN.get_children()

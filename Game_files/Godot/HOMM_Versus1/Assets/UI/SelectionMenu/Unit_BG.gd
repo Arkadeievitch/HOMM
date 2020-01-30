@@ -1,7 +1,8 @@
 extends ColorRect
 
 func _ready():
-	var TABLE = get_parent().get_parent().get_parent().get_parent()
+	
+	var TABLE = get_node("/root/SelectionMenu/")
 	if  TABLE != null:
 		var SCROLL = TABLE.get_node("Player_ScrollBar")
 		SCROLL.connect("value_changed", self, "changeColor")
