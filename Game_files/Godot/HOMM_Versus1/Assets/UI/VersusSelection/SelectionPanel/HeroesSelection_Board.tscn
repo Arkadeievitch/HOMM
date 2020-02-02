@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Fonts/Theme_SmallChalk.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/UI/VersusSelection/SelectionPanel/Button_Heroes.gd" type="Script" id=2]
+[ext_resource path="res://Assets/UI/VersusSelection/SelectionPanel/Color_Heroes.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Fonts/Theme_MediumChalk.tres" type="Theme" id=4]
+[ext_resource path="res://Assets/UI/VersusSelection/SelectionPanel/Label_Player.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Fonts/Theme_VerySmallChalk.tres" type="Theme" id=6]
+
+[node name="Table_Player" type="ColorRect"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 544.0
+margin_bottom = 640.0
+color = Color( 0.054902, 0.0313726, 0, 1 )
+
+[node name="Heroes" type="Node2D" parent="."]
+position = Vector2( 32, 192 )
+z_index = 5
+
+[node name="Button_Heroes" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 192.0
+margin_right = 160.0
+margin_bottom = 320.0
+theme = ExtResource( 1 )
+text = "Hire here"
+clip_text = true
+script = ExtResource( 2 )
+
+[node name="Color_Heroes" type="ColorRect" parent="Button_Heroes"]
+margin_right = 128.0
+margin_bottom = 128.0
+color = Color( 1, 1, 1, 0 )
+script = ExtResource( 3 )
+
+[node name="Check_IA_Player" type="CheckButton" parent="."]
+margin_left = 32.0
+margin_top = 352.0
+margin_right = 160.0
+margin_bottom = 392.0
+theme = ExtResource( 4 )
+text = "Bot"
+
+[node name="Label_Player" type="Label" parent="."]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 160.0
+margin_bottom = 96.0
+rect_pivot_offset = Vector2( 246.861, 38.0483 )
+theme = ExtResource( 4 )
+text = "Player"
+align = 1
+valign = 1
+script = ExtResource( 5 )
+
+[node name="Color_ScrollBar" type="HScrollBar" parent="."]
+editor/display_folded = true
+margin_left = 32.0
+margin_top = 96.0
+margin_right = 160.0
+margin_bottom = 160.0
+min_value = 1.0
+max_value = 8.0
+step = 1.0
+page = 0.4
+value = 1.0
+
+[node name="Color_Label" type="Label" parent="Color_ScrollBar"]
+margin_right = 128.0
+margin_bottom = 64.0
+theme = ExtResource( 6 )
+text = "Choose 
+your colors"
+align = 1
+valign = 1

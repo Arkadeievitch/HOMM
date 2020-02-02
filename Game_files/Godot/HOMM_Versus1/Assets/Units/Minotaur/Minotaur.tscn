@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Units/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Units/Temporary.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Units/Minotaur/Minotaur64x64.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Units/Stats.gd" type="Script" id=4]
-[ext_resource path="res://Assets/Units/AI_Fightmode.gd" type="Script" id=5]
-[ext_resource path="res://Assets/UI/Fightmode/Unit_Counter/Unit_counter.tscn" type="PackedScene" id=6]
-
+[ext_resource path="res://Assets/Units/Minotaur/icon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Units/AI_Fightmode.gd" type="Script" id=4]
+[ext_resource path="res://Assets/UI/Fightmode/Unit_Counter/Unit_counter.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 24 )
@@ -21,26 +19,15 @@ shape = SubResource( 1 )
 show_behind_parent = true
 script = ExtResource( 2 )
 
-[node name="icon" type="Sprite" parent="."]
-texture = ExtResource( 3 )
-
-[node name="Stats" type="Node" parent="icon"]
-script = ExtResource( 4 )
-SIDE = 2
-NAME = "Minotaur"
-MAX_HP = 16
-NUMBER = 2
-DAMAGE = 8
-DISPLACEMENT = 4
-INITIATIVE = 3
+[node name="icon" parent="." instance=ExtResource( 3 )]
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="IA" type="Position2D" parent="."]
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 
 [node name="UnitCounter" type="Position2D" parent="."]
 z_index = 8
 z_as_relative = false
 
-[node name="ColorRect2" parent="UnitCounter" instance=ExtResource( 6 )]
+[node name="ColorRect2" parent="UnitCounter" instance=ExtResource( 5 )]

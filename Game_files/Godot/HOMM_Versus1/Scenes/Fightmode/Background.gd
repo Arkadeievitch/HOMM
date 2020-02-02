@@ -1,9 +1,9 @@
 extends Node
 
-var Tile_Grass0 = load("res://Background/Plaine/BG_Grass0.tscn")
-var Tile_Grass1 = load("res://Background/Plaine/BG_Grass1.tscn")
-var Tile_Grass2 = load("res://Background/Plaine/BG_Grass2.tscn")
-var Tile_Grass3 = load("res://Background/Plaine/BG_Grass3.tscn")
+var Tile_Grass0 = load("res://Assets/UI/Fightmode/Background/Plaine/BG_Grass0.tscn")
+var Tile_Grass1 = load("res://Assets/UI/Fightmode/Background/Plaine/BG_Grass1.tscn")
+var Tile_Grass2 = load("res://Assets/UI/Fightmode/Background/Plaine/BG_Grass2.tscn")
+var Tile_Grass3 = load("res://Assets/UI/Fightmode/Background/Plaine/BG_Grass3.tscn")
 
 func _ready():
 	Draw_Background()

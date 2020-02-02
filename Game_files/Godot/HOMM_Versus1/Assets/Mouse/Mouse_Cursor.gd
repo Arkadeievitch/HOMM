@@ -8,11 +8,27 @@ signal mouse_clic
 
 var rotation_applied : bool = false
 
+var Fightmode : bool = false
+var SelectionMode : bool = false
+
 func _ready():
     # Changes only the arrow shape of the cursor.
     # This is similar to changing it in the project settings.
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	connect_to_rotations()
+	
+	if has_node("/root/MainNode/Battlefield") ==true:
+		Fightmode = true
+		SelectionMode = false
+		connect_to_rotations()
+		get_node("Mouse_Cursor_Boussole").offset = Vector2(0, 0)
+		get_node("Tile_target")._ready()
+		get_node("Action_target")._ready()
+	elif has_node("/root/MainNode/SelectionMenu"):
+		Fightmode = false
+		SelectionMode = true
+		get_node("Mouse_Cursor_Boussole").offset = Vector2(-32,32)
+		get_node("Tile_target")._ready()
+		get_node("Action_target")._ready()
 
 # warning-ignore:unused_argument
 func _process(delta):
@@ -46,7 +62,7 @@ func connect_to_rotations():
 	get_node("Rotations").get_child(6).connect("rotate_7", self, "rotation_7")
 # warning-ignore:return_value_discarded
 	get_node("Rotations").get_child(7).connect("rotate_8", self, "rotation_8")
-	
+
 func rotation_1():
 	rotation_applied = true
 	Tile_offset = Vector2(0, 32)

@@ -24,13 +24,13 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _process(delta):
-	if STATS.player == 0:
+	if STATS.IA == false:
 		displacement_allowed = false
 
 func getNodesfromTree():
 	STATS = get_node("icon/Stats")
 	TWEEN = get_node("Tween")
-	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
 	TURN = get_parent()
 	TEMPORARY = get_node("Temporary")
 
@@ -44,10 +44,8 @@ func _PassiveAction(Mouse_action):
 # warning-ignore:unused_argument
 func _PlayAction(Mouse_tile):
 
-	if STATS.player == 1: # si IA (pas de Target_tile)
+	if STATS.IA == true: # si IA (pas de Target_tile)
 		displacement_allowed = true
-	else:
-		Mouse_tile = Tile_position
 	
 	var SelfPosition = self.global_position
 	if(active_turn == true
@@ -55,7 +53,8 @@ func _PlayAction(Mouse_tile):
 	&& abs(Mouse_tile.y - SelfPosition.y) <= 32):
 		get_parent().ActiveCharacterPlayed = true
 	elif (active_turn == true 
-		&& 	displacement_allowed == true):
+		&& displacement_allowed == true):
+		Mouse_tile = Tile_position
 		get_parent().CharacterIsMoving = true
 		displacement(Mouse_tile)
 		get_parent().ActiveCharacterPlayed = true

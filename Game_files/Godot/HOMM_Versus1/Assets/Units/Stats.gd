@@ -2,9 +2,10 @@ extends Node
 
 # warning-ignore:unused_class_variable
 export var SIDE : int
-enum PLAYER  {Human, AI}
 # warning-ignore:unused_class_variable
-export(PLAYER) var player
+export var IA  : bool
+# warning-ignore:unused_class_variable
+export(String, "Heaven", "Sylve", "Academia", "Hell", "Necropolis", "Cave", "Orcs", "Jungle", "Mountains") var FACTION
 # warning-ignore:unused_class_variable
 export var RANGED : 		bool = false
 

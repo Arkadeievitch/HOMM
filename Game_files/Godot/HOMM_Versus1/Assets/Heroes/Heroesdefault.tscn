@@ -12,5 +12,13 @@ texture = ExtResource( 2 )
 
 [node name="defaultArmy" type="Node2D" parent="."]
 script = ExtResource( 3 )
-Unit_name1 = "BlackDragon"
-Unit_counter1 = 1
+Unit_name1 = "Troglodyte"
+Unit_counter1 = 30
+Unit_name2 = "Bear"
+Unit_counter2 = 15
+Unit_name3 = "Gorgon"
+Unit_counter3 = 8
+Unit_name4 = "Minotaur"
+Unit_counter4 = 6
+Unit_name5 = "BlackDragon"
+Unit_counter5 = 1

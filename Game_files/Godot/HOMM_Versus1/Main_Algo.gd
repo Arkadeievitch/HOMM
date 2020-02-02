@@ -5,36 +5,87 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	if get_child_count() > 0:
 		var BUTTON_ENGAGE = get_node("SelectionMenu/ButtonENGAGE")
-		BUTTON_ENGAGE.connect("Engaged_pressed", self, "load_Fightmode")
+		BUTTON_ENGAGE.connect("Engaged_pressed", self, "changeSelectiontoFightmode")
 
-func load_Fightmode(Side, IA, TileColor, Units, Unit_counters): # appel bouton
-	print("working?")
+func changeSelectiontoFightmode():
+	var InfosFromSelection = saveInfoFromSelection()
+	var ARMY1_INFOS = InfosFromSelection[0]
+	var ARMY2_INFOS = InfosFromSelection[1]
+	
+	load_Fightmode(ARMY1_INFOS, ARMY2_INFOS)
+
+func saveInfoFromSelection():	
+	var SELECTIONMENU = get_node("/root/MainNode/SelectionMenu")
+	var TABLE1 = SELECTIONMENU.get_child(0)
+	var TABLE2 = SELECTIONMENU.get_child(1)
+	var ARMY1 = TABLE1.get_node("Heroes/AllHeroesScene").get_child(0).get_node("defaultArmy")
+	var ARMY2 = TABLE2.get_node("Heroes/AllHeroesScene").get_child(0).get_node("defaultArmy")
+	
+	var ARMY1_infos = [[], [], 0, 0, Color(1, 1, 1, 1)]
+	var ARMY2_infos = [[], [], 0, 0, Color(1, 1, 1, 1)]
+	
+	if ARMY1.Unit_counters[0] > 0:
+		ARMY1_infos[0] = ARMY1.Unit_names
+		ARMY1_infos[1] = ARMY1.Unit_counters
+		ARMY1_infos[2] = 1
+		if TABLE1.get_node("Check_IA_Player").pressed == true:
+			ARMY1_infos[3] = true
+		else:
+			ARMY1_infos[3] = false
+		ARMY1_infos[4] = ARMY1.get_node("Label_Unit1/Unit_BG").ChosenColor
+		
+		
+	if ARMY2.Unit_counters[0] > 0:
+		ARMY2_infos[0] = ARMY2.Unit_names
+		ARMY2_infos[1] = ARMY2.Unit_counters
+		ARMY2_infos[2] = 2
+		if TABLE2.get_node("Check_IA_Player").pressed == true:
+			ARMY2_infos[3] = true
+		else:
+			ARMY2_infos[3] = false
+		ARMY2_infos[4] = ARMY2.get_node("Label_Unit1/Unit_BG").ChosenColor
+	
+	return [ARMY1_infos, ARMY2_infos]
+
+func load_Fightmode(Army1, Army2):
 	changeScene("res://Scenes/Fightmode/Battlefield.tscn")
 	
+	setUnitsOnBattlefield(Army1)
+	setUnitsOnBattlefield(Army2)
+
+func setUnitsOnBattlefield(Army):
 	var TURN = get_node("Battlefield/Turn")
+	var Unit_number = Army[0].size()
+	var Units = Army[0]
 	
-	var Unit_number = Units.size()
+	for i in Army[1].size():
+		if Army[1][i] < 1:
+			Units.remove(i)
+			Unit_number = Units.size()
+	
 	for i in Unit_number:
-		var new_unit = load(String("res://Characters/"&& String(Units[i])&& ".tscn"))
+		var unit_path = str("res://Assets/Units/", Units[i], "/", Units[i], ".tscn")
+		var new_unit = load(unit_path)
 		var CHARACTER = new_unit.instance()
 		TURN.add_child(CHARACTER, true)
 		
 		var STATS = CHARACTER.get_node("icon/Stats")
-		print(STATS.NAME) # controle du character
 		var TEMPORARY = CHARACTER.get_node("Temporary")
+		print(STATS.NAME) # controle du character
 		
-		STATS.SIDE = Side[i]
-		STATS.Player = IA[i]
-		STATS.NUMBER = Unit_counters[i]
+		var Side = Army[2]
+		STATS.SIDE = Side
+		STATS.IA = Army[3]
+		STATS.NUMBER = Army[1][i]
 		
-		TEMPORARY.TileColor = TileColor[i]
+		TEMPORARY.TilesColor = Army[4]
 		
 		if Side == 1:
-			CHARACTER.global_position.x = 128
-			CHARACTER.global_position.y = 64*(i%(Unit_number/2)+64)+128+32
+			CHARACTER.global_position.x = 224
+			CHARACTER.global_position.y = 128*i+128+32
 		elif Side == 2:
-			CHARACTER.global_position.x = 704
-			CHARACTER.global_position.y = 64*(i%(Unit_number/2)+64)+128+32
+			CHARACTER.global_position.x = 928
+			CHARACTER.global_position.y = 128*i+128+32
 		else: # Par défaut, on aligne les unités en haut de l'écran.
 			CHARACTER.global_position.x = 256+64*i
 			CHARACTER.global_position.y = 0
@@ -52,4 +103,13 @@ func load_Selection_Menu():	# appel bouton
 func changeScene(NextScenePath):
 	get_child(0).queue_free()
 	add_child(load(NextScenePath).instance(), true)
-	
+
+func saveArmyforExport(Army, internal_Unit_names, internal_Unit_counters, 
+					internal_IA):
+	for i in Army.get_child_count():
+		internal_Unit_names.append(0)
+		internal_Unit_names[i] = Army.get_child(i).text
+		internal_Unit_counters.append(0)
+		internal_Unit_counters[i] = int(Army.get_child(i).get_node("UnitCounter").text)
+		
+	return [internal_Unit_names, internal_Unit_counters, internal_IA]

@@ -5,13 +5,16 @@ var STATS
 var MOUSE
 
 #var displacement_allowed : bool = false
-var Disp_Tiles = load("res://Resources/Tiles/Ground_Tiles.tscn")
-var Tempo_Tiles = load("res://Resources/Tiles/Ground_Tiles.tscn")
-var Active_Border = load("res://Resources/UI/Active_Border/Active_Border.tscn")
+var Disp_Tiles = load("res://Assets/UI/Fightmode/Temporary_Tiles/Ground_Tiles.tscn")
+var Tempo_Tiles = load("res://Assets/UI/Fightmode/Temporary_Tiles/Ground_Tiles.tscn")
+var Active_Border = load("res://Assets/UI/Fightmode/Active_Border/Active_Border.tscn")
 
 var drawnTempoTiles : bool = false
 
+var TilesColor
+
 func _ready():
+	TilesColor = Color(1,1,1,1)
 	getNodesfromTree()
 
 # warning-ignore:unused_argument
@@ -29,8 +32,8 @@ func _process(delta):
 
 func getNodesfromTree():
 	STATS = get_parent().get_node("icon/Stats")
-	TURN = get_node("/root/Battlefield/Turn")
-	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
+	TURN = get_node("/root/MainNode/Battlefield/Turn")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
 		
 func drawDisplacementTiles():
 
@@ -56,12 +59,13 @@ func drawDisplacementTiles():
 					new_tile = Disp_Tiles.instance()
 					add_child(new_tile, true)
 					
-					if STATS.SIDE == 0:
-				 		new_tile.modulate = Color(1, 1, 1, .5)
-					elif STATS.SIDE == 1:
-				 		new_tile.modulate = Color(0, 0, 1, .5)
-					elif STATS.SIDE == 2:
-				 		new_tile.modulate = Color(1, .5, 0, .5)
+					new_tile.modulate = TilesColor
+#					if STATS.SIDE == 0:
+#				 		new_tile.modulate = Color(1, 1, 1, .5)
+#					elif STATS.SIDE == 1:
+#				 		new_tile.modulate = Color(0, 0, 1, .5)
+#					elif STATS.SIDE == 2:
+#				 		new_tile.modulate = Color(1, .5, 0, .5)
 					new_tile.position = Vector2(n*tile_size, 
 												m*tile_size)
 					
@@ -111,12 +115,13 @@ func drawTempoDisplacementTiles():
 					new_tile = Tempo_Tiles.instance()
 					add_child(new_tile, true)
 					
-					if STATS.SIDE == 0:
-				 		new_tile.modulate = Color(1, 1, 1, .7)
-					elif STATS.SIDE == 1:
-				 		new_tile.modulate = Color(0, 0, 1, .7)
-					elif STATS.SIDE == 2:
-				 		new_tile.modulate = Color(1, .5, 0, .7)
+					new_tile.modulate = TilesColor
+#					if STATS.SIDE == 0:
+#				 		new_tile.modulate = Color(1, 1, 1, .7)
+#					elif STATS.SIDE == 1:
+#				 		new_tile.modulate = Color(0, 0, 1, .7)
+#					elif STATS.SIDE == 2:
+#				 		new_tile.modulate = Color(1, .5, 0, .7)
 					
 					new_tile.position = Vector2(n*tile_size, 
 												m*tile_size)

@@ -82,7 +82,7 @@ func initialize():
 	ENEMY_STATS = []
 
 func retrieveNodes():
-	TURN = get_node("/root/Battlefield/Turn")
+	TURN = get_node("/root/MainNode/Battlefield/Turn")
 	Character_number = TURN.get_child_count()
 	#self
 	TEMPORARY = get_parent().get_node("Temporary")

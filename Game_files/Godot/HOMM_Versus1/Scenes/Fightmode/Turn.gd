@@ -22,12 +22,22 @@ var apply_death : 			bool = false
 var FightVictory : 			bool = false
 
 func _ready():
+	# warning-ignore:return_value_discarded
+	get_node("/root/MainNode/SelectionMenu").connect("tree_exited", self, "initialize")
+
+func initialize():
 	print("--- Turn ", Count_Turn_number, " (", underTurn, ") ---")
 	retrieveNodes()
 	connectSelf()
 	retrievePriorities()
 	activatePlayer()
 	print(Priorities)
+	
+	for i in Character_number:
+		if CHARACTERS[i].active_turn == true:
+			print(STATS[i].NAME, " is going to play")
+			if STATS[i].IA == true:
+				MOUSE.emit_signal("mouse_clic", MOUSE.Action_target, MOUSE.Tile_target)
 
 #==============================================================
 # warning-ignore:unused_argument
@@ -45,7 +55,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		# 1 / Active player
 		for i in Character_number:
 			if CHARACTERS[i].active_turn == true:
-				if STATS[i].player == 1:
+				if STATS[i].IA == true:
 					var IA_result = IA[i].AI_Fightmode()
 					Mouse_ActionTarget = IA_result[0]
 					Mouse_TileTarget = 	 IA_result[1]
@@ -87,13 +97,13 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		for i in Character_number:
 			if CHARACTERS[i].active_turn == true:
 				print(STATS[i].NAME, " is going to play")
-				if STATS[i].player == 1:
+				if STATS[i].IA == true:
 					MOUSE.emit_signal("mouse_clic", MOUSE.Action_target, MOUSE.Tile_target)
 
 #==============================================================
 
 func retrieveNodes():
-	MOUSE = get_node("/root/Battlefield/Mouse/Mouse_Cursor")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
 	
 	CHARACTERS = []
 	CHARACTERS = get_children()
