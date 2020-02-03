@@ -15,14 +15,14 @@ var Character_number : int
 #==============================================
 func AI_Fightmode():
 
-	var Action_target : Vector2
-	var Tile_target : 	Vector2
+	var ACTION_target : Vector2
+	var TILE_target : 	Vector2
 
 	print("AI playing --")
 	initialize()
 	retrieveNodes()
 	
-	#---------------------
+	#--------------------- I. Choose a target to attack
 	var Enemies = []
 	var Enemy_counter : int = 0
 	var Enemies_scores = []							# unused yet
@@ -38,17 +38,17 @@ func AI_Fightmode():
 	tempo = []
 	tempo = retrieveOnRangeEnemies(onRange_Enemies, onRange_Enemy_counter, onRange_Enemies_scores,
 													Enemies, Enemy_counter)
-	onRange_Enemies = tempo[0]
+	onRange_Enemies = 		tempo[0]
 	onRange_Enemy_counter = tempo[1]
-	onRange_Enemies_scores = tempo[2]
+	onRange_Enemies_scores= tempo[2]
 	
 	onRange_Enemies_scores = scoreOnRangeEnemies(onRange_Enemies_scores,
 												onRange_Enemies, 
 												onRange_Enemy_counter)
 	
-	Action_target = chooseTarget(Action_target, 
+	ACTION_target = chooseTarget(ACTION_target, 
 								onRange_Enemies, onRange_Enemy_counter, onRange_Enemies_scores)
-	#---------------------
+	#--------------------- II. Choose a target to move
 	
 	Enemies_scores = scoreEnemies(Enemies_scores, Enemies, Enemy_counter) 	# unused yet
 	
@@ -57,8 +57,8 @@ func AI_Fightmode():
 	var Tiles_scores = []
 	tempo = []
 	tempo = retrieveTiles(TileList, Tile_counter, Tiles_scores, 
-							Action_target, onRange_Enemy_counter)
-	TileList = 		tempo[0]
+							ACTION_target, onRange_Enemy_counter)
+	TileList = 	tempo[0]
 	Tile_counter = tempo[1]
 	Tiles_scores = tempo[2]
 	
@@ -69,12 +69,12 @@ func AI_Fightmode():
 	Tile_counter = tempo[1]
 	Tiles_scores = tempo[2]
 	
-	Tile_target = chooseTile(Tile_target, Tile_counter, Tiles_scores, TileList)
+	TILE_target = chooseTile(TILE_target, Tile_counter, Tiles_scores, TileList)
 	#---------------------
 	
 	print("-- AI played")
-	return [Action_target, Tile_target]
-	
+	return [ACTION_target, TILE_target]
+
 #==============================================
 func initialize():
 	ALL_TEMPORARY = []
@@ -143,10 +143,10 @@ func scoreOnRangeEnemies(return_onRange_Enemies_scores,
 			if (abs(internal_onRange_Enemies[i].global_position.x - self.global_position.x) <= 64*DISPLACEMENT
 			&& abs(internal_onRange_Enemies[i].global_position.y - self.global_position.y) <= 64*DISPLACEMENT):
 				return_onRange_Enemies_scores[i] += 3
-			
+			# score ranged enemies			
 			if internal_onRange_Enemies[i].get_node("icon/Stats").RANGED == true:
 				return_onRange_Enemies_scores[i] += 2
-			
+			# score highest and lowest enemy damages
 			var Enemy_dmg = internal_onRange_Enemies[i].get_node("icon/Stats").DAMAGE *internal_onRange_Enemies[i].get_node("icon/Stats").NUMBER
 			if i >0:
 				if Enemy_dmg > Highest_EnemyDMG:
@@ -194,13 +194,13 @@ func scoreEnemies(return_Enemies_scores, internal_Enemies, internal_Enemy_counte
 			if (abs(internal_Enemies[i].position.x - self.position.x) <= 64*DISPLACEMENT
 			&& abs(internal_Enemies[i].position.y - self.position.y) <= 64*DISPLACEMENT):
 				return_Enemies_scores[i] += 3
-			
+			# score ranged enemies
 			if internal_Enemies[i].get_node("icon/Stats").RANGED == true:
 				return_Enemies_scores[i] += 2
-			
+			# score highest and lowest enemy damages
 			var Enemy_dmg = (internal_Enemies[i].get_node("icon/Stats").DAMAGE 
 							*internal_Enemies[i].get_node("icon/Stats").NUMBER)
-			if i >0:
+			if i > 0:
 				if Enemy_dmg > Highest_EnemyDMG:
 					Highest_EnemyDMG = Enemy_dmg
 					Highest_EnemyDMGER = i
@@ -273,23 +273,36 @@ func retrieveTiles(return_TileList, return_Tile_counter, return_Tiles_scores,
 
 func checkTilesAroundTarget(return_TileList, return_Tile_counter, return_Tiles_scores,
 							internal_Action_target, Offset_x, Offset_y):
+							
 	var CurrentTilePosition = Vector2(	internal_Action_target.x+Offset_x, 
 										internal_Action_target.y+Offset_y)
+										
 	if (abs(CurrentTilePosition.x - self.global_position.x) <= 64*DISPLACEMENT
 	&& abs(CurrentTilePosition.y - self.global_position.y) <= 64*DISPLACEMENT
 	&& (abs(CurrentTilePosition.x) != 64*(DISPLACEMENT+1)
 	|| abs(CurrentTilePosition.y) != 64*(DISPLACEMENT+1))):
-		return_TileList.append(0)
-		return_Tiles_scores.append(0)
-		return_TileList[return_Tile_counter] = Vector2(CurrentTilePosition.x,
-														CurrentTilePosition.y)
-		return_Tile_counter +=1
+		var Upper_field_limit : int = 128
+		var Lower_field_limit : int = 128 + 64*14
+		var Left_field_limit : int = 128
+		var Right_field_limit : int = 128 + 64*18
+		if (CurrentTilePosition.x < Right_field_limit
+		&& CurrentTilePosition.x > Left_field_limit
+		&& CurrentTilePosition.y < Upper_field_limit
+		&& CurrentTilePosition.y > Lower_field_limit):
+			for i in Character_number:
+				if (abs(CurrentTilePosition.x - TURN.get_child(i).global_position.x) > 63
+				&& abs(CurrentTilePosition.y - TURN.get_child(i).global_position.y) > 63):
+					return_TileList.append(0)
+					return_Tiles_scores.append(0)
+					return_TileList[return_Tile_counter] = Vector2(CurrentTilePosition.x,
+																	CurrentTilePosition.y)
+					return_Tile_counter +=1
 		
 	return [return_TileList, return_Tile_counter, return_Tiles_scores]
 
 func scoreTiles(return_Tiles_scores, return_Tile_counter, 
 				internal_Enemies, internal_Enemy_counter, internal_TileList):
-	if return_Tile_counter > 1:
+	if return_Tile_counter > 0:
 	# Si ennemis à portée, on cherche la tuile d'attaque à portée.
 		for i in return_Tile_counter:
 			return_Tiles_scores[i] = 4
@@ -303,9 +316,11 @@ func scoreTiles(return_Tiles_scores, return_Tile_counter,
 					return_Tiles_scores[i] -= 2
 	else:
 	# Sinon, on cherche la tuile la plus intéressante pour le prochain tour.
-		for i in TEMPORARY.get_child_count():
-			return_Tiles_scores.append(0)
+		var Tile_number = TEMPORARY.get_child_count()
+		for i in Tile_number:
 			var CurrentTilePosition = TEMPORARY.get_child(i).global_position
+			# On cherche les tuiles qui permettent d'attaquer au tour suivant
+			return_Tiles_scores.append(0)
 			for j in internal_Enemy_counter:
 				if (abs(CurrentTilePosition.x - internal_Enemies[j].position.x) < 64*DISPLACEMENT
 				&& abs(CurrentTilePosition.y - internal_Enemies[j].position.y) < 64*DISPLACEMENT):
@@ -313,15 +328,15 @@ func scoreTiles(return_Tiles_scores, return_Tile_counter,
 					internal_TileList.append(0)
 					internal_TileList[return_Tile_counter] = CurrentTilePosition
 					return_Tile_counter +=1
-					
+	
 	return [internal_TileList, return_Tile_counter, return_Tiles_scores]
 
 func chooseTile(return_Tile_target, 
 				internal_Tile_counter, internal_Tile_scores, internal_TileList):
 	var chosenOne : int = 0
-	var highest_score = internal_Tile_scores[0]
 	
 	if internal_Tile_counter > 1:
+		var highest_score = internal_Tile_scores[0]
 		for i in internal_Tile_counter:
 			if i > 0:
 				if internal_Tile_scores[i] > highest_score:
@@ -329,14 +344,15 @@ func chooseTile(return_Tile_target,
 					highest_score = internal_Tile_scores[i]
 			
 				return_Tile_target = internal_TileList[chosenOne]
-			
+	
 	elif internal_Tile_counter == 1:
 		return_Tile_target = internal_TileList[0]
 	else:
 	# en l'absence de cible convaincante, on vise la tuile la plus proche du centre.
+		var BattlefieldCenter = Vector2(get_viewport().size.x/2, get_viewport().size.y/2)
+		print(BattlefieldCenter)
 		for i in TEMPORARY.get_child_count():
-			var BattlefieldCenter = Vector2(800, 450)
-			var PreviousTarget = Vector2(2000, 2000)
+			var PreviousTarget = Vector2(4000, 4000)
 			
 			if abs(TEMPORARY.get_child(i).position.x - BattlefieldCenter.x) < PreviousTarget.x:
 				PreviousTarget = TEMPORARY.get_child(i).position
