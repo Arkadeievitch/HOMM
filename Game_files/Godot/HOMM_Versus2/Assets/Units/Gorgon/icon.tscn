@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Units/Gorgon/Gorgon64x64.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Units/character_icon.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Units/Stats.gd" type="Script" id=3]
+
+[node name="icon" type="Sprite"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Stats" type="Node2D" parent="."]
+script = ExtResource( 3 )
+SIDE = 2
+FACTION = "Cave"
+RANGED = true
+NAME = "Gorgon"
+MAX_HP = 8
+NUMBER = 8
+DAMAGE = 10
+DISPLACEMENT = 3
+INITIATIVE = 5
