@@ -1,6 +1,6 @@
 extends Node2D
 
-func VictoryScreen(FightInformations):
+func VictoryScreen(FightInformations, Winner):
 	
 	var Heroes1 = FightInformations[2]
 	var Heroes2 = FightInformations[3]
@@ -18,3 +18,8 @@ func VictoryScreen(FightInformations):
 	get_node("Table_Player2/Army_synthese").loadSynthesis(Heroes2, 
 											Unit_names2, Unit_InitialCounters2, 
 											PlayerColor2)
+	
+	if Winner == 1:
+		get_node("Label_Victory").rect_global_position.x -= 256
+	elif Winner == 2:
+		get_node("Label_Victory").rect_global_position.x += 256

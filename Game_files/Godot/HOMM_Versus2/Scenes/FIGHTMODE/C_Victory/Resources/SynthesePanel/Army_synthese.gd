@@ -27,6 +27,7 @@ func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
 		#Ecriture du nom et du compteur de l'unité
 		new_child.text = Unit_Names[i]
 		new_child.get_node("UnitCounter").text = String(Unit_InitialCounters[i])
+		new_child.get_node("Unit_BG").color = PlayerColor
 		new_child.rect_scale = Vector2(1, 1)
 		new_child.rect_position = Vector2(128+80, 96*i-96)
 		

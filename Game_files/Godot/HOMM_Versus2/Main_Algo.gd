@@ -4,10 +4,6 @@ var FightInformations = [] #Stockage en début de combat pour l'écran de victoi
 
 func _ready():
 	load_Selection_Menu()
-	yield(get_tree(), "idle_frame")
-	if get_child_count() > 0:
-		var BUTTON_ENGAGE = get_node("SelectionMenu/ButtonENGAGE")
-		BUTTON_ENGAGE.connect("Engaged_pressed", self, "changeSelectiontoFightmode")
 
 func changeSelectiontoFightmode():
 	var InfosFromSelection = saveInfoFromSelection()
@@ -109,15 +105,13 @@ func setUnitsOnBattlefield(Army, Heroes):
 		heroes.global_position = Vector2(get_viewport().size.x-96,96)
 		heroes.scale = Vector2(-1.5, 1.5)
 
-#func load_Victory_Screen(Side, TileColor, Units, Unit_counters): # appel depuis Fightmode-Turn
 func load_Victory_Screen(Winner): # appel depuis Fightmode
 	if get_child_count() > 0:
 		changeScene("res://Scenes/FIGHTMODE/C_Victory/VictoryScreen.tscn")
 	else:
 		add_child(load("res://Scenes/FIGHTMODE/C_Victory/VictoryScreen.tscn").instance(), true)
 	
-	get_node("VictoryScreen").VictoryScreen(FightInformations)
-	print(FightInformations)
+	get_node("VictoryScreen").VictoryScreen(FightInformations, Winner)
 	
 	var Button_ReturnMenu = get_node("VictoryScreen/Button_ReturnMenu")
 	Button_ReturnMenu.connect("button_up", self, "load_Selection_Menu")
@@ -127,6 +121,11 @@ func load_Selection_Menu():	# appel bouton
 		changeScene("res://Scenes/FIGHTMODE/A_SelectionMenu/Selection_Menu.tscn")
 	else:
 		add_child(load("res://Scenes/FIGHTMODE/A_SelectionMenu/Selection_Menu.tscn").instance(), true)
+	
+	yield(get_tree(), "idle_frame")
+	if get_child_count() > 0:
+		var BUTTON_ENGAGE = get_node("SelectionMenu/ButtonENGAGE")
+		BUTTON_ENGAGE.connect("Engaged_pressed", self, "changeSelectiontoFightmode")
 
 func changeScene(NextScenePath):
 	get_child(0).queue_free()
