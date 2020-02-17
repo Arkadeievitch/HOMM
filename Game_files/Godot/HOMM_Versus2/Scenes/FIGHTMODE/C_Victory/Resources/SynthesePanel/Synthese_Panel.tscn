@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/Army_synthese.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Theme_MediumChalk.tres" type="Theme" id=2]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Label_Player.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/VS_Label_Player.gd" type="Script" id=3]
 
 [node name="Table_Player" type="ColorRect"]
 margin_left = 32.0

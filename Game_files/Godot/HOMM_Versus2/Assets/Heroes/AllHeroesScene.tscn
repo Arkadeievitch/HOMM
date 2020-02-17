@@ -6,14 +6,12 @@
 [node name="AllHeroesScene" type="Node2D"]
 
 [node name="Background" type="ColorRect" parent="."]
-margin_left = -288.0
-margin_top = -256.0
-margin_right = 1408.0
+margin_right = 736.0
 margin_bottom = 768.0
 color = Color( 0, 0, 0, 0.784314 )
 
 [node name="Cave_defaultHeroes" parent="." instance=ExtResource( 1 )]
-position = Vector2( 224, 64 )
+position = Vector2( 192, 160 )
 
 [node name="Necropolis_defaultHeroes" parent="." instance=ExtResource( 2 )]
-position = Vector2( 96, 64 )
+position = Vector2( 192, 288 )

@@ -3,6 +3,12 @@ extends ColorRect
 var ChosenColor
 
 func _ready():
+	
+	if get_parent().rect_global_position.x < get_viewport().size.x/2:
+		pass
+	else:
+		self.rect_global_position.x = get_viewport().size.x-448
+	
 	if  (has_node("/root/MainNode/SelectionMenu/") == true 
 	|| has_node("/root/Table_Player/") == true):
 		var SCROLLBAR = get_parent().get_parent().get_parent().get_parent().get_parent().get_parent().get_node("Color_ScrollBar")

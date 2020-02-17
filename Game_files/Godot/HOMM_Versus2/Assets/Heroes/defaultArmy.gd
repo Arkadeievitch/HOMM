@@ -59,7 +59,10 @@ func HeroesSelected():
 							Unit_counter4, Unit_counter5, Unit_counter6]
 		# move Heroes icon to its expected position
 		get_parent().scale = Vector2(2, 2)
-		get_parent().position = Vector2(64, 64)
+		if get_parent().global_position.x < get_viewport().size.x/2:
+			get_parent().global_position = Vector2(182, 384)
+		else:
+			get_parent().global_position = Vector2(get_viewport().size.x-176, 384)
 		# Generate the army report
 		GenerateArmySummary(Unit_names, Unit_counters)
 	else:
@@ -78,6 +81,7 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 	
 	# pré-requis : un node 2D nommé "Units" contient les labels et icones des unités
 	for i in NumberOfUnits:
+		# Set Units Labels and counters
 		var unit_template = load("res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/UnitsLabel/Label_Unit.tscn")
 		# warning-ignore:void_assignment
 		var new_child = unit_template.instance()
@@ -86,8 +90,13 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 		new_child.text = output_Unit_names[i]
 		new_child.get_node("UnitCounter").text = String(output_Unit_counters[i])
 		new_child.rect_scale = Vector2(0.5, 0.5)
-		new_child.rect_position = Vector2(80, 48*i-96)
 		
+		if get_parent().global_position.x < get_viewport().size.x/2:
+			new_child.rect_global_position = Vector2(384, 80*i+256)
+		else:
+			new_child.rect_global_position = Vector2(get_viewport().size.x-440, 80*i+256)
+		
+		# Set Units Icons
 		var UnitIconPath = str("res://Assets/Units/", output_Unit_names[i], "/icon.tscn") 
 		var UnitIconDisplayed = load(UnitIconPath)
 		# warning-ignore:void_assignment
@@ -95,7 +104,11 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 		add_child(new_child, true)
 		
 		new_child.scale = Vector2(0.5, 0.5)
-		new_child.position = Vector2(176, 48*i-16-64)
+		if get_parent().global_position.x < get_viewport().size.x/2:
+			new_child.global_position = Vector2(556, 80*i+256+32)
+		else:
+			new_child.global_position = Vector2(get_viewport().size.x-548, 80*i+256+32)
+		
 
 func SetUnitArrays(internal_Unit_names, internal_Unit_counters,
 					input_Unit_names, input_Unit_counters):
