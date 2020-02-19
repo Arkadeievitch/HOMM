@@ -56,9 +56,9 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		for i in Character_number:
 			if CHARACTERS[i].active_turn == true:
 				if STATS[i].IA == true:
-					var IA_result = IA[i].AI_Fightmode()
-					Mouse_ActionTarget = IA_result[0]
-					Mouse_TileTarget = 	 IA_result[1]
+					var IA_result = IA[i].IA()
+					Mouse_ActionTarget = IA_result[1]
+					Mouse_TileTarget = 	 IA_result[0]
 					
 				TEMPORARY[i].deleteDisplacementTiles()
 				CHARACTERS[i]._PlayAction(Mouse_TileTarget, Mouse_ActionTarget)
@@ -93,13 +93,13 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 
 		Control_oneTurn = false
 		
+	retrieveNodes()
 	if FightVictory == false:
-		for i in Character_number:
+		for i in range(0, Character_number-1):
 			if CHARACTERS[i].active_turn == true:
 				print(STATS[i].NAME, " is going to play")
 				if STATS[i].IA == true:
 					MOUSE.emit_signal("mouse_clic", MOUSE.Action_target, MOUSE.Tile_target)
-
 #==============================================================
 
 func retrieveNodes():

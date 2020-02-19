@@ -100,23 +100,23 @@ func Nothing(Path_name, Object_name):
 func Character_attacked(Attacked_Action_position):
 	var Damage_taken : int = 0
 	var ATTACKER
-	
-	if (active_turn == false 
-	&& abs(Attacked_Action_position.x - self.global_position.x) <= 32
-	&& abs(Attacked_Action_position.y - self.global_position.y) <= 32):
-		
-		for i in TURN.get_child_count():
-			if TURN.get_child(i).active_turn == true:
-				ATTACKER = TURN.get_child(i).get_node("icon/Stats")
+	if Attacked_Action_position != null:
+		if (active_turn == false 
+		&& abs(Attacked_Action_position.x - self.global_position.x) <= 32
+		&& abs(Attacked_Action_position.y - self.global_position.y) <= 32):
+			
+			for i in TURN.get_child_count():
+				if TURN.get_child(i).active_turn == true:
+					ATTACKER = TURN.get_child(i).get_node("icon/Stats")
+					
+			if ATTACKER.SIDE != STATS.SIDE :
+				print(STATS.NAME, " is attacked by ", ATTACKER.NAME)
+				Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
 				
-		if ATTACKER.SIDE != STATS.SIDE :
-			print(STATS.NAME, " is attacked by ", ATTACKER.NAME)
-			Damage_taken = ATTACKER.DAMAGE * ATTACKER.NUMBER
-			
-			STATS.TakeDamage(Damage_taken)
-			STATS.UpdateNumberFromHP()
-			
-			if STATS.NUMBER > 1:
-				print(STATS.NUMBER, " members left in ", STATS.NAME, " unit")
-			else:
-				print(STATS.NUMBER, " ", STATS.NAME, " left")
+				STATS.TakeDamage(Damage_taken)
+				STATS.UpdateNumberFromHP()
+				
+				if STATS.NUMBER > 1:
+					print(STATS.NUMBER, " members left in ", STATS.NAME, " unit")
+				else:
+					print(STATS.NUMBER, " ", STATS.NAME, " left")

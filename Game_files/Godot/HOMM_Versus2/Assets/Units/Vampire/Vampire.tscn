@@ -3,9 +3,8 @@
 [ext_resource path="res://Assets/Units/Character.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Units/Temporary.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Units/Vampire/icon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Units/AI_Fightmode.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Units/IA_MeleeUnit_v1.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Unit_Counter/Unit_counter.tscn" type="PackedScene" id=5]
-
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 24 )

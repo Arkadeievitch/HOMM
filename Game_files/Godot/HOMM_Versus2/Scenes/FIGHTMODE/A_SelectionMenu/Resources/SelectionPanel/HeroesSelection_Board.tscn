@@ -45,7 +45,6 @@ text = "Bot"
 script = ExtResource( 6 )
 
 [node name="Color_ScrollBar" type="HScrollBar" parent="."]
-editor/display_folded = true
 margin_left = 89.0
 margin_top = -288.0
 margin_right = 195.0

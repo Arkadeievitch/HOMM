@@ -30,6 +30,7 @@ func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
 		new_child.get_node("Unit_BG").color = PlayerColor
 		new_child.rect_scale = Vector2(1, 1)
 		new_child.rect_position = Vector2(128+80, 96*i-96)
+		var BG_position = new_child.get_node("Unit_BG").rect_global_position
 		
 		#Importe l'icône de l'unité
 		var UnitIconPath = str("res://Assets/Units/", Unit_Names[i], "/icon.tscn") 
@@ -39,4 +40,4 @@ func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
 		add_child(new_child, true)
 		
 		new_child.scale = Vector2(1, 1)
-		new_child.position = Vector2(128+256+16, 96*i-64)
+		new_child.global_position = BG_position + Vector2(32, 32)

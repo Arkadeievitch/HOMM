@@ -60,12 +60,6 @@ func drawDisplacementTiles():
 					add_child(new_tile, true)
 					
 					new_tile.modulate = TilesColor
-#					if STATS.SIDE == 0:
-#				 		new_tile.modulate = Color(1, 1, 1, .5)
-#					elif STATS.SIDE == 1:
-#				 		new_tile.modulate = Color(0, 0, 1, .5)
-#					elif STATS.SIDE == 2:
-#				 		new_tile.modulate = Color(1, .5, 0, .5)
 					new_tile.position = Vector2(n*tile_size, 
 												m*tile_size)
 					
@@ -112,17 +106,10 @@ func drawTempoDisplacementTiles():
 		if STATS.DISPLACEMENT != 0:
 			for n in range(-STATS.DISPLACEMENT, STATS.DISPLACEMENT+1):
 				for m in range(-STATS.DISPLACEMENT, STATS.DISPLACEMENT+1):
-#					new_tile = Tempo_Tiles.instance()
 					new_tile = Disp_Tiles.instance()
 					add_child(new_tile, true)
 					
 					new_tile.modulate = TilesColor
-#					if STATS.SIDE == 0:
-#				 		new_tile.modulate = Color(1, 1, 1, .7)
-#					elif STATS.SIDE == 1:
-#				 		new_tile.modulate = Color(0, 0, 1, .7)
-#					elif STATS.SIDE == 2:
-#				 		new_tile.modulate = Color(1, .5, 0, .7)
 					
 					new_tile.position = Vector2(n*tile_size, 
 												m*tile_size)
