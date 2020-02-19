@@ -95,7 +95,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		
 	retrieveNodes()
 	if FightVictory == false:
-		for i in range(0, Character_number-1):
+		for i in Character_number:
 			if CHARACTERS[i].active_turn == true:
 				print(STATS[i].NAME, " is going to play")
 				if STATS[i].IA == true:

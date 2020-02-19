@@ -45,7 +45,14 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic"):
-		HeroesSelected()
+		if has_node("/root/MainNode/SelectionMenu") == true:
+			SelectionMenu = true
+			Fightmode = false
+		elif has_node("/root/MainNode/Battlefield") == true:
+			SelectionMenu = false
+			Fightmode = true
+		if SelectionMenu == true:
+			HeroesSelected()
 
 func HeroesSelected():
 	if (abs(get_local_mouse_position().x) < 32

@@ -1,15 +1,15 @@
 extends Position2D
-var chosenTile
-var chosenTarget
 #=============================================
 func IA():
+	var chosenTile
+	var chosenTarget
 	# init --- Ne sert qu'à s'assurer de reset toutes les variables.
 	var temp_Array = []
 	temp_Array = initialize()
 	var onMapEnemies = 					temp_Array[0]
 	var onMapEnemies_number : int = 	temp_Array[1]
 	var onMapEnemies_counters = 		temp_Array[2]
-	var onMapEnemies_scores = 			temp_Array[3]
+#	var onMapEnemies_scores = 			temp_Array[3]
 	
 	var onRangeEnemies = 				temp_Array[4]
 	var onRangeEnemies_number : int = 	temp_Array[5]
@@ -27,12 +27,14 @@ func IA():
 	onMapEnemies = 			temp_Array[0]
 	onMapEnemies_number = 	temp_Array[1]
 	onMapEnemies_counters = temp_Array[2]
-	onMapEnemies_scores = 	temp_Array[3]
-		
+#	onMapEnemies_scores = 	temp_Array[3]
+	print("- Spotted ", onMapEnemies_number, " enemies on map.")
+	
 	temp_Array = []
 	temp_Array = retrieveTiles()
 	Tiles = 		temp_Array[0]
 	Tiles_number = 	temp_Array[1]
+	print("Generated ", Tiles_number, " Tiles.")
 	
 	temp_Array = []
 	temp_Array = retrieveOnRangeEnemies(Tiles, Tiles_number, 
@@ -41,6 +43,7 @@ func IA():
 	onRangeEnemies_number =		temp_Array[1]
 	onRangeEnemies_counters = 	temp_Array[2]
 	onRangeEnemies_scores = 	temp_Array[3]
+	print("- Spotted ", onRangeEnemies_number, " enemies at range.")
 	
 	if onRangeEnemies_number > 0 :
 		# S'il y a des ennemis à portée, on choisit le plus intéressant à attaquer 
@@ -52,6 +55,7 @@ func IA():
 		temp_Array = []
 		temp_Array = chooseTarget(onRangeEnemies, onRangeEnemies_scores, onRangeEnemies_number)
 		chosenTarget = temp_Array
+		print("Attacking ", chosenTarget, " position")
 		
 		temp_Array = []
 		temp_Array = selectTiles(chosenTarget, Tiles, Tiles_number)
@@ -60,17 +64,17 @@ func IA():
 		
 		temp_Array = []
 		temp_Array = scoreAttackTiles(Tiles, Tiles_number, 
-								onMapEnemies, onMapEnemies_number, onMapEnemies_counters)
+								onMapEnemies, onMapEnemies_number)
 		Tiles_scores = temp_Array
 	else:
 		# S'il n'y a pas d'ennemi à portée, on choisit la tuile qui permettra l'attaque au tour suivant.
-		temp_Array = []
-		temp_Array = scoreEnemies(onMapEnemies, onMapEnemies_number, onMapEnemies_counters)
-		onMapEnemies_scores = temp_Array
+#		temp_Array = []
+#		temp_Array = scoreEnemies(onMapEnemies, onMapEnemies_number, onMapEnemies_counters)
+#		onMapEnemies_scores = temp_Array
 		
 		temp_Array = []
 		temp_Array = scoreTiles(Tiles, Tiles_number, 
-								onMapEnemies, onMapEnemies_number, onMapEnemies_counters, onMapEnemies_scores)
+								onMapEnemies, onMapEnemies_number)
 		Tiles_scores = temp_Array
 		
 	temp_Array = []
@@ -108,7 +112,7 @@ func retrieveEnemies():
 	var TURN = get_node("/root/MainNode/Battlefield/Turn")
 	var selfSide = get_parent().get_node("icon/Stats").SIDE
 	
-	var j : int
+	var j : int = 0
 	for i in TURN.get_child_count():
 		if TURN.get_child(i).get_node("icon/Stats").SIDE != selfSide:
 			onMapEnemies.append(0)
@@ -234,12 +238,13 @@ func selectTiles(chosenTarget, Tiles, Tiles_number):
 	Tiles_number = 	temp_Tiles_number
 	
 	if Tiles_number > 8:
-		print("There is a mistake in the AI - selectTiles function.")
+		print("==!!! There is a mistake in the AI - selectTiles function. ")
+		print(Tiles_number, " tiles found around target !!!==")
 	
 	return [Tiles, Tiles_number]
 
 func scoreAttackTiles(Tiles, Tiles_number, 
-					onMapEnemies, onMapEnemies_number, onMapEnemies_counters):
+					onMapEnemies, onMapEnemies_number):
 	var Tiles_scores = []
 	for i in Tiles.size():
 		Tiles_scores.append(0) 
@@ -293,11 +298,12 @@ func scoreEnemies(onMapEnemies, onMapEnemies_number, onMapEnemies_counters):
 				Lowest_EnemyDMG = Enemy_dmg
 					
 		onMapEnemies_scores[Highest_EnemyDMGER] += 3
+		onMapEnemies_scores[Lowest_EnemyDMGER] -= 3
 	
 	return onMapEnemies_scores
 	
 func scoreTiles(Tiles, Tiles_number, 
-				onMapEnemies, onMapEnemies_number, onMapEnemies_counters, onMapEnemies_scores):
+				onMapEnemies, onMapEnemies_number):
 	var Tiles_scores = []
 	for i in Tiles.size():
 		Tiles_scores.append(0) 
@@ -308,8 +314,8 @@ func scoreTiles(Tiles, Tiles_number,
 		var CurrentTilePosition = Tiles[i].global_position
 		# On cherche les tuiles qui permettent d'attaquer au tour suivant le plus d'ennemis possibles.
 		for j in onMapEnemies_number:
-			var delta_x = abs(Tiles[i].global_position.x - onMapEnemies[j].global_position.x)/64
-			var delta_y	= abs(Tiles[i].global_position.y - onMapEnemies[j].global_position.y)/64
+			var delta_x = abs(CurrentTilePosition.x - onMapEnemies[j].global_position.x)/64
+			var delta_y	= abs(CurrentTilePosition.y - onMapEnemies[j].global_position.y)/64
 		
 			if ( (delta_x <= DISPLACEMENT && delta_y <= DISPLACEMENT )
 			|| (delta_x <= DISPLACEMENT && delta_y == DISPLACEMENT+1)
@@ -322,7 +328,7 @@ func chooseTile(Tiles, Tiles_number, Tiles_scores):
 	var chosenTile : Vector2
 		
 	var highest_score : int = -10
-	var chosenIndex : int = 0
+#	var chosenIndex : int = 0
 	
 	if Tiles_number > 0:
 		if Tiles_scores != null:
@@ -331,9 +337,9 @@ func chooseTile(Tiles, Tiles_number, Tiles_scores):
 					chosenTile = Tiles[i].global_position
 					highest_score = Tiles_scores[i]
 	#				chosenIndex = i
+			print("Moving to ", chosenTile)
 		else:
 			# Si aucune option ne donne de résultat, le personnage se déplace de (dx=2, dy=1) cases vers le centre.
-			var movement_toward_center : Vector2
 			for i in Tiles_number:
 				if get_viewport().size.x/2-self.global_position.x < 0:
 					if get_viewport().size.y/2-self.global_position.y < 0:
@@ -353,9 +359,9 @@ func chooseTile(Tiles, Tiles_number, Tiles_scores):
 						if (abs(Tiles[i].global_position.x -128) < 0.1
 						&& abs(Tiles[i].global_position.y -64) < 0.1):
 							chosenTile = Tiles[i].global_position
+			print("No ennemy at range; moving to ", chosenTile)
 	else:
 		chosenTile = self.global_position
 		print("No tile available to move")
 	
 	return chosenTile
-
