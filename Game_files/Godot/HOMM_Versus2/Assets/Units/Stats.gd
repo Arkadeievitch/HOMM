@@ -38,7 +38,7 @@ func _ready():
 		INITIATIVE = 1
 	
 	if has_node("/root/MainNode/Battlefield"):
-		MOUSE_BATTLE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
+		MOUSE_BATTLE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	elif has_node("/root/MainNode/SelectionMenu"):
 		MOUSE_MENU = get_node("/root/MainNode/SelectionMenu/Mouse_Cursor")
 

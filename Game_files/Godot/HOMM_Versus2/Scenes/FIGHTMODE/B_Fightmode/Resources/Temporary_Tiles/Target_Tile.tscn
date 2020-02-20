@@ -3,8 +3,6 @@
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Temporary_Tiles/Target_Tile.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Temporary_Tiles/Target_Tile.gd" type="Script" id=2]
 
-
-
 [node name="Target_Tile" type="Sprite"]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

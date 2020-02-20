@@ -30,7 +30,8 @@ func _process(delta):
 func getNodesfromTree():
 	STATS = get_node("icon/Stats")
 	TWEEN = get_node("Tween")
-	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
+#	MOUSE = get_node("/root/Battlefield/Mouse_Cursor")
 	TURN = get_parent()
 	TEMPORARY = get_node("Temporary")
 

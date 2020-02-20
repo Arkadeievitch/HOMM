@@ -33,7 +33,9 @@ func _process(delta):
 func getNodesfromTree():
 	STATS = get_parent().get_node("icon/Stats")
 	TURN = get_node("/root/MainNode/Battlefield/Turn")
-	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
+#	TURN = get_node("/root/Battlefield/Turn")
+#	MOUSE = get_node("/root/Battlefield/Mouse_Cursor")
 		
 func drawDisplacementTiles():
 

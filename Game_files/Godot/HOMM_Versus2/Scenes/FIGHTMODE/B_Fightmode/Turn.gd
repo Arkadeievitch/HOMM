@@ -9,6 +9,7 @@ var Count_Turn_number : int = 1
 var underTurn : int = 1
 
 var MOUSE : Node
+var FrontMOUSE : Node
 var CHARACTERS = []
 var STATS = 	 []
 var TEMPORARY =  []
@@ -22,8 +23,9 @@ var apply_death : 			bool = false
 var FightVictory : 			bool = false
 
 func _ready():
-	# warning-ignore:return_value_discarded
-	get_node("/root/MainNode/SelectionMenu").connect("tree_exited", self, "initialize")
+	if has_node("/root/MainNode/SelectionMenu"):
+		# warning-ignore:return_value_discarded
+		get_node("/root/MainNode/SelectionMenu").connect("tree_exited", self, "initialize")
 
 func initialize():
 	print("--- Turn ", Count_Turn_number, " (", underTurn, ") ---")
@@ -103,7 +105,8 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 #==============================================================
 
 func retrieveNodes():
-	MOUSE = get_node("/root/MainNode/Battlefield/Mouse/Mouse_Cursor")
+	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
+	FrontMOUSE  = get_node("/root/MainNode/Battlefield/Mouse_Cursor/Mouse_Front")
 	
 	CHARACTERS = []
 	CHARACTERS = get_children()
@@ -147,6 +150,7 @@ func activatePlayer():
 	
 	get_child(ActiveCharacter).active_turn = true
 	get_child(ActiveCharacter).get_node("Temporary").drawDisplacementTiles()
+	FrontMOUSE.Current_Side = get_child(ActiveCharacter).get_node("icon/Stats").SIDE
 
 func PrepareNextTurn():
 	underTurn = (underTurn+ 1) % Character_number
