@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Heroes/Background.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Heroes/Cave_defaultHeroes/Cave_defaultHeroes.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Heroes/Necropolis_defaultHeroes/Necropolis_defaultHeroes.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Factions/Icon_Inferno.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Factions/Icon_Cave.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Factions/Icon_Graveyard.tscn" type="PackedScene" id=6]
+
+[node name="AllHeroesScene" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 736.0
+margin_bottom = 768.0
+color = Color( 0, 0, 0, 0.784314 )
+script = ExtResource( 1 )
+
+[node name="Cave_defaultHeroes" parent="." instance=ExtResource( 2 )]
+position = Vector2( 256, 224 )
+
+[node name="Necropolis_defaultHeroes" parent="." instance=ExtResource( 3 )]
+position = Vector2( 256, 352 )
+
+[node name="Icon_Inferno" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 96 )
+scale = Vector2( 0.3, 0.3 )
+
+[node name="Icon_Cave" parent="." instance=ExtResource( 5 )]
+position = Vector2( 128, 224 )
+scale = Vector2( 0.3, 0.3 )
+
+[node name="Icon_Graveyard" parent="." instance=ExtResource( 6 )]
+position = Vector2( 128, 352 )
+scale = Vector2( 0.3, 0.3 )
