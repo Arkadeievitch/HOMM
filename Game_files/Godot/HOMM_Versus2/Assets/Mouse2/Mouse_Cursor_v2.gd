@@ -3,6 +3,7 @@ extends Sprite
 var rotating : bool = false
 var Tile_position : Vector2
 var Action_Position : Vector2
+var Mouse_Inhibition : bool = false
 
 signal mouse_clic
 
@@ -18,14 +19,16 @@ func _process(delta):
 
 # warning-ignore:unused_argument
 func _input(event):
-	if Input.is_action_just_pressed("ui_leftclic"):
+	if (Input.is_action_just_pressed("ui_leftclic") 
+		&& Mouse_Inhibition == false):
 		Action_Position = get_node("Mouse_Front").global_position
 		emit_signal("mouse_clic", Action_Position, Tile_position)
+		self.rotation = 0
 
 func Rotation_Pointeur(Character_position):
 	var deltax : float = float(self.global_position.x)-float(Character_position.x)
 	var deltay : float = float(self.global_position.y)-float(Character_position.y)
-	if abs(deltax) < 63 && abs(deltay) < 63:
+	if abs(deltax) < 64 && abs(deltay) < 64:
 		var Theta : float 
 		var Phi : float 
 		if deltay < 0:

@@ -80,6 +80,8 @@ func displacement(displacement_Tile):
 func endAction():
 		Priority = 0.0
 		active_turn = false
+		if has_node("Active_Border"):
+			get_node("Active_Border").queue_free()
 	
 func calculate_Priority():
 	Priority += float(STATS.INITIATIVE) / float(get_parent().Character_number)

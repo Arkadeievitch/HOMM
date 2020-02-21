@@ -1,6 +1,9 @@
 extends Position2D
 #=============================================
 func IA():
+	var MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
+	MOUSE.Mouse_Inhibition = true
+	
 	var chosenTile
 	var chosenTarget
 	# init --- Ne sert qu'à s'assurer de reset toutes les variables.
@@ -81,6 +84,7 @@ func IA():
 	temp_Array = chooseTile(Tiles, Tiles_number, Tiles_scores)
 	chosenTile = temp_Array
 	
+	MOUSE.Mouse_Inhibition = false
 	return [chosenTile, chosenTarget]
 #=============================================
 

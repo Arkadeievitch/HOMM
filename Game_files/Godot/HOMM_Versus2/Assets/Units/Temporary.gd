@@ -6,7 +6,6 @@ var MOUSE
 
 #var displacement_allowed : bool = false
 var Disp_Tiles = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Temporary_Tiles/Ground_Tiles.tscn")
-#var Tempo_Tiles = load("res://Assets/UI/Fightmode/Temporary_Tiles/Ground_Tiles.tscn")
 var Active_Border = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Active_Border/Active_Border.tscn")
 
 var drawnTempoTiles : bool = false
@@ -34,8 +33,6 @@ func getNodesfromTree():
 	STATS = get_parent().get_node("icon/Stats")
 	TURN = get_node("/root/MainNode/Battlefield/Turn")
 	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
-#	TURN = get_node("/root/Battlefield/Turn")
-#	MOUSE = get_node("/root/Battlefield/Mouse_Cursor")
 		
 func drawDisplacementTiles():
 
@@ -46,11 +43,13 @@ func drawDisplacementTiles():
 	var Character_number = TURN.get_child_count()
 	
 	if get_parent().active_turn == true:
+		# Active border
 		var add_child = Active_Border.instance()
-		add_child(add_child, true)
+		get_parent().add_child(add_child, true)
 		add_child.z_as_relative = false
 		add_child.z_index = get_parent().z_index+1
 		
+		# Displacement tiles
 		for i in Character_number:
 			Characters_positions.append(0)
 			Characters_positions[i] = TURN.get_child(i).position
@@ -99,7 +98,7 @@ func drawTempoDisplacementTiles():
 	if get_parent().active_turn == false:
 		var add_child = Active_Border.instance()
 		add_child(add_child, true)
-		add_child.modulate = Color(0, 0, 0, .9)
+		add_child.modulate = Color(1, 1, 1, .7)
 		
 		for i in Character_number:
 			Characters_positions.append(0)
@@ -111,7 +110,7 @@ func drawTempoDisplacementTiles():
 					new_tile = Disp_Tiles.instance()
 					add_child(new_tile, true)
 					
-					new_tile.modulate = TilesColor
+					new_tile.modulate = Color(TilesColor[0], TilesColor[1], TilesColor[2], .4)
 					
 					new_tile.position = Vector2(n*tile_size, 
 												m*tile_size)

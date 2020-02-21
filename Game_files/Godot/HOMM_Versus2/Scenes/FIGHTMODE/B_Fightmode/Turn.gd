@@ -39,7 +39,7 @@ func initialize():
 		if CHARACTERS[i].active_turn == true:
 			print(STATS[i].NAME, " is going to play")
 			if STATS[i].IA == true:
-				MOUSE.emit_signal("mouse_clic", MOUSE.Action_target, MOUSE.Tile_target)
+				MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
 
 #==============================================================
 # warning-ignore:unused_argument
@@ -101,7 +101,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 			if CHARACTERS[i].active_turn == true:
 				print(STATS[i].NAME, " is going to play")
 				if STATS[i].IA == true:
-					MOUSE.emit_signal("mouse_clic", MOUSE.Action_target, MOUSE.Tile_target)
+					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
 #==============================================================
 
 func retrieveNodes():
@@ -169,6 +169,7 @@ func ApplyDeath(Dead_index):
 	STATS.remove(Dead_index)
 	TWEENS.remove(Dead_index)
 	Priorities.remove(Dead_index)
+	MOUSE.get_node("Mouse_Front").Character_number -=1
 	apply_death = false
 
 func Victory():
