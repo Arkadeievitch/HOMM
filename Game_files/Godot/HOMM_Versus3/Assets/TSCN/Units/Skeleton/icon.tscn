@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Graphismes/Units/Skeleton64x64.png" type="Texture" id=1]
+[ext_resource path="res://Assets/TSCN/Units/character_icon.gd" type="Script" id=2]
+[ext_resource path="res://Assets/TSCN/Units/Stats.gd" type="Script" id=3]
+
+[node name="icon" type="Sprite"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Stats" type="Node2D" parent="."]
+script = ExtResource( 3 )
+SIDE = 1
+FACTION = "Necropolis"
+NAME = "Skeleton"
+MAX_HP = 2
+NUMBER = 60
+DAMAGE = 1
+DISPLACEMENT = 4
+INITIATIVE = 4
