@@ -8,6 +8,8 @@ export var IA  : bool
 export(String, "Heaven", "Sylve", "Academia", "Hell", "Necropolis", "Cave", "Orcs", "Jungle", "Mountains") var FACTION
 # warning-ignore:unused_class_variable
 export var RANGED : 		bool = false
+# warning-ignore:unused_class_variable
+export var ARROW : String = "Pick_in_FightmodeEffects"
 
 # warning-ignore:unused_class_variable
 export var NAME : 			String

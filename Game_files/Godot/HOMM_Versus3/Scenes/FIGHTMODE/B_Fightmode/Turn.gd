@@ -22,6 +22,8 @@ var CharacterIsMoving : 	bool = false
 var apply_death : 			bool = false
 var FightVictory : 			bool = false
 
+var MouseActionTarget : Vector2
+
 func _ready():
 	if has_node("/root/MainNode/SelectionMenu"):
 		# warning-ignore:return_value_discarded
@@ -46,6 +48,10 @@ func initialize():
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
 func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
+	
+	MouseActionTarget = Mouse_ActionTarget  # Permet uniquement de passer la position
+											# dans une variable globale 
+											#(notamment pour les tweens de projectiles)
 	
 	if Control_oneTurn == false && FightVictory == false:
 		Control_oneTurn = true

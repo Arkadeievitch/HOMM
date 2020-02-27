@@ -6,7 +6,9 @@ var Action_Position : Vector2
 var Mouse_Inhibition : bool = false
 
 signal mouse_clic
-	
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 # Cette variable est lue par les tuiles temporaires pour générer la 
 # tuile active  à l'avant ou l'arrière du curseur selon l'objet pointé.
@@ -30,7 +32,6 @@ func _input(event):
 		&& Mouse_Inhibition == false):
 		Action_Position = get_node("Mouse_Front").global_position
 		emit_signal("mouse_clic", Action_Position, Tile_position)
-		self.rotation = 0
 
 func Rotation_Pointeur(Character_position):
 	var deltax : float = float(self.global_position.x)-float(Character_position.x)
