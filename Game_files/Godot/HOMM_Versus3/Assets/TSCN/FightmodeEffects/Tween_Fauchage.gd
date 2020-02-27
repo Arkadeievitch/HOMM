@@ -8,6 +8,6 @@ func _ready():
 	
 # warning-ignore:unused_argument
 func emit_tweenCompletion(ObjectFauchage, b):
-	var Target = get_node("/root/MainNode/Battlefield/Turn").MouseActionTarget
+#	var Target = get_node("/root/MainNode/Battlefield/Turn").MouseActionTarget
 	
-	emit_signal("user_tween_completed", ObjectFauchage, Target)
+	emit_signal("user_tween_completed", ObjectFauchage)

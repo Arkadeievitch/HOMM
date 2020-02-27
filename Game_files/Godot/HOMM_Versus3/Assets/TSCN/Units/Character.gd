@@ -50,17 +50,18 @@ func _PlayAction(Mouse_tile, Mouse_Action):
 	var SelfPosition = self.global_position
 	if(active_turn == true
 	&& abs(Mouse_tile.x - SelfPosition.x) <= 32 
-	&& abs(Mouse_tile.y - SelfPosition.y) <= 32): # Cas où l'unité attaque ou CaC
+	&& abs(Mouse_tile.y - SelfPosition.y) <= 32): 	# Cas où l'unité attaque ou CaC
 		get_parent().ActiveCharacterPlayed = true
 		ANIM_MeleeAttack()
 	elif (active_turn == true 
-		&& displacement_allowed == true): # Cas où l'unité se déplace.
+		&& displacement_allowed == true): 			# Cas où l'unité se déplace.
 		if STATS.IA == false: # si IA (pas de Target_tile)
 			Mouse_tile = Tile_position
 		get_parent().CharacterIsMoving = true
 		ANIM_displacement(Mouse_tile)
 		get_node("icon").onAction(Mouse_Action, Mouse_tile)
-		ANIM_MeleeAttack()
+		if not(Mouse_Action.x == Mouse_tile.x && Mouse_Action.y == Mouse_tile.y):
+			ANIM_MeleeAttack()
 		get_parent().ActiveCharacterPlayed = true
 	elif STATS.RANGED == true && active_turn == true : # Cas d'attaque à distance
 		get_parent().ActiveCharacterPlayed = true
@@ -115,10 +116,10 @@ func ANIM_MeleeAttack():
 	
 	var rotation_target : float
 	if self.scale.x < 0:
-		Fauchage.scale.x = -2
+		Fauchage.scale = Vector2(2, 2)
 		rotation_target = -PI/4
 	else:
-		Fauchage.scale.x = 2
+		Fauchage.scale = Vector2(-2, -2)
 		rotation_target = PI/4
 	
 	var TWEEN_REAP = Fauchage.get_node("Tween_Fauchage")

@@ -30,7 +30,11 @@ func _process(delta):
 func _input(event):
 	if (Input.is_action_just_pressed("ui_leftclic")
 		&& Mouse_Inhibition == false):
-		Action_Position = get_node("Mouse_Front").global_position
+		if rotating==true:
+			Action_Position = get_node("Mouse_Front").global_position
+		else:
+			Action_Position = Tile_position
+		# Tile_position defined by target_tile
 		emit_signal("mouse_clic", Action_Position, Tile_position)
 
 func Rotation_Pointeur(Character_position):
