@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Selecteur_fleche_inverse.png-3b8662a8a13d8da0f6f126f86f9754b0.stex"
+path="res://.import/Selecteur_fleche_inverse.png-9cdd5a94bc0e0e260ee69d996e36cf34.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Selecteur_fleche_inverse.png"
-dest_files=[ "res://.import/Selecteur_fleche_inverse.png-3b8662a8a13d8da0f6f126f86f9754b0.stex" ]
+source_file="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ColorSelection/Selecteur_fleche_inverse.png"
+dest_files=[ "res://.import/Selecteur_fleche_inverse.png-9cdd5a94bc0e0e260ee69d996e36cf34.stex" ]
 
 [params]
 

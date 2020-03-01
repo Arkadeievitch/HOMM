@@ -15,7 +15,6 @@ func Draw_Background():
 	add_randomElements(50, Tile_Grass1, BoardResolution)
 	add_randomElements(14, Tile_Grass2, BoardResolution)
 	add_randomElements(10, Tile_Grass3, BoardResolution)
-	
 
 func draw_BaseGround(internal_BoardResolution):
 	

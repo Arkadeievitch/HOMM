@@ -9,7 +9,7 @@ margin_left = 32.0
 margin_top = 32.0
 margin_right = 544.0
 margin_bottom = 640.0
-color = Color( 0.054902, 0.0313726, 0, 1 )
+color = Color( 0.054902, 0.0313726, 0, 0.196078 )
 
 [node name="Army_synthese" type="Node2D" parent="."]
 position = Vector2( 32, 192 )
@@ -30,6 +30,7 @@ margin_right = 160.0
 margin_bottom = 96.0
 rect_pivot_offset = Vector2( 246.861, 38.0483 )
 theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Player"
 align = 1
 valign = 1

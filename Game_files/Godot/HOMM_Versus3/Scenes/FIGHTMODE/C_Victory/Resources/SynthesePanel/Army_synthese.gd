@@ -1,5 +1,5 @@
 extends Node2D
-var LabelUnit_path : String = "res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/UnitsLabel/Label_Unit.tscn"
+var LabelUnit_path : String = "res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/UnitsLabel/Label_Unit.tscn"
 
 func loadSynthesis(Heroes, Unit_Names, Unit_InitialCounters, PlayerColor):
 	loadHeroesPortrait(Heroes, PlayerColor)

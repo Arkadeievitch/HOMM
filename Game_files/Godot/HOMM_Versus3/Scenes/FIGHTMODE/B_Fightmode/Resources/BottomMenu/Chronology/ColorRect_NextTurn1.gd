@@ -31,3 +31,4 @@ func removeChildren():
 	if get_child_count() > 0 :
 		for i in get_child_count():
 			get_child(i).queue_free()
+			self.color = Color(0.3,0.3,0.3,1)

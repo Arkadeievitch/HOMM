@@ -1,11 +1,16 @@
 extends Position2D
+signal IA_finished
 #=============================================
 func IA():
+	
+# warning-ignore:return_value_discarded
+	get_parent().get_node("Temporary").connect("Temporary_finished", self, "wait")
+	yield(get_parent().get_node("Temporary"), "Temporary_finished")
 	var MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	MOUSE.Mouse_Inhibition = true
 	
-	var chosenTile
-	var chosenTarget
+	var chosenTile : Vector2
+	var chosenTarget : Vector2 = Vector2(0,0)
 	# init --- Ne sert qu'à s'assurer de reset toutes les variables.
 	var temp_Array = []
 	temp_Array = initialize()
@@ -85,6 +90,7 @@ func IA():
 	chosenTile = temp_Array
 	
 	MOUSE.Mouse_Inhibition = false
+	emit_signal("IA_finished")
 	return [chosenTile, chosenTarget]
 #=============================================
 
@@ -369,3 +375,6 @@ func chooseTile(Tiles, Tiles_number, Tiles_scores):
 		print("No tile available to move")
 	
 	return chosenTile
+
+func wait():
+	pass

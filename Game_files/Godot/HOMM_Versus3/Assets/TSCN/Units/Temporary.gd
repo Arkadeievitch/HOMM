@@ -18,6 +18,8 @@ var X_upperLimit : int
 var Y_lowerLimit : int
 var Y_upperLimit : int
 
+signal Temporary_finished
+
 func _ready():
 	TilesColor = Color(1,1,1,1) # valeur par défaut éditée par le Main
 	getNodesfromTree()
@@ -67,6 +69,7 @@ func drawDisplacementTiles():
 			Characters_positions[i] = TURN.get_child(i).position
 		
 		if STATS.DISPLACEMENT != 0:
+			var OBSTACLES = get_node("/root/MainNode/Battlefield/Obstacles")
 			for n in range(-STATS.DISPLACEMENT, STATS.DISPLACEMENT+1):
 				for m in range(-STATS.DISPLACEMENT, STATS.DISPLACEMENT+1):
 					new_tile = Disp_Tiles.instance()
@@ -95,13 +98,23 @@ func drawDisplacementTiles():
 					|| new_tile.global_position.y > Y_upperLimit):
 						new_tile.queue_free()
 					
+					# Supprime si un autre personnage est présent sur la case
 					for i in Character_number:
 						if abs(self.global_position.x + tile_size*n - Characters_positions[i].x) <16:
 							if abs(self.global_position.y + tile_size*m - Characters_positions[i].y) <16:
 								new_tile.queue_free()
+					
+					# Supprime si un obstacle est présent sur la case
+					for i in OBSTACLES.get_child_count():
+						var Obstacle_position = OBSTACLES.get_child(i).global_position
+						if abs(self.global_position.x + tile_size*n - Obstacle_position.x) <16:
+							if abs(self.global_position.y + tile_size*m - Obstacle_position.y) <16:
+								new_tile.queue_free()
+			
+			emit_signal("Temporary_finished")
 		else:
 			print("DISPLACEMENT = 0")
-			
+
 func drawTempoDisplacementTiles():
 	var new_tile
 	var tile_size : int = 64

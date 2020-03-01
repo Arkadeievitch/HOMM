@@ -20,6 +20,6 @@ func VictoryScreen(FightInformations, Winner):
 											PlayerColor2)
 	
 	if Winner == 1:
-		get_node("Label_Victory").rect_global_position.x -= 256
+		get_node("Label_Victory").rect_global_position.x -= 320
 	elif Winner == 2:
-		get_node("Label_Victory").rect_global_position.x += 256
+		get_node("Label_Victory").rect_global_position.x += 320

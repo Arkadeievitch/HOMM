@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/BottomMenu/BottomMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Turn.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Background.gd" type="Script" id=3]
-[ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Obstacles.gd" type="Script" id=4]
+[ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=5]
 
 [node name="Battlefield" type="Node2D"]
 
@@ -25,6 +26,9 @@ script = ExtResource( 2 )
 [node name="Background" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="Mouse_Cursor" parent="." instance=ExtResource( 4 )]
+[node name="Obstacles" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 5 )]
 position = Vector2( 640, 256 )
 z_index = 50

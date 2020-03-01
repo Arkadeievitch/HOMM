@@ -2,6 +2,8 @@ extends Node2D
 
 class_name Character
 
+var DamagePopup_path = "res://Scenes/FIGHTMODE/B_Fightmode/Resources/DamagePopup/DamagePopup.tscn"
+
 var Priority : float = 0.0
 var active_turn : bool = false
 var displacement_allowed : bool = false
@@ -175,6 +177,12 @@ func Character_attacked(Attacked_Action_position):
 				
 				STATS.TakeDamage(Damage_taken)
 				STATS.UpdateNumberFromHP()
+				
+				var PopupDamages = load(DamagePopup_path)
+				PopupDamages = PopupDamages.instance()
+				add_child(PopupDamages, true)
+				PopupDamages.rect_position = Vector2(-32, -36)
+				PopupDamages.text = str("-", Damage_taken)
 				
 				if STATS.NUMBER > 1:
 					print(STATS.NUMBER, " members left in ", STATS.NAME, " unit")

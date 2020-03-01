@@ -7,6 +7,8 @@ func _ready():
 	var MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	# warning-ignore:return_value_discarded
 	self.connect("movement_allowed", CHARACTER, "allowing_movement")
+	# warning-ignore:return_value_discarded
+	self.connect("movement_allowed", MOUSE, "Target_Tile")
 	MOUSE.Tile_position = self.global_position
 
 # warning-ignore:unused_argument

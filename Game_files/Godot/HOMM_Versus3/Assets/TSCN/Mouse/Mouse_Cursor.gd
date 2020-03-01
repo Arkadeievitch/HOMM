@@ -5,6 +5,8 @@ var Tile_position : Vector2
 var Action_Position : Vector2
 var Mouse_Inhibition : bool = false
 
+var TargetTilePresence : bool = false
+
 signal mouse_clic
 
 func _ready():
@@ -14,6 +16,7 @@ func _ready():
 # tuile active  à l'avant ou l'arrière du curseur selon l'objet pointé.
 # warning-ignore:unused_argument
 func _process(delta):
+	TargetTilePresence = false
 	if has_node("/root/MainNode/Battlefield"):
 		self.global_position = get_global_mouse_position()
 	elif has_node("/root/MainNode/SelectionMenu"):
@@ -34,7 +37,11 @@ func _input(event):
 			Action_Position = get_node("Mouse_Front").global_position
 		else:
 			Action_Position = Tile_position
-		# Tile_position defined by target_tile
+		if TargetTilePresence ==true:
+			# Tile_position defined by target_tile
+			pass
+		else:
+			Tile_position = get_node("Mouse_Rear").global_position
 		emit_signal("mouse_clic", Action_Position, Tile_position)
 
 func Rotation_Pointeur(Character_position):
@@ -53,3 +60,7 @@ func Rotation_Pointeur(Character_position):
 		self.rotation = Theta
 	else:
 		self.rotation = 0
+
+# warning-ignore:unused_argument
+func Target_Tile(position):
+	TargetTilePresence = true
