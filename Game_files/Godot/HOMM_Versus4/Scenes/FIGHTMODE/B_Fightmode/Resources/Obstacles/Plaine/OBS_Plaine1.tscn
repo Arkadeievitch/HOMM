@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/Plaine/OBS_Plaine1_64x64.png" type="Texture" id=1]
+
+[node name="OBS_Plaine1" type="Sprite"]
+z_index = 2
+texture = ExtResource( 1 )

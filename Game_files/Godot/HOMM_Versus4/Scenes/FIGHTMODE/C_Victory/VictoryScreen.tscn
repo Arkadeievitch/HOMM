@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/VictoryScreen.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/VictoryRecord.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Fonts/Theme_BigGothic.tres" type="Theme" id=3]
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/prompt_no.png" type="Texture" id=4]
+[ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/Synthese_Panel.tscn" type="PackedScene" id=6]
+
+[node name="VictoryScreen" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="VictoryRecord" type="Sprite" parent="."]
+position = Vector2( 800, 480 )
+scale = Vector2( 2.29641, 1.92593 )
+texture = ExtResource( 2 )
+
+[node name="Label_Victory" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 544.0
+margin_top = 96.0
+margin_right = 1056.0
+margin_bottom = 192.0
+theme = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Victory"
+align = 1
+valign = 1
+
+[node name="Button_ReturnMenu" type="Button" parent="."]
+margin_left = 1376.0
+margin_top = 96.0
+margin_right = 1440.0
+margin_bottom = 160.0
+icon = ExtResource( 4 )
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 5 )]
+z_index = 50
+
+[node name="Table_Player1" parent="." instance=ExtResource( 6 )]
+margin_left = 224.0
+margin_top = 192.0
+margin_right = 736.0
+margin_bottom = 800.0
+
+[node name="Table_Player2" parent="." instance=ExtResource( 6 )]
+margin_left = 864.0
+margin_top = 192.0
+margin_right = 1376.0
+margin_bottom = 800.0
