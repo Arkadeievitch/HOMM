@@ -3,7 +3,7 @@ extends Node2D
 class_name Character
 
 var Priority : float = 0.0
-var active_turn : bool = false
+var active_turn : bool = false # Utilisee par le compteur d'unité et turn
 var displacement_allowed : bool = false
 
 var STATS : 	Node
@@ -13,7 +13,7 @@ var MOUSE : 	Node
 var TEMPORARY : Node
 
 var Action_position : Vector2
-var Tile_position : Vector2
+#var Tile_position : Vector2
 
 func _ready():
 	getNodesfromTree()
@@ -35,16 +35,6 @@ func getNodesfromTree():
 	TEMPORARY = get_node("Temporary")
 
 #=========================================
-
-func ANIM_displacement(displacement_Tile):
-	TWEEN.interpolate_property(self, 
-								"position", 
-								self.global_position, 
-								displacement_Tile, 
-								0.5, 
-								Tween.TRANS_LINEAR, 
-								Tween.EASE_OUT)
-	TWEEN.start()
 
 func ANIM_rangedAttack(Target):
 	var arrow = load(str("res://Assets/TSCN/FightmodeEffects/", STATS.ARROW, ".tscn"))
@@ -95,10 +85,6 @@ func ANIM_MeleeAttack():
 								Tween.TRANS_LINEAR, 
 								Tween.EASE_OUT)
 	TWEEN_REAP.start()
-
-func allowing_movement(Target_tile_position): # triggered by child target tile
-	displacement_allowed = true
-	Tile_position = Target_tile_position
 
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument

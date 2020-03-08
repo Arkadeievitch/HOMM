@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 var recursiveLoop_counter : int = 0
 
@@ -10,7 +10,6 @@ func updateChronology(tempoPriorities):
 	recursiveLoop_counter = 0
 	OrderPriorities(internPriorities, Priorities_order)
 	
-	get_node("ColorRect_Active").updateActiveIcon(Priorities_order[0])
 	for i in range(1, min(internPriorities.size(), get_child_count())):
 		get_node(str("ColorRect_NextTurn", i)).updateIcon(Priorities_order[i])
 		
