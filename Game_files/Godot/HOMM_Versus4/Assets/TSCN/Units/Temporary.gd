@@ -18,7 +18,7 @@ var X_upperLimit : int
 var Y_lowerLimit : int
 var Y_upperLimit : int
 
-signal Temporary_finished
+#signal Temporary_finished
 
 func _ready():
 	TilesColor = Color(1,1,1,1) # valeur par défaut éditée par le Main

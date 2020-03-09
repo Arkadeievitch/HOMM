@@ -3,6 +3,7 @@ extends Node2D
 class_name Character
 
 var Priority : float = 0.0
+# warning-ignore:unused_class_variable
 var active_turn : bool = false # Utilisee par le compteur d'unité et turn
 var displacement_allowed : bool = false
 
@@ -27,9 +28,14 @@ func _process(delta):
 	if STATS.IA == false:
 		displacement_allowed = false
 
+# warning-ignore:unused_argument
+func allowing_movement(Target_tile_position): # triggered by target tile
+	displacement_allowed = true
+	# TargetTile_Position = Target_tile_position
+
 func getNodesfromTree():
 	STATS = get_node("icon/Stats")
-	TWEEN = get_node("Tween")
+	TWEEN = get_node("/root/MainNode/Battlefield/Tween")
 	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	TURN = get_parent()
 	TEMPORARY = get_node("Temporary")
