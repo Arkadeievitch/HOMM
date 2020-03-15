@@ -98,15 +98,21 @@ func setUnitsOnBattlefield(Army, Heroes):
 			CHARACTER.global_position.y = 0
 	
 	var HEROES = load(str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn")) # Placement du héros
-	var heroes = HEROES.instance()
-	get_node("Battlefield/UI").add_child(heroes, true)
 	if Side == 1:
-		heroes.global_position = Vector2(128,128)
-		heroes.scale = Vector2(1.5, 1.5)
+		var heroes = HEROES.instance()
+		get_node("Battlefield/UI/Border_Heroes_L").add_child(heroes, true)
+		heroes.global_position.y -= 12
+		heroes.z_index = 5
+		heroes.z_as_relative = false
+		heroes.scale = Vector2(1.5, 1.5)/0.75
 		get_node("Battlefield/UI/Border_Heroes_L/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
 	elif Side == 2:
-		heroes.global_position = Vector2(get_viewport().size.x-128,128)
-		heroes.scale = Vector2(-1.5, 1.5)
+		var heroes = HEROES.instance()
+		get_node("Battlefield/UI/Border_Heroes_R").add_child(heroes, true)
+		heroes.global_position.y -= 12
+		heroes.z_index = 5
+		heroes.z_as_relative = false
+		heroes.scale = Vector2(-1.5, 1.5)/0.75
 		get_node("Battlefield/UI/Border_Heroes_R/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
 
 func load_Selection_Menu():	# appel bouton

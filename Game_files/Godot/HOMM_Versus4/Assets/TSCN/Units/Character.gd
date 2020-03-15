@@ -79,11 +79,11 @@ func ANIM_MeleeAttack(Target_position):
 	
 	var rotation_target : float
 	if get_node("icon").scale.x < 0:
-		Fauchage.scale = Vector2(2, 2)
-		rotation_target = -PI/4
+		Fauchage.scale = Vector2(-2, 2)
+		rotation_target = -PI/2
 	else:
-		Fauchage.scale = Vector2(-2, -2)
-		rotation_target = PI/4
+		Fauchage.scale = Vector2(2, 2)
+		rotation_target = PI/2
 	
 	var TWEEN_REAP = Fauchage.get_node("Tween_Fauchage")
 	# warning-ignore:return_value_discarded
