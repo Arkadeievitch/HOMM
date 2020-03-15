@@ -23,8 +23,10 @@ export var INITIATIVE : 	int
 var TOTAL_HP : int
 
 var Information_Panel = load("res://Assets/TSCN/UnitInfo_Panel/Information_Panel.tscn")
-var MOUSE_BATTLE
-var MOUSE_MENU
+var MOUSE_BATTLE : Node
+var MOUSE_MENU : Node
+
+var Fightmode_PanelPosition : Vector2
 
 func _ready():
 	TOTAL_HP = NUMBER * MAX_HP
@@ -38,7 +40,7 @@ func _ready():
 		DAMAGE = 1
 	if INITIATIVE == 0:
 		INITIATIVE = 1
-	
+		
 	if has_node("/root/MainNode/Battlefield"):
 		MOUSE_BATTLE = get_node("/root/MainNode/Battlefield/Mouse_Cursor/Mouse_Front")
 	elif has_node("/root/MainNode/SelectionMenu"):
@@ -49,18 +51,12 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_rightclic"):
 		
 		if has_node("/root/MainNode/Battlefield"):
-			
 			if (abs(MOUSE_BATTLE.global_position.x - self.global_position.x) <= 32
 			&& abs(MOUSE_BATTLE.global_position.y - self.global_position.y) <= 32):
 				var info_panel = Information_Panel.instance()
 				get_node("/root/MainNode/Battlefield").add_child(info_panel, true)
 				info_panel.defineUnit(self)
-				
-				if get_parent().scale.x > 0 :
-					info_panel.global_position = Vector2(64, 192)
-				else:
-					self.scale.x = -1
-					info_panel.global_position = Vector2(get_viewport().size.x-256, 192)
+				info_panel.global_position = Fightmode_PanelPosition
 					
 		elif has_node("/root/MainNode/SelectionMenu"):
 			
@@ -77,3 +73,12 @@ func _input(event):
 					info_panel.position = Vector2(56, -64)
 				else:
 					info_panel.position = Vector2(-248, -64)
+
+func panel_position():
+	if has_node("/root/MainNode/Battlefield"):
+		if SIDE == 1:
+			Fightmode_PanelPosition = Vector2(64, 192)
+		elif SIDE == 2:
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-256, 192)
+		else:
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-256, 192)

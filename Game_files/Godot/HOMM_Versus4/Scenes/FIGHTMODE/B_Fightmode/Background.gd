@@ -1,4 +1,5 @@
 extends Node
+var Top_BG = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Background/Plaine/BG_top_landscape.tscn")
 
 var Tile_Grass0 = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Background/Plaine/BG_Grass0.tscn")
 var Tile_Grass1 = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Background/Plaine/BG_Grass1.tscn")
@@ -10,6 +11,11 @@ func _ready():
 
 func Draw_Background():
 	var BoardResolution = Vector2(16, 8)
+	
+	#
+	var top_landscape = Top_BG.instance()
+	add_child(top_landscape, true)
+	
 	draw_BaseGround(BoardResolution)
 	
 	add_randomElements(50, Tile_Grass1, BoardResolution)

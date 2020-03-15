@@ -2,6 +2,7 @@ extends Node
 
 var DamagePopup_path = "res://Scenes/FIGHTMODE/B_Fightmode/Resources/DamagePopup/DamagePopup.tscn"
 var Disp_Tiles_path = "res://Scenes/FIGHTMODE/B_Fightmode/Resources/Temporary_Tiles/Ground_Tiles.tscn"
+var Ranged_Tile_path = "res://Scenes/FIGHTMODE/B_Fightmode/Resources/Temporary_Tiles/Ranged_Tile.tscn"
 var Active_Border_path = "res://Scenes/FIGHTMODE/B_Fightmode/Resources/Active_Border/Active_Border.tscn"
 
 var Highest_priority : 	float = 0.0
@@ -71,6 +72,10 @@ func _ready():
 	if has_node("/root/MainNode/SelectionMenu"):
 		# warning-ignore:return_value_discarded
 		get_node("/root/MainNode/SelectionMenu").connect("tree_exited", self, "initialize")
+	
+	yield(get_tree(), "idle_frame")
+	for i in Character_number:
+		STATS[i].panel_position()
 
 func initialize(): # Attend la fermeture du menu pour démarrer
 	print("--- Turn ", Count_Turn_number, " (Unit ", underTurn, "/", Character_number, ") ---")
@@ -82,6 +87,9 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 	TWEEN.connect("tween_completed", self, "NothingTWEEN")
 	# warning-ignore:return_value_discarded
 	TIMER.connect("timeout", self, "NothingTIMER")	
+	
+	for i in Character_number:
+		CHARACTERS[i].get_node("icon")._ready()
 	
 	retrieveStats()
 	print(Priorities)
@@ -98,6 +106,7 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 
 #==============================================================
 func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
+	MOUSE.Mouse_Inhibition = true
 	MouseActionTarget = Mouse_ActionTarget  # Permet uniquement de passer la position
 											# dans une variable globale 
 											# (notamment pour le(s) tween(s) de projectiles)
@@ -126,7 +135,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 					CharacterIsMoving = false
 					# Si deplacement + attaque (sinon, animation dans _PlayAction)
 					if not Mouse_TileTarget == Mouse_ActionTarget:
-						CHARACTERS[i].ANIM_MeleeAttack()
+						CHARACTERS[i].ANIM_MeleeAttack(Mouse_ActionTarget)
 		
 		if ActiveCharacterPlayed == true:
 			# 2 / Inactive players
@@ -213,6 +222,8 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 				print(STATS[i].NAME, " is going to play")
 				if STATS[i].IA == true:
 					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
+	
+	MOUSE.Mouse_Inhibition = false
 #==============================================================
 
 func retrieveNodes():
@@ -320,8 +331,8 @@ func _PlayAction(Character, Mouse_tile, Mouse_Action):
 	
 	if(abs(Mouse_tile.x - CharacterPosition.x) <= 32 
 	&& abs(Mouse_tile.y - CharacterPosition.y) <= 32): 	# Cas où l'unité attaque ou CaC
-		ActiveCharacterPlayed = true
-		Character.ANIM_MeleeAttack()
+		ActiveCharacterPlayed = true					# Si deplacement+attaque géré dans MainFunction
+		Character.ANIM_MeleeAttack(Mouse_Action)
 		yield(TWEEN, "tween_completed")
 		
 	elif (Character.displacement_allowed == true): 			# Cas où l'unité se déplace.
@@ -330,13 +341,20 @@ func _PlayAction(Character, Mouse_tile, Mouse_Action):
 #			Mouse_tile = IA_Tile_position
 		CharacterIsMoving = true
 		ANIM_displacement(TargetTile_Position, Character)
-		Character.get_node("icon").onAction(Mouse_Action, Mouse_tile)
 		ActiveCharacterPlayed = true
 		
 	elif Character.get_node("icon/Stats").RANGED == true : # Cas d'attaque à distance
-		ActiveCharacterPlayed = true
-		Character.ANIM_rangedAttack(Mouse_Action)
-		yield(TWEEN, "tween_completed")
+		var warning_count : int = 0
+		for i in Character_number:
+			if (abs(Mouse_Action.x-CHARACTERS[i].global_position.x) < 32
+			 && abs(Mouse_Action.y-CHARACTERS[i].global_position.y) < 32):
+				ActiveCharacterPlayed = true
+				Character.ANIM_rangedAttack(Mouse_Action)
+				yield(TWEEN, "tween_completed")
+				break
+			elif warning_count == 0 :
+				print("clicked outside (ranged)")
+				warning_count +=1
 	else:
 		print("clicked outside")
 
@@ -345,6 +363,7 @@ func allowing_movement(Target_tile_position): # triggered by target tile
 	TargetTile_Position = Target_tile_position
 
 func ANIM_displacement(displacement_Tile, Character_Node):
+	Character_Node.get_node("icon").onAction(displacement_Tile, Character_Node.global_position)
 	TWEEN.interpolate_property(Character_Node, 
 								"position", 
 								Character_Node.global_position, 
@@ -427,6 +446,14 @@ func drawDisplacementTiles(Char_index):
 							new_tile.queue_free()
 	else:
 		print("DISPLACEMENT = 0")
+		
+	if STATS[Char_index].RANGED == true :
+		var Ranged_Tile = load(Ranged_Tile_path)
+		for i in Character_number:
+			if SIDE[i] != SIDE[Char_index]:
+				new_tile = Ranged_Tile.instance()
+				CHARACTERS[i].add_child(new_tile, true)
+				new_tile.modulate = Color(0, 0, 1, .9)
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # === NOT PLAYING CHARACTERS ===
@@ -434,6 +461,7 @@ func _PassiveAction(Mouse_action, Mouse_Tile, Char_index):
 	Character_attacked(Mouse_action, Mouse_Tile, Char_index)
 	Priorities[Char_index] += float(INITIATIVE[Char_index]) / float(Character_number)
 
+# warning-ignore:unused_argument
 func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 	var Damage_taken : int = 0
 	var ATTACKER
@@ -488,6 +516,8 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 #			counterstrike_chrono[i] +=1
 #	pass
 
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
 func TakeDamage(Damage_taken, Char_index, Mouse_Action, Mouse_tile):
 	TOTAL_HP[Char_index] = int(max(0,TOTAL_HP[Char_index] - Damage_taken))
 	
@@ -526,6 +556,7 @@ func TakeDamage(Damage_taken, Char_index, Mouse_Action, Mouse_tile):
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Victory Conditions ~~~~~~~~~~~~~
+# warning-ignore:unused_argument
 func Victory(Char_index):
 	StandardVictory()
 	

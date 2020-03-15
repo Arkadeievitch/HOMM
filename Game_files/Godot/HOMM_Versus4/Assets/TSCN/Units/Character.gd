@@ -67,13 +67,18 @@ func ANIM_rangedAttack(Target):
 func removeArrow(ObjectArrow):
 	ObjectArrow.queue_free()
 
-func ANIM_MeleeAttack():
+func ANIM_MeleeAttack(Target_position):
 	var Fauchage = load(str("res://Assets/TSCN/FightmodeEffects/Fauchage.tscn"))
 	Fauchage = Fauchage.instance()
 	add_child(Fauchage, true)
 	
+	if Target_position.x - self.global_position.x < 0:
+		get_node("icon").scale.x = -1
+	elif Target_position.x - self.global_position.x > 0:
+		get_node("icon").scale.x = 1
+	
 	var rotation_target : float
-	if self.scale.x < 0:
+	if get_node("icon").scale.x < 0:
 		Fauchage.scale = Vector2(2, 2)
 		rotation_target = -PI/4
 	else:

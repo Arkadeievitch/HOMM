@@ -36,8 +36,10 @@ func _input(event):
 		if rotating==true:
 			Action_Position = get_node("Mouse_Front").global_position
 			Tile_position = get_node("Mouse_Rear").global_position
+			lastSaved_TargetPosition = Vector2(0, 0)
 		else:
 			Tile_position = lastSaved_TargetPosition
+			lastSaved_TargetPosition = Vector2(0, 0)
 			Action_Position = Tile_position
 		emit_signal("mouse_clic", Action_Position, Tile_position)
 

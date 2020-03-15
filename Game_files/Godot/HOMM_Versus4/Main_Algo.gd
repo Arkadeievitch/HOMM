@@ -89,23 +89,25 @@ func setUnitsOnBattlefield(Army, Heroes):
 		
 		if Side == 1:
 			CHARACTER.global_position.x = X_lowerLimit+64
-			CHARACTER.global_position.y = 128*i+Y_lowerLimit+64
+			CHARACTER.global_position.y = 128*i+Y_lowerLimit+32
 		elif Side == 2:
 			CHARACTER.global_position.x = X_upperLimit-64
-			CHARACTER.global_position.y = 128*i+Y_lowerLimit+64
+			CHARACTER.global_position.y = 128*i+Y_lowerLimit+32
 		else: # Par défaut, on aligne les unités en haut de l'écran.
 			CHARACTER.global_position.x = 256+64*i
 			CHARACTER.global_position.y = 0
 	
-	var HEROES = load(str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn"))
+	var HEROES = load(str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn")) # Placement du héros
 	var heroes = HEROES.instance()
 	get_node("Battlefield/UI").add_child(heroes, true)
 	if Side == 1:
-		heroes.global_position = Vector2(96,96)
+		heroes.global_position = Vector2(128,128)
 		heroes.scale = Vector2(1.5, 1.5)
+		get_node("Battlefield/UI/Border_Heroes_L/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
 	elif Side == 2:
-		heroes.global_position = Vector2(get_viewport().size.x-96,96)
+		heroes.global_position = Vector2(get_viewport().size.x-128,128)
 		heroes.scale = Vector2(-1.5, 1.5)
+		get_node("Battlefield/UI/Border_Heroes_R/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
 
 func load_Selection_Menu():	# appel bouton
 	if get_child_count() > 0:

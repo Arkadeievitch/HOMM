@@ -5,11 +5,23 @@
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/BottomMenu/Label_Turn.gd" type="Script" id=3]
 
 [node name="BottomMenu" type="Node2D"]
+position = Vector2( 0, -16 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 1600.0
 margin_bottom = 192.0
 color = Color( 0.196078, 0.196078, 0.196078, 1 )
+
+[node name="ColorRect_Upper_border" type="ColorRect" parent="."]
+margin_top = -16.0
+margin_right = 1600.0
+color = Color( 0.282353, 0.282353, 0.282353, 1 )
+
+[node name="ColorRect_Lower_border" type="ColorRect" parent="."]
+margin_top = 192.0
+margin_right = 1600.0
+margin_bottom = 208.0
+color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
 [node name="Chronology" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )

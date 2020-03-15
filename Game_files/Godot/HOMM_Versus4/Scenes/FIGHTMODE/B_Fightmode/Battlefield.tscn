@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/BottomMenu/BottomMenu.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/TURN_v4.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Background.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Obstacles.gd" type="Script" id=4]
-[ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Border_Heroes/Border_Heroes.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/TURN_v4.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Background.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Obstacles.gd" type="Script" id=5]
+[ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=6]
 
 [node name="Battlefield" type="Node2D"]
 
@@ -12,25 +13,32 @@
 
 [node name="Battlefield_Limits" type="MarginContainer" parent="UI"]
 margin_left = 288.0
-margin_top = 64.0
+margin_top = 128.0
 margin_right = 1312.0
-margin_bottom = 704.0
+margin_bottom = 768.0
 
 [node name="BottomMenu" parent="UI" instance=ExtResource( 1 )]
-position = Vector2( 0, 768 )
+position = Vector2( 0, 816 )
 z_index = 40
 
-[node name="Turn" type="Node" parent="."]
-script = ExtResource( 2 )
+[node name="Border_Heroes_L" parent="UI" instance=ExtResource( 2 )]
+position = Vector2( 128, 204 )
+scale = Vector2( 0.75, 0.751471 )
 
-[node name="Background" type="Node" parent="."]
+[node name="Border_Heroes_R" parent="UI" instance=ExtResource( 2 )]
+position = Vector2( 1472, 204 )
+
+[node name="Turn" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="Obstacles" type="Node" parent="."]
+[node name="Background" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="Mouse_Cursor" parent="." instance=ExtResource( 5 )]
-position = Vector2( 640, 256 )
+[node name="Obstacles" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 6 )]
+position = Vector2( 640, 320 )
 z_index = 50
 
 [node name="Tween" type="Tween" parent="."]

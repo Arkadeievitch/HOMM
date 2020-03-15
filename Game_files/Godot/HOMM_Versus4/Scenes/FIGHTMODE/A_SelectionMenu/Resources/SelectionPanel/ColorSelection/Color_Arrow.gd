@@ -8,7 +8,10 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_leftclic"):
 		if (abs(get_local_mouse_position().x) < 32
 		&& abs(get_local_mouse_position().y) < 64):
-			get_parent().value = min(8, get_parent().value+1)
+			if self.position.x <0:
+				get_parent().value = min(8, get_parent().value-1)
+			else:
+				get_parent().value = min(8, get_parent().value+1)
 
 	if (Input.is_action_pressed("ui_leftclic")
 	&& abs(get_local_mouse_position().x) < 32

@@ -26,7 +26,7 @@ func Draw_Obstacles(Tile_number, Tile_Scene):
 		var new_tile = Tile_Scene.instance()
 		add_child(new_tile, true)
 		new_tile.global_position = Vector2(64*random_integer_x+480,
-											64*random_integer_y+256)
+											64*random_integer_y+256-32)
 		new_tile.z_as_relative = false
 		new_tile.z_index = 2
 
