@@ -14,12 +14,7 @@ func _input(event):
 		&& MOUSE.global_position.x-self.rect_global_position.x-40>0
 		&& abs(MOUSE.global_position.y-self.rect_global_position.y-40)<self.rect_size.y
 		&& MOUSE.global_position.y-self.rect_global_position.y-40>0):
-			var HeroesNode
-			
-			if get_parent().get_parent().has_node("Heroes"):
-				HeroesNode = get_parent().get_parent().get_node("Heroes")
-			else:
-				HeroesNode = get_parent().get_parent().get_node("Heroes")
+			var HeroesNode = get_parent().get_parent().get_node("Heroes")
 			
 			if HeroesNode.get_child_count() <1:
 				HeroesSelection()

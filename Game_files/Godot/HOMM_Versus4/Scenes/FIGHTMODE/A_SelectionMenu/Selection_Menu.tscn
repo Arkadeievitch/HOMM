@@ -10,10 +10,7 @@ anchor_bottom = 1.0
 margin_left = 96.0
 margin_top = 48.0
 margin_right = -104.0
-margin_bottom = -112.0
-__meta__ = {
-"_edit_group_": true
-}
+margin_bottom = -144.0
 
 [node name="Table_Player1" parent="." instance=ExtResource( 1 )]
 
@@ -24,16 +21,49 @@ scale = Vector2( -0.901, 1 )
 [node name="Fond" type="Sprite" parent="."]
 
 [node name="Button_Engage" parent="." instance=ExtResource( 2 )]
-margin_left = 560.0
-margin_top = 160.0
-margin_right = 879.0
-margin_bottom = 256.0
+margin_left = 544.0
+margin_top = 144.0
+margin_right = 863.0
+margin_bottom = 240.0
 
 [node name="ColorRect_CloseGround" type="ColorRect" parent="."]
+margin_left = -64.0
 margin_top = 712.0
-margin_right = 1408.0
-margin_bottom = 832.0
+margin_right = 1472.0
+margin_bottom = 944.0
 color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_CloseGround_R" type="ColorRect" parent="."]
+margin_left = 1313.0
+margin_top = 870.0
+margin_right = 1537.0
+margin_bottom = 1102.0
+rect_rotation = -45.0
+color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_Top_R" type="ColorRect" parent="."]
+margin_left = 1356.0
+margin_top = -185.0
+margin_right = 1580.0
+margin_bottom = 46.9997
+rect_rotation = -30.0
+color = Color( 0.266667, 0.184314, 0.0588235, 1 )
+
+[node name="ColorRect_CloseGround_L" type="ColorRect" parent="."]
+margin_left = -64.0
+margin_top = 712.0
+margin_right = 160.0
+margin_bottom = 944.0
+rect_rotation = 45.0
+color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_Top_L" type="ColorRect" parent="."]
+margin_left = -142.0
+margin_top = -297.0
+margin_right = 82.0
+margin_bottom = -65.0001
+rect_rotation = 30.0
+color = Color( 0.266667, 0.184314, 0.0588235, 1 )
 
 [node name="ColorRect_FarGround" type="ColorRect" parent="."]
 margin_left = 576.0
@@ -43,10 +73,40 @@ margin_bottom = 712.0
 color = Color( 0.505882, 0.447059, 0.301961, 1 )
 
 [node name="ColorRect_AboveDoor" type="ColorRect" parent="."]
+show_behind_parent = true
 margin_left = 576.0
 margin_top = -8.0
 margin_right = 832.0
-margin_bottom = 159.0
+margin_bottom = 143.0
+color = Color( 0.494118, 0.494118, 0.494118, 1 )
+
+[node name="ColorRect_Bottom" type="ColorRect" parent="."]
+margin_left = -96.0
+margin_top = 944.0
+margin_right = 1504.0
+margin_bottom = 1008.0
+color = Color( 0.266667, 0.184314, 0.0588235, 1 )
+
+[node name="ColorRect_Top" type="ColorRect" parent="."]
+margin_left = -64.0
+margin_top = -80.0
+margin_right = 1472.0
+margin_bottom = 16.0
+color = Color( 0.266667, 0.184314, 0.0588235, 1 )
+
+[node name="ColorRect_R" type="ColorRect" parent="."]
+show_behind_parent = true
+margin_left = 1408.0
+margin_top = -8.0
+margin_right = 1472.0
+margin_bottom = 712.0
+color = Color( 0.494118, 0.494118, 0.494118, 1 )
+
+[node name="ColorRect_L" type="ColorRect" parent="."]
+show_behind_parent = true
+margin_left = -64.0
+margin_top = -8.0
+margin_bottom = 712.0
 color = Color( 0.494118, 0.494118, 0.494118, 1 )
 
 [node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]

@@ -2,6 +2,8 @@
 extends Node2D
 
 var UnitLabel_path : String = "res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/UnitsLabel/Label_Unit.tscn"
+export var Faction : String
+var FactionFlag_path : String = "res://Assets/TSCN/Factions/Icon_"
 
 # warning-ignore:unused_class_variable
 export var Unit_name1 : String
@@ -67,6 +69,9 @@ func HeroesSelected():
 						Unit_name4, Unit_name5, Unit_name6]
 		Unit_counters = [	Unit_counter1, Unit_counter2, Unit_counter3,
 							Unit_counter4, Unit_counter5, Unit_counter6]
+							
+		# Set Faction Icon
+		SetFactionFlag()
 		# move Heroes icon to its expected position
 		HeroesIcon.scale = Vector2(2, 2)
 		
@@ -142,3 +147,21 @@ func removeUnselectedHeroes():
 				CurrentChild.queue_free()
 		else:
 			CurrentChild.queue_free()
+
+func SetFactionFlag():
+	var FactionFlag_path_complete = str(FactionFlag_path, Faction, ".tscn")
+	var FactionFlag = load(FactionFlag_path_complete)
+	FactionFlag = FactionFlag.instance()
+	
+	if has_node("/root/MainNode/SelectionMenu"):
+		var TABLE_PLAYER : Node
+		if self.global_position.x < get_viewport().size.x/2:
+			TABLE_PLAYER = get_node("/root/MainNode/SelectionMenu/Table_Player1")
+			TABLE_PLAYER.add_child(FactionFlag)
+			FactionFlag.scale = Vector2(0.25,0.25)
+			FactionFlag.position = Vector2(-118,-128)
+		else:
+			TABLE_PLAYER = get_node("/root/MainNode/SelectionMenu/Table_Player2")
+			TABLE_PLAYER.add_child(FactionFlag)
+			FactionFlag.scale = Vector2(-0.25,0.25)
+			FactionFlag.position = Vector2(-118,-128)

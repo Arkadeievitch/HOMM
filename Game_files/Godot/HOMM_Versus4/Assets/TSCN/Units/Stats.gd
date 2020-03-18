@@ -25,6 +25,7 @@ var TOTAL_HP : int
 var Information_Panel = load("res://Assets/TSCN/UnitInfo_Panel/Information_Panel.tscn")
 var MOUSE_BATTLE : Node
 var MOUSE_MENU : Node
+var TURN : Node
 
 var Fightmode_PanelPosition : Vector2
 
@@ -43,19 +44,23 @@ func _ready():
 		
 	if has_node("/root/MainNode/Battlefield"):
 		MOUSE_BATTLE = get_node("/root/MainNode/Battlefield/Mouse_Cursor/Mouse_Front")
+		TURN = get_node("/root/MainNode/Battlefield/Turn")
 	elif has_node("/root/MainNode/SelectionMenu"):
 		MOUSE_MENU = get_node("/root/MainNode/SelectionMenu/Mouse_Cursor/Mouse_Front")
 
 # warning-ignore:unused_argument
 func _input(event):
 	if Input.is_action_just_pressed("ui_rightclic"):
-		
 		if has_node("/root/MainNode/Battlefield"):
 			if (abs(MOUSE_BATTLE.global_position.x - self.global_position.x) <= 32
 			&& abs(MOUSE_BATTLE.global_position.y - self.global_position.y) <= 32):
 				var info_panel = Information_Panel.instance()
 				get_node("/root/MainNode/Battlefield").add_child(info_panel, true)
-				info_panel.defineUnit(self)
+				var SelectedUnit : int
+				for i in TURN.Character_number:
+					if TURN.NAME[i] == NAME:
+						SelectedUnit = i
+				info_panel.Fight_defineUnit(SelectedUnit)
 				info_panel.global_position = Fightmode_PanelPosition
 					
 		elif has_node("/root/MainNode/SelectionMenu"):
@@ -68,7 +73,7 @@ func _input(event):
 			&& abs(MOUSE_MENU.global_position.y - self.global_position.y) <= 32):
 				var info_panel = Information_Panel.instance()
 				add_child(info_panel, true)
-				info_panel.defineUnit(self)
+				info_panel.Menu_defineUnit(self)
 				if self.global_position.x - get_viewport().size.x/2 < 0 :
 					info_panel.position = Vector2(56, -64)
 				else:
@@ -77,8 +82,8 @@ func _input(event):
 func panel_position():
 	if has_node("/root/MainNode/Battlefield"):
 		if SIDE == 1:
-			Fightmode_PanelPosition = Vector2(64, 192)
+			Fightmode_PanelPosition = Vector2(32, 616)
 		elif SIDE == 2:
-			Fightmode_PanelPosition = Vector2(get_viewport().size.x-256, 192)
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 616)
 		else:
-			Fightmode_PanelPosition = Vector2(get_viewport().size.x-256, 192)
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 616)

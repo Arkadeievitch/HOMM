@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Faction_Labels/Label_Factions.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Faction_Labels/Theme_Cave.tres" type="Theme" id=2]
+
+[node name="ColorRect" type="ColorRect"]
+margin_top = -48.0
+margin_right = 256.0
+margin_bottom = 48.0
+color = Color( 0.2, 0.14902, 0.0509804, 1 )
+script = ExtResource( 1 )
+
+[node name="ColorRect_Inner" type="ColorRect" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 252.0
+margin_bottom = 92.0
+color = Color( 0.580392, 0.54902, 0.419608, 1 )
+
+[node name="Label" type="Label" parent="ColorRect_Inner"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 244.0
+margin_bottom = 84.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.192157, 0.129412, 0.0392157, 1 )
+text = "Cave"
+align = 1
+valign = 1
