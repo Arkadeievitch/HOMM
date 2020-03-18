@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/prompt_no.png-650887248912517c7846333d2046a10a.stex"
+path="res://.import/Close_corner.png-835d8886736ecc9da1417dbdea4e28b5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/FIGHTMODE/C_Victory/prompt_no.png"
-dest_files=[ "res://.import/prompt_no.png-650887248912517c7846333d2046a10a.stex" ]
+source_file="res://Scenes/FIGHTMODE/C_Victory/Close_corner.png"
+dest_files=[ "res://.import/Close_corner.png-835d8886736ecc9da1417dbdea4e28b5.stex" ]
 
 [params]
 

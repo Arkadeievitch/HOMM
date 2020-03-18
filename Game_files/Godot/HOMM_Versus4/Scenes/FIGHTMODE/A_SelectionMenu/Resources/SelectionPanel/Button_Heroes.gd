@@ -45,5 +45,5 @@ func HeroesSelection():
 	if self.rect_global_position.x < get_viewport().size.x/2:
 		HeroesBoard.global_position = Vector2(0, 0)
 	else:
-		HeroesBoard.global_position = Vector2(get_parent().get_parent().global_position.x-96-272, 0)
+		HeroesBoard.global_position = Vector2(get_parent().get_parent().global_position.x-272-32, 0)
 	self.text = ""
