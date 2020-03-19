@@ -122,6 +122,12 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 		var newIcon = UnitIconDisplayed.instance()
 		new_child.get_node("Unit_BG").add_child(newIcon, true)
 		newIcon.global_position = newIcon.global_position+Vector2(29, 32)
+		
+		if get_parent().global_position.x < get_viewport().size.x/2:
+			newIcon.scale = Vector2(1, 1)
+			new_child.get_node("Unit_BG").rect_position.x -=12
+		else:
+			newIcon.scale = Vector2(-1, 1)
 
 func SetUnitArrays(internal_Unit_names, internal_Unit_counters,
 					input_Unit_names, input_Unit_counters):

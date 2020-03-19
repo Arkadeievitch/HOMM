@@ -77,7 +77,8 @@ func _input(event):
 				if self.global_position.x - get_viewport().size.x/2 < 0 :
 					info_panel.position = Vector2(56, -64)
 				else:
-					info_panel.position = Vector2(-248, -64)
+					info_panel.scale.x = -1
+					info_panel.position = Vector2(248, -64)
 
 func panel_position():
 	if has_node("/root/MainNode/Battlefield"):

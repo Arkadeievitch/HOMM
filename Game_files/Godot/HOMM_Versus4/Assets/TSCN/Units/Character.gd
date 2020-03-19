@@ -25,9 +25,8 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _process(delta):
-	if STATS.IA == false:
-		displacement_allowed = false
-
+#	if STATS.IA == false:
+	displacement_allowed = false
 # warning-ignore:unused_argument
 func allowing_movement(Target_tile_position): # triggered by target tile
 	displacement_allowed = true

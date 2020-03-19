@@ -4,7 +4,6 @@
 [ext_resource path="res://Assets/TSCN/Units/character_icon.gd" type="Script" id=2]
 [ext_resource path="res://Assets/TSCN/Units/Stats.gd" type="Script" id=3]
 
-
 [node name="icon" type="Sprite"]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
@@ -18,4 +17,4 @@ MAX_HP = 6
 NUMBER = 15
 DAMAGE = 4
 DISPLACEMENT = 5
-INITIATIVE = 3
+INITIATIVE = 9

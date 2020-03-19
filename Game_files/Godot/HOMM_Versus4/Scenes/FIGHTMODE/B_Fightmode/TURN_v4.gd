@@ -220,8 +220,8 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		for i in Character_number:
 			if Active_turn[i] == true:
 				print(STATS[i].NAME, " is going to play")
-				if STATS[i].IA == true:
-					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
+#				if STATS[i].IA == true:
+#					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
 	
 	MOUSE.Mouse_Inhibition = false
 #==============================================================
@@ -331,7 +331,7 @@ func _PlayAction(Character, Mouse_tile, Mouse_Action):
 	
 	if(abs(Mouse_tile.x - CharacterPosition.x) <= 32 
 	&& abs(Mouse_tile.y - CharacterPosition.y) <= 32): 	# Cas où l'unité attaque ou CaC
-		ActiveCharacterPlayed = true					# Si deplacement+attaque géré dans MainFunction
+		ActiveCharacterPlayed = true					# Si deplacement+attaque géré dans TURN_MainFunction
 		Character.ANIM_MeleeAttack(Mouse_Action)
 		yield(TWEEN, "tween_completed")
 		
