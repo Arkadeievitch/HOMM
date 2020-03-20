@@ -34,6 +34,7 @@ var X_upperLimit : int
 var Y_lowerLimit : int
 var Y_upperLimit : int
 
+# === Characters data ===
 # ---- STATS ----
 var NAME  		= []
 
@@ -52,8 +53,9 @@ var TOTAL_HP 	= []
 
 # var displacement_allowed : bool = false
 var Active_turn = []
-#var COUNTERSTRIKE = []
-#var counterstrike_chrono = []
+var COUNTERSTRIKE_READY = []
+var COUNTERSTRIKE_ALLOWED = []
+# === Characters data ===
 
 var MouseActionTarget : Vector2
 var TargetTile_Position : Vector2
@@ -97,8 +99,6 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 	
 	# Déclenche le tour si le premier joueur actif est une IA.
 	for i in Character_number:
-#		COUNTERSTRIKE.append(true)
-		
 		if Active_turn[i] == true:
 			print(STATS[i].NAME, " is going to play")
 #			if STATS[i].IA == true:
@@ -125,8 +125,8 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 			if Active_turn[i] == true:
 				# if STATS[i].IA == true:
 					# var IA_result = IA[i].IA()
-					# Mouse_ActionTarget = IA_result[1]
-					# Mouse_TileTarget = 	 IA_result[0]
+					# Mouse_ActionTarget =  IA_result[1]
+					# Mouse_TileTarget = 	IA_result[0]
 				
 				TEMPORARY[i].deleteDisplacementTiles()
 				_PlayAction(CHARACTERS[i], Mouse_TileTarget, Mouse_ActionTarget)
@@ -136,6 +136,8 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 					# Si deplacement + attaque (sinon, animation dans _PlayAction)
 					if not Mouse_TileTarget == Mouse_ActionTarget:
 						CHARACTERS[i].ANIM_MeleeAttack(Mouse_ActionTarget)
+						TIMER.start(0.5)
+						yield(TIMER, "timeout")
 		
 		if ActiveCharacterPlayed == true:
 			# 2 / Inactive players
@@ -273,6 +275,8 @@ func retrieveStats():
 		INITIATIVE.append(STATS[i].INITIATIVE)
 		MAX_HP.append(STATS[i].MAX_HP)
 		TOTAL_HP.append(STATS[i].TOTAL_HP)
+		COUNTERSTRIKE_READY.append(true)
+		COUNTERSTRIKE_ALLOWED.append(true)
 		
 	Priorities = INITIATIVE.duplicate()
 
@@ -307,17 +311,14 @@ func PrepareNextTurn(Char_index):
 		Count_Turn_number += 1
 		var TurnLabel = get_parent().get_node("UI/BottomMenu/Label_Turn")
 		TurnLabel.text = str(" Turn ", Count_Turn_number)
+		for i in Character_number:
+			COUNTERSTRIKE_READY[i] = true
 	print(" ")
 	print("--- Turn ", Count_Turn_number, " (Unit ", underTurn, "/", Character_number,") ---")
 	
 	retrieveNodes()
 	activatePlayer()
 	Victory(Char_index)
-
-func NothingTWEEN(a,b):
-	print("Tween completed ", a, " ", b)
-func NothingTIMER():
-	print("Timer completed")
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -350,6 +351,7 @@ func _PlayAction(Character, Mouse_tile, Mouse_Action):
 			 && abs(Mouse_Action.y-CHARACTERS[i].global_position.y) < 32):
 				ActiveCharacterPlayed = true
 				Character.ANIM_rangedAttack(Mouse_Action)
+				COUNTERSTRIKE_ALLOWED[i] = false
 				yield(TWEEN, "tween_completed")
 				break
 			elif warning_count == 0 :
@@ -479,6 +481,7 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				print(NAME[DEFENDER], " is attacked by ", NAME[ATTACKER])
 				Damage_taken = DAMAGE[ATTACKER] * NUMBER[ATTACKER]
 				
+				# Attack damage application
 				TOTAL_HP[DEFENDER] = int(max(0,TOTAL_HP[DEFENDER] - Damage_taken))
 				NUMBER[DEFENDER] = int(ceil(float(float(TOTAL_HP[DEFENDER])/float(MAX_HP[DEFENDER]))))
 				
@@ -492,67 +495,25 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				
 				if NUMBER[DEFENDER] > 1:
 					print(NUMBER[DEFENDER], " members left in ", NAME[DEFENDER], " unit")
+				
+					# CounterStrike
+					if (COUNTERSTRIKE_READY[Char_index] == true 
+					&& COUNTERSTRIKE_ALLOWED[Char_index] == true):
+						get_child(Char_index).ANIM_CounterStrike(CHARACTERS[ATTACKER].global_position)
+						var CounterStrikeDmg = ceil(0.25*DAMAGE[DEFENDER]*NUMBER[DEFENDER])
+						TOTAL_HP[ATTACKER] = int(max(0,TOTAL_HP[ATTACKER] - CounterStrikeDmg))
+						NUMBER[ATTACKER] = int(ceil(float(float(TOTAL_HP[ATTACKER])/float(MAX_HP[ATTACKER]))))
+						print(NAME[DEFENDER], " counter-strikes : ", CounterStrikeDmg, " damages")
+						COUNTERSTRIKE_READY[DEFENDER] = false
+					else:
+						COUNTERSTRIKE_ALLOWED[Char_index] = true
+				
 				elif NUMBER[DEFENDER] <1: # DEAD CHARACTER (ne s'applique que dans TURN_Main)
 					print(NAME[DEFENDER], " is dead")
 				else:
 					print(NUMBER[DEFENDER], " ", NAME[DEFENDER], " left")
-				
-#				if COUNTERSTRIKE[Char_index] == true:
-#					counterStrike(ATTACKER, DEFENDER)
-
-#func counterStrike(ATTACKER, DEFENDER):
-#	print(DEFENDER, " counter-strikes!")
-#
-#
-#	counterstrike_chrono[DEFENDER] = 0
-#	COUNTERSTRIKE[DEFENDER] = false
-#	pass
-
-#func updateCOUNTERSTRIKE():
-#	for i in Character_number:
-#		if counterstrike_chrono[i] >= Character_number:
-#			COUNTERSTRIKE[i] = true
-#		elif counterstrike_chrono[i] < Character_number:
-#			counterstrike_chrono[i] +=1
-#	pass
-
-# warning-ignore:unused_argument
-# warning-ignore:unused_argument
-func TakeDamage(Damage_taken, Char_index, Mouse_Action, Mouse_tile):
-	TOTAL_HP[Char_index] = int(max(0,TOTAL_HP[Char_index] - Damage_taken))
-	
-	
-#	if STATS.IA == true: # si IA (pas de Target_tile)
-#		displacement_allowed = true
-#	
-#	var SelfPosition = CHARACTERS[Char_index].global_position
-#
-#	if(abs(Mouse_tile.x - SelfPosition.x) <= 32 
-#	&& abs(Mouse_tile.y - SelfPosition.y) <= 32): 	# Cas où l'unité attaque ou CaC
-#		ActiveCharacterPlayed = true
-##		Character.ANIM_MeleeAttack()
-#
-#	elif (displacement_allowed == true): 			# Cas où l'unité se déplace.
-##		if STATS.IA == true: # si IA (pas de Target_tile)
-##			var IA_Tile_position
-##			Mouse_tile = IA_Tile_position
-#		CharacterIsMoving = true
-##		ANIM_displacement(Mouse_tile)
-#		CHARACTERS[Char_index].get_node("icon").onAction(Mouse_Action, Mouse_tile)
-#		if not(Mouse_Action.x == Mouse_tile.x && Mouse_Action.y == Mouse_tile.y):
-##			Character.ANIM_MeleeAttack()
-#			pass
-#		ActiveCharacterPlayed = true
-#
-#	elif RANGED[Char_index] == true : # Cas d'attaque à distance
-#		ActiveCharacterPlayed = true
-##		Character.ANIM_rangedAttack(Mouse_Action)
-#	else:
-#		print("clicked outside")
-	pass
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Victory Conditions ~~~~~~~~~~~~~
@@ -604,3 +565,8 @@ func StandardVictory(): #Si un camp n'a plus d'unite, l'autre gagne.
 #	pass
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+func NothingTWEEN(a,b):
+	print("Tween completed ", a, " ", b)
+func NothingTIMER():
+	print("Timer completed")

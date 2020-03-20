@@ -14,7 +14,6 @@ var MOUSE : 	Node
 var TEMPORARY : Node
 
 var Action_position : Vector2
-#var Tile_position : Vector2
 
 func _ready():
 	getNodesfromTree()
@@ -30,7 +29,6 @@ func _process(delta):
 # warning-ignore:unused_argument
 func allowing_movement(Target_tile_position): # triggered by target tile
 	displacement_allowed = true
-	# TargetTile_Position = Target_tile_position
 
 func getNodesfromTree():
 	STATS = get_node("icon/Stats")
@@ -40,7 +38,6 @@ func getNodesfromTree():
 	TEMPORARY = get_node("Temporary")
 
 #=========================================
-
 func ANIM_rangedAttack(Target):
 	var arrow = load(str("res://Assets/TSCN/FightmodeEffects/", STATS.ARROW, ".tscn"))
 	arrow = arrow.instance()
@@ -88,12 +85,44 @@ func ANIM_MeleeAttack(Target_position):
 	# warning-ignore:return_value_discarded
 	TWEEN_REAP.connect("user_tween_completed", self, "removeArrow")
 	TWEEN_REAP.interpolate_property(Fauchage, 
-								"rotation", 
-								self.rotation, 
-								rotation_target, 
-								0.4, 
-								Tween.TRANS_LINEAR, 
-								Tween.EASE_OUT)
+									"rotation", 
+									self.rotation, 
+									rotation_target, 
+									0.4, 
+									Tween.TRANS_LINEAR, 
+									Tween.EASE_OUT)
+	TWEEN_REAP.start()
+
+func ANIM_CounterStrike(Target_position):
+	var Fauchage = load(str("res://Assets/TSCN/FightmodeEffects/Fauchage.tscn"))
+	Fauchage = Fauchage.instance()
+	add_child(Fauchage, true)
+	
+	if Target_position.x - self.global_position.x < 0:
+		get_node("icon").scale.x = -1
+	elif Target_position.x - self.global_position.x > 0:
+		get_node("icon").scale.x = 1
+	
+	var rotation_target : float
+	if get_node("icon").scale.x < 0:
+		Fauchage.scale = Vector2(-1, -1)
+		Fauchage.position = Vector2(-8, 0)
+		rotation_target = PI/2
+	else:
+		Fauchage.scale = Vector2(1, -1)
+		Fauchage.position = Vector2(8, 0)
+		rotation_target = -PI/2
+	
+	var TWEEN_REAP = Fauchage.get_node("Tween_Fauchage")
+	# warning-ignore:return_value_discarded
+	TWEEN_REAP.connect("user_tween_completed", self, "removeArrow")
+	TWEEN_REAP.interpolate_property(Fauchage,
+									"rotation",
+									self.rotation,
+									rotation_target,
+									0.2,
+									Tween.TRANS_LINEAR,
+									Tween.EASE_OUT)
 	TWEEN_REAP.start()
 
 # warning-ignore:unused_argument

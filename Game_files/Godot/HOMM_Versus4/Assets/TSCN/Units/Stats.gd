@@ -58,7 +58,7 @@ func _input(event):
 				get_node("/root/MainNode/Battlefield").add_child(info_panel, true)
 				var SelectedUnit : int
 				for i in TURN.Character_number:
-					if TURN.NAME[i] == NAME:
+					if TURN.CHARACTERS[i] == get_parent().get_parent():
 						SelectedUnit = i
 				info_panel.Fight_defineUnit(SelectedUnit)
 				info_panel.global_position = Fightmode_PanelPosition
