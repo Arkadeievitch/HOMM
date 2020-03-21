@@ -504,6 +504,7 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 						var CounterStrikeDmg = ceil(0.5*DAMAGE[DEFENDER]*NUMBER[DEFENDER])
 						TOTAL_HP[ATTACKER] = int(max(0,TOTAL_HP[ATTACKER] - CounterStrikeDmg))
 						NUMBER[ATTACKER] = int(ceil(float(float(TOTAL_HP[ATTACKER])/float(MAX_HP[ATTACKER]))))
+						CHARACTERS[ATTACKER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[ATTACKER])
 						print(NAME[DEFENDER], " counter-strikes : ", CounterStrikeDmg, " damages")
 						COUNTERSTRIKE_READY[DEFENDER] = false
 					else:
