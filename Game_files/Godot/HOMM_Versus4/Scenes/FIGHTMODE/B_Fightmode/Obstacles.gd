@@ -12,16 +12,16 @@ func Draw_Obstacles(Tile_number, Tile_Scene):
 	var random_integer_x
 	var random_integer_y
 	var random_sec = OS.get_time().second
+	var random_min = OS.get_time().minute
 	
 	for i in Tile_number:
 		if get_child_count()>0:
-			random_integer_x = (randi()+random_sec) % (int(BoardResolution.x))
-			random_integer_y = (randi()+random_sec) % (int(BoardResolution.y))
-			
+			random_integer_x = (randi()+random_sec+random_min) % (int(BoardResolution.x))
+			random_integer_y = (randi()+random_sec+random_min) % (int(BoardResolution.y))
 			makeUniquePosition(random_integer_x, random_integer_y)
 		else:
-			random_integer_x = (randi()+random_sec) % (int(BoardResolution.x))
-			random_integer_y = (randi()+random_sec) % (int(BoardResolution.y))
+			random_integer_x = (randi()+random_sec+random_min) % (int(BoardResolution.x))
+			random_integer_y = (randi()+random_sec+random_min) % (int(BoardResolution.y))
 			
 			
 		var new_tile = Tile_Scene.instance()

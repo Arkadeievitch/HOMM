@@ -255,7 +255,6 @@ func retrieveStats():
 	FACTION 		= []
 	RANGED 			= []
 	ARROW  			= []
-	NUMBER  		= []
 	DAMAGE  		= []
 	DISPLACEMENT 	= []
 	INITIATIVE	 	= []
@@ -269,14 +268,16 @@ func retrieveStats():
 		FACTION.append(STATS[i].FACTION)
 		RANGED.append(STATS[i].RANGED)
 		ARROW.append(STATS[i].ARROW)
-		NUMBER.append(STATS[i].NUMBER)
 		DAMAGE.append(STATS[i].DAMAGE)
 		DISPLACEMENT.append(STATS[i].DISPLACEMENT)
 		INITIATIVE.append(STATS[i].INITIATIVE)
 		MAX_HP.append(STATS[i].MAX_HP)
-		TOTAL_HP.append(STATS[i].TOTAL_HP)
+		TOTAL_HP.append(MAX_HP[i]*NUMBER[i])
 		COUNTERSTRIKE_READY.append(true)
 		COUNTERSTRIKE_ALLOWED.append(true)
+		# Update counters
+		var Unit_Label = CHARACTERS[i].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label")
+		Unit_Label.text = str(NUMBER[i])
 		
 	Priorities = INITIATIVE.duplicate()
 
@@ -299,7 +300,7 @@ func activatePlayer():
 	FrontMOUSE.Current_Side = STATS[ActiveCharacter_index].SIDE
 	
 	updateTurnChronology()
-	
+
 func updateTurnChronology():
 	var CHRONOLOGY = get_node("/root/MainNode/Battlefield/UI/BottomMenu/Chronology")
 	var savePriorities = Priorities.duplicate()
@@ -485,7 +486,7 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				TOTAL_HP[DEFENDER] = int(max(0,TOTAL_HP[DEFENDER] - Damage_taken))
 				NUMBER[DEFENDER] = int(ceil(float(float(TOTAL_HP[DEFENDER])/float(MAX_HP[DEFENDER]))))
 				
-				CHARACTERS[DEFENDER].get_node("Unit_Counter/ColorRect/Label").text = String(NUMBER[DEFENDER])
+				CHARACTERS[DEFENDER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[DEFENDER])
 				
 				var PopupDamages = load(DamagePopup_path)
 				PopupDamages = PopupDamages.instance()
@@ -493,14 +494,14 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				PopupDamages.rect_position = Vector2(-32, -36)
 				PopupDamages.text = str("-", Damage_taken)
 				
-				if NUMBER[DEFENDER] > 1:
+				if NUMBER[DEFENDER] > 0:
 					print(NUMBER[DEFENDER], " members left in ", NAME[DEFENDER], " unit")
 				
 					# CounterStrike
 					if (COUNTERSTRIKE_READY[Char_index] == true 
 					&& COUNTERSTRIKE_ALLOWED[Char_index] == true):
 						get_child(Char_index).ANIM_CounterStrike(CHARACTERS[ATTACKER].global_position)
-						var CounterStrikeDmg = ceil(0.25*DAMAGE[DEFENDER]*NUMBER[DEFENDER])
+						var CounterStrikeDmg = ceil(0.5*DAMAGE[DEFENDER]*NUMBER[DEFENDER])
 						TOTAL_HP[ATTACKER] = int(max(0,TOTAL_HP[ATTACKER] - CounterStrikeDmg))
 						NUMBER[ATTACKER] = int(ceil(float(float(TOTAL_HP[ATTACKER])/float(MAX_HP[ATTACKER]))))
 						print(NAME[DEFENDER], " counter-strikes : ", CounterStrikeDmg, " damages")
@@ -567,6 +568,8 @@ func StandardVictory(): #Si un camp n'a plus d'unite, l'autre gagne.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 func NothingTWEEN(a,b):
+	pass
 	print("Tween completed ", a, " ", b)
 func NothingTIMER():
+	pass
 	print("Timer completed")

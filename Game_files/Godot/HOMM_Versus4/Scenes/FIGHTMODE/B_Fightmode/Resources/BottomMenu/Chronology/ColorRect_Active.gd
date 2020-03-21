@@ -26,7 +26,7 @@ func updateActiveIcon(ActiveCharacter):
 		ActiveIcon.position = Vector2(80, 80)
 		ActiveIcon.scale = Vector2(2.5, 2.5)
 		
-		self.color = TURN.get_child(ActiveCharacter).get_node("Unit_Counter").color
+		self.color = TURN.get_child(ActiveCharacter).get_node("Unit_Counter/UnitCounterColor").color
 
 func removeChildren():
 	if get_child_count() > 0 :

@@ -65,10 +65,13 @@ func setUnitsOnBattlefield(Army, Heroes):
 	var Units = Army[0]
 	var Side
 	
+	# Unit counter
 	for i in Army[1].size():
 		if Army[1][i] < 1:
 			Units.remove(i)
 			Unit_number = Units.size()
+		else:
+			TURN.NUMBER.append(Army[1][i])
 	
 	for i in Unit_number:
 		var unit_path = str("res://Assets/TSCN/Units/", Units[i], "/", Units[i], ".tscn")
