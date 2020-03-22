@@ -1,18 +1,22 @@
 extends Node
 
-var Obstacle1 = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/Plaine/OBS_Plaine1.tscn")
-
 var BoardResolution = Vector2(10, 6)
-export var Obstacle1_number : int = 2
 
-func _ready():
-	Draw_Obstacles(Obstacle1_number, Obstacle1)
+func load_OBS(BF_name, OBS_number):
+	var OBS_path = str("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/", BF_name)
+	var Obstacle = load(str(OBS_path, "/OBS_", BF_name, OBS_number, ".tscn"))
+	return Obstacle
 
-func Draw_Obstacles(Tile_number, Tile_Scene):
+func Draw_ALLObstacles(BF_name, Tile_number):
+	Draw_Obstacle(BF_name, Tile_number, 1)
+
+func Draw_Obstacle(BF_name, Tile_number, OBS_number):
 	var random_integer_x
 	var random_integer_y
 	var random_sec = OS.get_time().second
 	var random_min = OS.get_time().minute
+	
+	var Tile_Scene = load_OBS(BF_name, OBS_number)
 	
 	for i in Tile_number:
 		if get_child_count()>0:

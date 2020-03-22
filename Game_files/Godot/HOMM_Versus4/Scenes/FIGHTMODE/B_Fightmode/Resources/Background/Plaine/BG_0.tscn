@@ -2,7 +2,5 @@
 
 [ext_resource path="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Background/Plaine/Grass0.png" type="Texture" id=1]
 
-
-
 [node name="BG_Grass0" type="Sprite"]
 texture = ExtResource( 1 )
