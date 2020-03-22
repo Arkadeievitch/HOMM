@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex"
+path="res://.import/Church.png-b07777aad1c2d9917fcfae03f1b08efe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/Plaine/OBS_Plaine1_64x64.png"
-dest_files=[ "res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex" ]
+source_file="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Icones_Terrains/Church.png"
+dest_files=[ "res://.import/Church.png-b07777aad1c2d9917fcfae03f1b08efe.stex" ]
 
 [params]
 

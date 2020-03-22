@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex"
+path="res://.import/Plaine.png-e2f9bb286790e4ce698cd2d6dc940662.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/Plaine/OBS_Plaine1_64x64.png"
-dest_files=[ "res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex" ]
+source_file="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Icones_Terrains/Plaine.png"
+dest_files=[ "res://.import/Plaine.png-e2f9bb286790e4ce698cd2d6dc940662.stex" ]
 
 [params]
 

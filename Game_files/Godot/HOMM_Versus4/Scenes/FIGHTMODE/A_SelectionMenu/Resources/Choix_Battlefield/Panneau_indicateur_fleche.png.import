@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex"
+path="res://.import/Panneau_indicateur_fleche.png-24424b47f4523b1b536a2809c95a03b6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/FIGHTMODE/B_Fightmode/Resources/Obstacles/Plaine/OBS_Plaine1_64x64.png"
-dest_files=[ "res://.import/OBS_Plaine1_64x64.png-329a79fed67126351a72aff5931adcb3.stex" ]
+source_file="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Panneau_indicateur_fleche.png"
+dest_files=[ "res://.import/Panneau_indicateur_fleche.png-24424b47f4523b1b536a2809c95a03b6.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
