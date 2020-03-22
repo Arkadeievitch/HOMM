@@ -13,14 +13,17 @@ func changeSelectiontoFightmode():
 	var ARMY2_INFOS = InfosFromSelection[1]
 	var Heroes1 = InfosFromSelection[2]
 	var Heroes2 = InfosFromSelection[3]
+	var Battlefield = InfosFromSelection[4]
 	
 	FightInformations = [ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2]
-	load_Fightmode(ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2)
+	load_Fightmode(Battlefield, ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2)
 
 func saveInfoFromSelection():
 	var SELECTIONMENU = get_node("/root/MainNode/SelectionMenu")
-	var TABLE1 = SELECTIONMENU.get_child(0)
-	var TABLE2 = SELECTIONMENU.get_child(1)
+	var BATTLEFIELD = SELECTIONMENU.ChosenBattlefield
+	
+	var TABLE1 = SELECTIONMENU.get_node("Table_Player1")
+	var TABLE2 = SELECTIONMENU.get_node("Table_Player2")
 	var ARMY1 = TABLE1.get_node("Heroes/AllHeroesScene").get_child(0).get_node("defaultArmy")
 	var ARMY2 = TABLE2.get_node("Heroes/AllHeroesScene").get_child(0).get_node("defaultArmy")
 	var HEROES1 = TABLE1.get_node("Heroes/AllHeroesScene").get_child(0).name
@@ -50,7 +53,7 @@ func saveInfoFromSelection():
 			ARMY2_infos[3] = false
 		ARMY2_infos[4] = ARMY2.get_node("Label_Unit1/Unit_BG").ChosenColor
 	
-	return [ARMY1_infos, ARMY2_infos, HEROES1, HEROES2]
+	return [ARMY1_infos, ARMY2_infos, HEROES1, HEROES2, BATTLEFIELD]
 
 func setUnitsOnBattlefield(Army, Heroes):
 	
@@ -129,11 +132,16 @@ func load_Selection_Menu():	# appel bouton
 	
 	yield(get_tree(), "idle_frame")
 	if get_child_count() > 0:
-		var BUTTON_ENGAGE = get_node("SelectionMenu/Button_Engage")
+		var BUTTON_ENGAGE = get_node("SelectionMenu/Button_Engage/Button_Engage")
 		BUTTON_ENGAGE.connect("Engaged_pressed", self, "changeSelectiontoFightmode")
 
-func load_Fightmode(Army1, Army2, Heroes1, Heroes2):
+func load_Fightmode(Battlefield, Army1, Army2, Heroes1, Heroes2):
+	
 	changeScene(Battlefield_path)
+	
+	# Draw background and obstacles
+	get_node("Battlefield/Background").Draw_Background(Battlefield)
+	get_node("Battlefield/Obstacles").Draw_ALLObstacles(Battlefield, 2)
 	
 	setUnitsOnBattlefield(Army1, Heroes1)
 	setUnitsOnBattlefield(Army2, Heroes2)
