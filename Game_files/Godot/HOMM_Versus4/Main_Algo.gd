@@ -121,7 +121,7 @@ func setUnitsOnBattlefield(Army, Heroes):
 		heroes.scale = Vector2(-1.5, 1.5)/0.75
 		get_node("Battlefield/UI/Border_Heroes_R/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
 
-func load_Selection_Menu():	# appel bouton
+func load_Selection_Menu(): # appel bouton
 	if get_child_count() > 0:
 		changeScene(SelectionMenu_path)
 	else:

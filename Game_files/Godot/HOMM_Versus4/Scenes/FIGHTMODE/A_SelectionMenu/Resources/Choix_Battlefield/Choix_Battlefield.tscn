@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Panneau_indicateur_fleche.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Fonts/Theme_BigAugusta80.tres" type="Theme" id=3]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Choix_Battlefield.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Icones_Terrains/Church_vitrail_128x128.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Icones_Terrains/Plaine.png" type="Texture" id=5]
 
 [node name="Choix_Battlefield" type="Sprite"]
 position = Vector2( 0, 92.5 )
@@ -60,8 +60,8 @@ script = ExtResource( 4 )
 [node name="BG_Choix_Battlefield" type="Sprite" parent="."]
 modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
 show_behind_parent = true
-position = Vector2( 0, -181.368 )
-scale = Vector2( 4, 4 )
+position = Vector2( 32, -165.972 )
+scale = Vector2( 3.5, 3.60809 )
 texture = ExtResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="."]

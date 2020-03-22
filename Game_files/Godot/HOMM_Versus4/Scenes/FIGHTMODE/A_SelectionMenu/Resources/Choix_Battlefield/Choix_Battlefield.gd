@@ -15,9 +15,14 @@ func _input(event):
 		if (abs(get_global_mouse_position().x-Center_GlobalPosition.x) < self.rect_size.x/2
 		&& abs(get_global_mouse_position().y-Center_GlobalPosition.y) < self.rect_size.y/2):
 			self.modulate = Color(1,1,1,1)
+			
+			var Texture_path = str("res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Icones_Terrains/", self.name, ".png")
+			get_parent().get_node("BG_Choix_Battlefield").texture = load(Texture_path)
+			
 			emit_signal("Battlefield_chosen", self.name)
 		else:
-			var Panel_CenterPosition = get_parent().global_position
-			if (abs(get_global_mouse_position().x-Panel_CenterPosition.x) < 128
-			&& abs(get_global_mouse_position().y-Panel_CenterPosition.y) < 240):
+			var SELECTION_ZONE = get_parent().get_node("SelectionZone")
+			var Panel_CenterPosition = SELECTION_ZONE.rect_global_position + SELECTION_ZONE.rect_size/2
+			if (abs(get_global_mouse_position().x-Panel_CenterPosition.x) < SELECTION_ZONE.rect_size.x/2
+			&& abs(get_global_mouse_position().y-Panel_CenterPosition.y) < SELECTION_ZONE.rect_size.y/2):
 				self.modulate = Color(1,1,1,0.5)
