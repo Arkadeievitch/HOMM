@@ -144,14 +144,15 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 			for i in Character_number:
 				if Active_turn[i] == false:
 					_PassiveAction(Mouse_ActionTarget, Mouse_TileTarget, i)
-					if NUMBER[i] == 0 :
-						Dead_index.append(i)
-						apply_death = true
 			
 			# 3 / End active player turn
 			for i in Character_number:
 				if Active_turn[i] == true:
 					endAction(i)
+				
+				if NUMBER[i] == 0 :
+					Dead_index.append(i)
+					apply_death = true
 			
 			if apply_death == true: # DEAD CHARACTER
 				if Dead_index.size() == 1:
