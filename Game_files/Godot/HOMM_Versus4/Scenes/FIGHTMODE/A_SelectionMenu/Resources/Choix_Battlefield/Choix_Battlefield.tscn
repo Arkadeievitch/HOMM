@@ -12,8 +12,8 @@ scale = Vector2( 1, 1.03933 )
 texture = ExtResource( 1 )
 
 [node name="ChoixBF_poteau2" type="Sprite" parent="."]
-position = Vector2( 0, -181.368 )
-scale = Vector2( 1, 0.345946 )
+position = Vector2( 0, -173.67 )
+scale = Vector2( 1, 0.432438 )
 texture = ExtResource( 1 )
 
 [node name="ChoixBF_poteau3" type="Sprite" parent="."]

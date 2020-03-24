@@ -21,6 +21,7 @@ var STATS = 	 []
 var TEMPORARY =  []
 var TWEEN = 	 Node
 var TIMER : Node
+var MACARON : Node
 
 var Control_oneTurn : 		bool = false
 var ActiveCharacterPlayed : bool = false
@@ -106,6 +107,7 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 
 #==============================================================
 func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
+	MACARON.Ranged_playing = false
 	MOUSE.Mouse_Inhibition = true
 	MouseActionTarget = Mouse_ActionTarget  # Permet uniquement de passer la position
 											# dans une variable globale 
@@ -235,6 +237,7 @@ func retrieveNodes():
 	TWEEN = get_parent().get_node("Tween")
 	MAIN = get_node("/root/MainNode")
 	TIMER = get_node("/root/MainNode/Battlefield/Timer")
+	MACARON = get_parent().get_node("UI/BottomMenu/Macaron")
 	
 	CHARACTERS = []
 	CHARACTERS = get_children()
@@ -299,6 +302,13 @@ func activatePlayer():
 	get_child(ActiveCharacter_index).active_turn = true
 	drawDisplacementTiles(ActiveCharacter_index)
 	FrontMOUSE.Current_Side = STATS[ActiveCharacter_index].SIDE
+	
+	# Update Macaron
+	var MACARON_RANGE : Node = get_parent().get_node("UI/BottomMenu/Macaron/MacaronFond_Distance/Macaron_Distance")
+	if RANGED[ActiveCharacter_index] ==true:
+		MACARON_RANGE.modulate = Color(1,1,1,1)
+	else:
+		MACARON_RANGE.modulate = Color(0.4,0.4,0.4,1)
 	
 	updateTurnChronology()
 
@@ -450,14 +460,17 @@ func drawDisplacementTiles(Char_index):
 							new_tile.queue_free()
 	else:
 		print("DISPLACEMENT = 0")
-		
+	
+	# Marqueur d'attaque à distance
 	if STATS[Char_index].RANGED == true :
 		var Ranged_Tile = load(Ranged_Tile_path)
+		MACARON.Ranged_playing = true
 		for i in Character_number:
 			if SIDE[i] != SIDE[Char_index]:
 				new_tile = Ranged_Tile.instance()
 				CHARACTERS[i].add_child(new_tile, true)
 				new_tile.modulate = Color(0, 0, 1, .9)
+				
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # === NOT PLAYING CHARACTERS ===

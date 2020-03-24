@@ -83,8 +83,8 @@ func _input(event):
 func panel_position():
 	if has_node("/root/MainNode/Battlefield"):
 		if SIDE == 1:
-			Fightmode_PanelPosition = Vector2(32, 616)
+			Fightmode_PanelPosition = Vector2(32, 520)
 		elif SIDE == 2:
-			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 616)
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 520)
 		else:
-			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 616)
+			Fightmode_PanelPosition = Vector2(get_viewport().size.x-224, 520)

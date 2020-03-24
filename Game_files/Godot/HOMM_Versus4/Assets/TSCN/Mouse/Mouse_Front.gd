@@ -3,6 +3,8 @@ extends Sprite
 var TURN : Node
 var Character_number : int
 var Current_Side : int
+var found_target : bool
+var Target_index : int
 
 func _ready():
 	yield(get_tree(), "idle_frame")
@@ -20,7 +22,7 @@ func _input(event):
 # Déclenche l'animation et la rotation du curseur s'il pointe un adversaire
 # warning-ignore:unused_argument
 func _process(delta):
-	var found_target : bool = false
+	found_target = false
 	
 	for i in Character_number:
 		var Character = TURN.get_child(i)
@@ -30,6 +32,7 @@ func _process(delta):
 			&& abs(self.global_position.y - Character.global_position.y) < 45):
 				if Character.get_node("icon/Stats").SIDE != Current_Side:
 					found_target = true
+					Target_index = i
 					get_parent().Rotation_Pointeur(Character.global_position)
 					break
 	if found_target ==false:
