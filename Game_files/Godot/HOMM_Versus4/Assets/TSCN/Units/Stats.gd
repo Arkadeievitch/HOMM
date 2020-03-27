@@ -62,23 +62,27 @@ func _input(event):
 						SelectedUnit = i
 				info_panel.Fight_defineUnit(SelectedUnit)
 				info_panel.global_position = Fightmode_PanelPosition
-					
-		elif has_node("/root/MainNode/SelectionMenu"):
-			
+
+# warning-ignore:unused_argument
+func _process(delta):
+	if has_node("/root/MainNode/SelectionMenu"):
+		if (abs(MOUSE_MENU.global_position.x - self.global_position.x) <= 32
+		&& abs(MOUSE_MENU.global_position.y - self.global_position.y) <= 32):
+			generatePanel_Selection()
+		else:
 			if get_child_count()>0:
 				for i in get_child_count():
 					get_child(i).queue_free()
-		
-			if (abs(MOUSE_MENU.global_position.x - self.global_position.x) <= 32
-			&& abs(MOUSE_MENU.global_position.y - self.global_position.y) <= 32):
-				var info_panel = Information_Panel.instance()
-				add_child(info_panel, true)
-				info_panel.Menu_defineUnit(self)
-				if self.global_position.x - get_viewport().size.x/2 < 0 :
-					info_panel.position = Vector2(56, -64)
-				else:
-					info_panel.scale.x = -1
-					info_panel.position = Vector2(248, -64)
+
+func generatePanel_Selection():
+	var info_panel = Information_Panel.instance()
+	add_child(info_panel, true)
+	info_panel.Menu_defineUnit(self)
+	if self.global_position.x - get_viewport().size.x/2 < 0 :
+		info_panel.position = Vector2(56, -64)
+	else:
+		info_panel.scale.x = -1
+		info_panel.position = Vector2(248, -64)
 
 func panel_position():
 	if has_node("/root/MainNode/Battlefield"):

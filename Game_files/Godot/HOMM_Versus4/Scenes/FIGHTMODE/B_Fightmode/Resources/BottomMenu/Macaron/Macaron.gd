@@ -71,9 +71,9 @@ func _process(delta):
 		if MAC_MELEE.position.y <= -150:
 			MAC_LABEL_COUNTER.text = ""
 			MAC_LABEL.text = ""
-			MAC_MELEE.get_node("AnimPlayer_MacMelee").play_backwards("Activation",-2)
+			MAC_MELEE.get_node("AnimPlayer_MacMelee").play_backwards("Activation",-4)
 			Macaron_occupe_melee = false
-		
+	
 	if (MOUSE_FRONT.found_target==true 
 		&& Ranged_playing == true 
 		&& Macaron_occupe_melee ==false
@@ -97,7 +97,7 @@ func _process(delta):
 		if MAC_RANGE.position.x == 128:
 			MAC_LABEL.text = ""
 			MAC_LABEL_COUNTER.text = ""
-			MAC_RANGE.get_node("AnimPlayer_MacRange").play_backwards("Activation",-2)
+			MAC_RANGE.get_node("AnimPlayer_MacRange").play_backwards("Activation",-4)
 			Macaron_occupe_range = false
 	
 	TargetTileGenerated = false

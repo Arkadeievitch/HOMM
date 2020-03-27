@@ -160,14 +160,11 @@ func SetFactionFlag():
 	FactionFlag = FactionFlag.instance()
 	
 	if has_node("/root/MainNode/SelectionMenu"):
-		var TABLE_PLAYER : Node
 		if self.global_position.x < get_viewport().size.x/2:
-			TABLE_PLAYER = get_node("/root/MainNode/SelectionMenu/Table_Player1")
-			TABLE_PLAYER.add_child(FactionFlag)
-			FactionFlag.scale = Vector2(0.25,0.25)
-			FactionFlag.position = Vector2(-118,-128)
+			self.add_child(FactionFlag)
+			FactionFlag.scale = Vector2(0.14,0.14)
+			FactionFlag.position = Vector2(0,-76)
 		else:
-			TABLE_PLAYER = get_node("/root/MainNode/SelectionMenu/Table_Player2")
-			TABLE_PLAYER.add_child(FactionFlag)
-			FactionFlag.scale = Vector2(-0.25,0.25)
-			FactionFlag.position = Vector2(-118,-128)
+			self.add_child(FactionFlag)
+			FactionFlag.scale = Vector2(0.14,0.14)
+			FactionFlag.position = Vector2(0,-76)

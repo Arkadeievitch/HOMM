@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Door_HeroesSelection.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Heroes.gd" type="Script" id=2]
@@ -9,10 +9,12 @@
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Label_Player.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Fonts/Theme_SmallChalk.tres" type="Theme" id=8]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Button_Heroes.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ButtonHeroes_Label.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Door_HeroesSelection_Fond.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Heroes_Fond.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ButtonHeroes_Label.gd" type="Script" id=12]
 
 [node name="Table_Player" type="Sprite"]
-position = Vector2( 288, 352 )
+position = Vector2( 287.185, 352 )
 scale = Vector2( 0.900514, 1 )
 z_index = 1
 texture = ExtResource( 1 )
@@ -55,13 +57,19 @@ text = "Hire here"
 clip_text = true
 script = ExtResource( 9 )
 
+[node name="Heroes_Fond" type="Sprite" parent="Label_Player"]
+position = Vector2( 62.1024, 353.295 )
+scale = Vector2( 1.00565, 1.00506 )
+texture = ExtResource( 10 )
+script = ExtResource( 11 )
+
 [node name="ButtonHeroes_Label" type="Label" parent="Label_Player"]
-margin_left = -50.0
+margin_left = -53.0
 margin_top = 128.0
-margin_right = 173.0
-margin_bottom = 590.0
+margin_right = 177.0
+margin_bottom = 593.0
 text = "Hire
 here"
 align = 1
 valign = 1
-script = ExtResource( 10 )
+script = ExtResource( 12 )

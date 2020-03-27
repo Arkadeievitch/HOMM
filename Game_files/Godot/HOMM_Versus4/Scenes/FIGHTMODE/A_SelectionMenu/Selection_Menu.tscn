@@ -16,6 +16,7 @@ margin_bottom = -144.0
 script = ExtResource( 1 )
 
 [node name="Remplissages" type="Node2D" parent="."]
+editor/display_folded = true
 z_index = 2
 
 [node name="ColorRect_AboveDoor" type="ColorRect" parent="Remplissages"]
@@ -105,8 +106,6 @@ position = Vector2( 704, 144 )
 [node name="Table_Player2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1120, 352 )
 scale = Vector2( -0.901, 1 )
-
-[node name="Fond" type="Sprite" parent="."]
 
 [node name="Mouse_Cursor" parent="." instance=ExtResource( 5 )]
 z_index = 50

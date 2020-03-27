@@ -299,6 +299,7 @@ func activatePlayer():
 		ActiveCharacter_index = 0
 	
 	Active_turn[ActiveCharacter_index] = true
+	COUNTERSTRIKE_READY[ActiveCharacter_index] = true
 	get_child(ActiveCharacter_index).active_turn = true
 	drawDisplacementTiles(ActiveCharacter_index)
 	FrontMOUSE.Current_Side = STATS[ActiveCharacter_index].SIDE
@@ -323,8 +324,6 @@ func PrepareNextTurn(Char_index):
 		Count_Turn_number += 1
 		var TurnLabel = get_parent().get_node("UI/BottomMenu/Label_Turn")
 		TurnLabel.text = str(" Turn ", Count_Turn_number)
-		for i in Character_number:
-			COUNTERSTRIKE_READY[i] = true
 	print(" ")
 	print("--- Turn ", Count_Turn_number, " (Unit ", underTurn, "/", Character_number,") ---")
 	

@@ -1,4 +1,4 @@
-extends ColorRect
+extends Position2D
 
 # warning-ignore:unused_argument
 func _input(event):
