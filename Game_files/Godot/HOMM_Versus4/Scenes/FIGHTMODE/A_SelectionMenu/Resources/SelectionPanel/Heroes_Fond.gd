@@ -3,14 +3,8 @@ extends Sprite
 var ChosenColor
 
 func _ready():
-	
-	if get_parent().rect_global_position.x < get_viewport().size.x/2:
-		pass
-	else:
-		self.global_position.x = self.global_position.x-4
-	
 	if  has_node("/root/MainNode/SelectionMenu/") == true:
-		var SCROLLBAR = get_parent().get_parent().get_node("Color_ScrollBar")
+		var SCROLLBAR = get_parent().get_parent().get_parent().get_node("Color_ScrollBar")
 		SCROLLBAR.connect("value_changed", self, "changeColor")
 		changeColor(SCROLLBAR.value)
 

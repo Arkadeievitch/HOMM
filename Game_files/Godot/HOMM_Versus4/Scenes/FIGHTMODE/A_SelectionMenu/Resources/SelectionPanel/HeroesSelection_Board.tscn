@@ -1,73 +1,83 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Door_HeroesSelection.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Heroes.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Fonts/Theme_MediumChalk.tres" type="Theme" id=3]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Check_IA_Player.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ColorSelection/Color_ScrollBar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Theme_MediumChalk.tres" type="Theme" id=6]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Label_Player.gd" type="Script" id=7]
-[ext_resource path="res://Assets/Fonts/Theme_SmallChalk.tres" type="Theme" id=8]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Button_Heroes.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Heroes.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/Theme_MediumChalk.tres" type="Theme" id=2]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Check_IA_Player.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ColorSelection/Color_ScrollBar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Theme_MediumChalk.tres" type="Theme" id=5]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Label_Player.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Fonts/Theme_SmallChalk.tres" type="Theme" id=7]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Button_Heroes.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Door_HeroesSelection_v4.png" type="Texture" id=9]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Door_HeroesSelection_Fond.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/Heroes_Fond.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/ButtonHeroes_Label.gd" type="Script" id=12]
 
-[node name="Table_Player" type="Sprite"]
-position = Vector2( 287.185, 352 )
-scale = Vector2( 0.900514, 1 )
-z_index = 1
-texture = ExtResource( 1 )
+[node name="Table_Player" type="Position2D"]
+
+[node name="Table_Player_Fond" type="ColorRect" parent="."]
+margin_right = 736.0
+margin_bottom = 864.0
+rect_scale = Vector2( 0.8, 0.9 )
+color = Color( 0.498039, 0.498039, 0.498039, 1 )
 
 [node name="Heroes" type="Node2D" parent="."]
-position = Vector2( -125.679, -64 )
+position = Vector2( 232, 384 )
 z_index = 5
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 
 [node name="Check_IA_Player" type="CheckButton" parent="."]
-margin_left = 71.0705
-margin_top = -224.0
-margin_right = 213.071
-margin_bottom = -160.0
-theme = ExtResource( 3 )
+margin_left = 403.06
+margin_top = 208.0
+margin_right = 571.06
+margin_bottom = 272.0
+theme = ExtResource( 2 )
 text = "Bot"
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
-[node name="Color_ScrollBar" parent="." instance=ExtResource( 5 )]
+[node name="Color_ScrollBar" parent="." instance=ExtResource( 4 )]
+margin_left = 432.0
+margin_top = 128.0
+margin_right = 538.0
+margin_bottom = 192.0
 
 [node name="Label_Player" type="Label" parent="."]
-margin_left = -178.0
-margin_top = -320.0
-margin_right = -36.0
-margin_bottom = -256.0
-theme = ExtResource( 6 )
+margin_left = 144.0
+margin_top = 64.0
+margin_right = 286.0
+margin_bottom = 128.0
+theme = ExtResource( 5 )
 text = "Player"
 align = 1
 valign = 1
-script = ExtResource( 7 )
+script = ExtResource( 6 )
 
 [node name="Button_Heroes" type="Button" parent="Label_Player"]
-visible = false
 margin_left = -50.0
 margin_top = 190.0
 margin_right = 173.0
 margin_bottom = 590.0
-theme = ExtResource( 8 )
+theme = ExtResource( 7 )
 text = "Hire here"
 clip_text = true
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 
-[node name="Heroes_Fond" type="Sprite" parent="Label_Player"]
-position = Vector2( 62.1024, 353.295 )
-scale = Vector2( 1.00565, 1.00506 )
+[node name="HeroesSelectionDoor" type="Sprite" parent="Label_Player"]
+position = Vector2( 66.4, 336 )
+scale = Vector2( 0.6, 0.54 )
+texture = ExtResource( 9 )
+
+[node name="Heroes_Fond" type="Sprite" parent="Label_Player/HeroesSelectionDoor"]
+position = Vector2( 0, 8 )
+scale = Vector2( 0.95, 0.97 )
 texture = ExtResource( 10 )
 script = ExtResource( 11 )
 
 [node name="ButtonHeroes_Label" type="Label" parent="Label_Player"]
-margin_left = -53.0
-margin_top = 128.0
-margin_right = 177.0
-margin_bottom = 593.0
+margin_left = -80.0
+margin_top = 240.0
+margin_right = 208.0
+margin_bottom = 624.0
 text = "Hire
 here"
 align = 1

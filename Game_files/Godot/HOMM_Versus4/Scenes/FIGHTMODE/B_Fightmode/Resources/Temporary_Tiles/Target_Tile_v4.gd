@@ -18,6 +18,13 @@ func _ready():
 	self.connect("movement_allowed", MACARON, "Target_Tile")
 	
 	MOUSE.Tile_position = self.global_position
+	if (get_parent().modulate[0] - 0.25 < 0.05
+	&& get_parent().modulate[1] - 0.8 < 0.05
+	&& get_parent().modulate[2] - 0.25 < 0.05
+	&& get_parent().modulate[3] - 0.9 < 0.05):
+		self.modulate = Color(0,0,1,1)
+	else:
+		self.modulate = Color(0,1,0,1)
 
 # warning-ignore:unused_argument
 func _process(delta):

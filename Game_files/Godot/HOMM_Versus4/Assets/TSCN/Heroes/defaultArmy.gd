@@ -77,9 +77,9 @@ func HeroesSelected():
 		
 		var TableHeroesNode = get_parent().get_parent().get_parent()
 		if HeroesIcon.global_position.x < get_viewport().size.x/2:
-			HeroesIcon.global_position = TableHeroesNode.global_position + Vector2(8, 96)
+			HeroesIcon.global_position = TableHeroesNode.global_position + Vector2(-22, 96)
 		else:
-			HeroesIcon.global_position = TableHeroesNode.global_position + Vector2(-8, 96)
+			HeroesIcon.global_position = TableHeroesNode.global_position + Vector2(-2, 96)
 		
 		# Generate the army report
 		GenerateArmySummary(Unit_names, Unit_counters)
@@ -111,9 +111,9 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 		new_child.rect_scale = Vector2(0.5, 0.5)
 		
 		if get_parent().global_position.x < get_viewport().size.x/2:
-			new_child.rect_global_position = TableHeroesNode.global_position+Vector2(224, 80*i)
+			new_child.rect_global_position = TableHeroesNode.global_position+Vector2(188+40, 80*i-32)
 		else:
-			new_child.rect_global_position = TableHeroesNode.global_position+Vector2(-288, 80*i)
+			new_child.rect_global_position = TableHeroesNode.global_position+Vector2(-288-24, 80*i-32)
 		
 		# Set Units Icons
 		var UnitIconPath = str("res://Assets/TSCN/Units/", output_Unit_names[i], "/icon.tscn") 
@@ -121,7 +121,7 @@ func GenerateArmySummary(input_Unit_names, input_Unit_counters):
 		# warning-ignore:void_assignment
 		var newIcon = UnitIconDisplayed.instance()
 		new_child.get_node("Unit_BG").add_child(newIcon, true)
-		newIcon.global_position = newIcon.global_position+Vector2(29, 32)
+		newIcon.global_position = newIcon.global_position+Vector2(32, 32)
 		
 		if get_parent().global_position.x < get_viewport().size.x/2:
 			newIcon.scale = Vector2(1, 1)
@@ -160,11 +160,6 @@ func SetFactionFlag():
 	FactionFlag = FactionFlag.instance()
 	
 	if has_node("/root/MainNode/SelectionMenu"):
-		if self.global_position.x < get_viewport().size.x/2:
-			self.add_child(FactionFlag)
-			FactionFlag.scale = Vector2(0.14,0.14)
-			FactionFlag.position = Vector2(0,-76)
-		else:
-			self.add_child(FactionFlag)
-			FactionFlag.scale = Vector2(0.14,0.14)
-			FactionFlag.position = Vector2(0,-76)
+		self.add_child(FactionFlag)
+		FactionFlag.scale = Vector2(0.12,0.12)
+		FactionFlag.position = Vector2(0,-110)

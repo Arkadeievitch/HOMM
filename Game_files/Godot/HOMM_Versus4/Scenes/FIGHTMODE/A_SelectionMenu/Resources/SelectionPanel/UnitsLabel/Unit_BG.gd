@@ -7,7 +7,7 @@ func _ready():
 	if get_parent().rect_global_position.x < get_viewport().size.x/2:
 		pass
 	else:
-		self.rect_global_position.x = self.rect_global_position.x-544
+		self.rect_global_position.x = self.rect_global_position.x-576
 	
 	if  (has_node("/root/MainNode/SelectionMenu/") == true 
 	|| has_node("/root/Table_Player/") == true):

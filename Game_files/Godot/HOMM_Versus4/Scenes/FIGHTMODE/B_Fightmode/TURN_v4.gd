@@ -423,6 +423,7 @@ func drawDisplacementTiles(Char_index):
 				TEMPORARY[Char_index].add_child(new_tile, true)
 				
 				new_tile.modulate = Color(TilesColor[0], TilesColor[1], TilesColor[2], .9)
+				new_tile.ModulateColor = Color(TilesColor[0], TilesColor[1], TilesColor[2], .9)
 				new_tile.position = Vector2(n*tile_size, 
 											m*tile_size)
 				

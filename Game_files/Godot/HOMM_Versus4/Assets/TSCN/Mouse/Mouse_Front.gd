@@ -1,4 +1,4 @@
-extends Sprite
+extends Position2D
 
 var TURN : Node
 var Character_number : int
@@ -32,11 +32,13 @@ func _process(delta):
 			&& abs(self.global_position.y - Character.global_position.y) < 45):
 				if Character.get_node("icon/Stats").SIDE != Current_Side:
 					found_target = true
+					get_parent().load_Redtexture()
 					Target_index = i
 					get_parent().Rotation_Pointeur(Character.global_position)
 					break
 	if found_target ==false:
 		get_parent().rotation = 0
+		get_parent().load_Standardtexture()
 			
 func updateTurn():
 	Character_number = TURN.get_child_count()

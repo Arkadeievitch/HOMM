@@ -1,7 +1,7 @@
 extends Button
 
 func _ready():
-	if get_parent().get_parent().scale.x < 0:
+	if self.rect_global_position.x > get_viewport().size.x/2:
 		self.rect_position.x = -48
 
 # warning-ignore:unused_argument
@@ -45,5 +45,5 @@ func HeroesSelection():
 	if self.rect_global_position.x < get_viewport().size.x/2:
 		HeroesBoard.global_position = Vector2(0, 0)
 	else:
-		HeroesBoard.global_position = Vector2(get_parent().get_parent().global_position.x-272-32, 0)
+		HeroesBoard.global_position = Vector2(get_viewport().size.x-768, 0)
 	self.text = ""

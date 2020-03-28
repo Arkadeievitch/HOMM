@@ -128,7 +128,7 @@ func load_Selection_Menu(): # appel bouton
 		var SelectionMenuNode = load(SelectionMenu_path).instance()
 		add_child(SelectionMenuNode, true)
 		
-		SelectionMenuNode.rect_global_position = Vector2(96, 64)
+#		SelectionMenuNode.rect_global_position = Vector2(96, 64)
 	
 	yield(get_tree(), "idle_frame")
 	if get_child_count() > 0:

@@ -2,8 +2,8 @@
 
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/SelectionMenu.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Choix_Battlefield/Choix_Battlefield.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Button_Engage/Button_Engage.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/HeroesSelection_Board.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/SelectionPanel/HeroesSelection_Board.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/FIGHTMODE/A_SelectionMenu/Resources/Button_Engage/Button_Engage.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/TSCN/Mouse/Mouse_Cursor.tscn" type="PackedScene" id=5]
 
 [node name="SelectionMenu" type="Control"]
@@ -20,39 +20,17 @@ z_index = 2
 
 [node name="ColorRect_AboveDoor" type="ColorRect" parent="Remplissages"]
 show_behind_parent = true
-margin_left = 576.0
+margin_left = 544.0
 margin_top = 16.0
-margin_right = 832.0
+margin_right = 862.0
 margin_bottom = 142.0
 color = Color( 0.494118, 0.494118, 0.494118, 1 )
 
-[node name="ColorRect_CloseGround" type="ColorRect" parent="Remplissages"]
-margin_left = -64.0
-margin_top = 712.0
-margin_right = 1472.0
-margin_bottom = 944.0
-color = Color( 0.505882, 0.447059, 0.301961, 1 )
-
-[node name="ColorRect_CloseGround_R" type="ColorRect" parent="Remplissages"]
-margin_left = 1313.0
-margin_top = 870.0
-margin_right = 1537.0
-margin_bottom = 1102.0
-rect_rotation = -45.0
-color = Color( 0.505882, 0.447059, 0.301961, 1 )
-
-[node name="ColorRect_CloseGround_L" type="ColorRect" parent="Remplissages"]
-margin_left = -64.0
-margin_top = 712.0
-margin_right = 160.0
-margin_bottom = 944.0
-rect_rotation = 45.0
-color = Color( 0.505882, 0.447059, 0.301961, 1 )
-
 [node name="ColorRect_Top" type="ColorRect" parent="Remplissages"]
-margin_left = -64.0
+editor/display_folded = true
+margin_left = -96.0
 margin_top = -80.0
-margin_right = 1472.0
+margin_right = 1504.0
 margin_bottom = 16.0
 color = Color( 0.266667, 0.184314, 0.0588235, 1 )
 
@@ -72,41 +50,64 @@ margin_bottom = 13.9999
 rect_rotation = 30.0
 color = Color( 0.266667, 0.184314, 0.0588235, 1 )
 
-[node name="ColorRect_R" type="ColorRect" parent="Remplissages"]
-show_behind_parent = true
-margin_left = 1408.0
-margin_top = -8.0
-margin_right = 1472.0
-margin_bottom = 712.0
-color = Color( 0.494118, 0.494118, 0.494118, 1 )
-
-[node name="ColorRect_L" type="ColorRect" parent="Remplissages"]
-show_behind_parent = true
-margin_left = -64.0
-margin_top = -8.0
-margin_bottom = 712.0
-color = Color( 0.494118, 0.494118, 0.494118, 1 )
-
-[node name="ColorRect_Bottom" type="ColorRect" parent="Remplissages"]
+[node name="ColorRect_CloseGround" type="ColorRect" parent="Remplissages"]
 margin_left = -96.0
-margin_top = 944.0
+margin_top = 712.0
 margin_right = 1504.0
-margin_bottom = 1008.0
+margin_bottom = 944.0
+color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_CloseGround_R" type="ColorRect" parent="Remplissages/ColorRect_CloseGround"]
+margin_left = 1377.05
+margin_top = 239.992
+margin_right = 1601.05
+margin_bottom = 471.992
+rect_rotation = -45.0
+color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_CloseGround_L" type="ColorRect" parent="Remplissages/ColorRect_CloseGround"]
+margin_left = 0.0487671
+margin_top = 81.9919
+margin_right = 224.049
+margin_bottom = 313.992
+rect_rotation = 45.0
+color = Color( 0.505882, 0.447059, 0.301961, 1 )
+
+[node name="ColorRect_Bottom" type="ColorRect" parent="Remplissages/ColorRect_CloseGround"]
+margin_top = 232.0
+margin_right = 1600.0
+margin_bottom = 296.0
 color = Color( 0.266667, 0.184314, 0.0588235, 1 )
+
+[node name="ColorRect_L" type="ColorRect" parent="Remplissages/ColorRect_CloseGround/ColorRect_Bottom"]
+margin_left = 576.0
+margin_top = -928.0
+margin_right = 640.0
+margin_bottom = -150.0
+color = Color( 0.494118, 0.494118, 0.494118, 1 )
+
+[node name="ColorRect_R" type="ColorRect" parent="Remplissages/ColorRect_CloseGround/ColorRect_Bottom"]
+show_behind_parent = true
+margin_left = 958.0
+margin_top = -928.0
+margin_right = 1022.0
+margin_bottom = -150.0
+color = Color( 0.494118, 0.494118, 0.494118, 1 )
 
 [node name="Choix_Battlefield" parent="." instance=ExtResource( 2 )]
 position = Vector2( 704, 592 )
 
-[node name="Button_Engage" parent="." instance=ExtResource( 3 )]
+[node name="Table_Player1" parent="." instance=ExtResource( 3 )]
+position = Vector2( -96, 16 )
+z_index = 5
+
+[node name="Table_Player2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1504, 16 )
+scale = Vector2( -1, 1 )
+z_index = 5
+
+[node name="Button_Engage" parent="." instance=ExtResource( 4 )]
 position = Vector2( 704, 144 )
-
-[node name="Table_Player1" parent="." instance=ExtResource( 4 )]
-position = Vector2( 287.51, 352 )
-scale = Vector2( 0.90153, 1 )
-
-[node name="Table_Player2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1120, 352 )
-scale = Vector2( -0.901, 1 )
 
 [node name="Mouse_Cursor" parent="." instance=ExtResource( 5 )]
 z_index = 50

@@ -1,5 +1,8 @@
 extends Sprite
 
+var Cursor_path = "res://Assets/TSCN/Mouse/Mouse_Cursor_v4_48x48.png"
+var RedCursor_path = "res://Assets/TSCN/Mouse/Mouse_Cursor_v4_48x48_agression.png"
+
 var rotating : bool = false
 var Tile_position : Vector2
 var Action_Position : Vector2
@@ -62,5 +65,9 @@ func Rotation_Pointeur(Character_position):
 
 # warning-ignore:unused_argument
 func Target_Tile(Target_Tile_position):
-#	TargetTilePresence = true
 	lastSaved_TargetPosition = Target_Tile_position
+
+func load_Redtexture():
+	self.texture = load(RedCursor_path)
+func load_Standardtexture():
+	self.texture = load(Cursor_path)

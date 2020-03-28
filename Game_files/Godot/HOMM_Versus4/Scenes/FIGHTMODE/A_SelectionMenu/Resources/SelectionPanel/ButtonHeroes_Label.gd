@@ -1,8 +1,4 @@
 extends Label
-
-func _ready():
-	if get_parent().get_parent().scale.x < 0:
-		self.rect_position.x = -48
 		
 # warning-ignore:unused_argument
 func _input(event):
