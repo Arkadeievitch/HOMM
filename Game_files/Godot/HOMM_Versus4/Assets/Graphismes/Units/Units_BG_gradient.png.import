@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Devil_64x64.png-74a03860c55cfd9d9b8f30ac6b226c35.stex"
+path="res://.import/Units_BG_gradient.png-66ac36945318de257b247e5519b49ad3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphismes/Units/Devil_64x64.png"
-dest_files=[ "res://.import/Devil_64x64.png-74a03860c55cfd9d9b8f30ac6b226c35.stex" ]
+source_file="res://Assets/Graphismes/Units/Units_BG_gradient.png"
+dest_files=[ "res://.import/Units_BG_gradient.png-66ac36945318de257b247e5519b49ad3.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
