@@ -7,10 +7,3 @@
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 NAME = "Cave"
-
-[node name="Container" type="PanelContainer" parent="."]
-show_behind_parent = true
-margin_left = -132.0
-margin_top = -130.0
-margin_right = 132.0
-margin_bottom = 131.0

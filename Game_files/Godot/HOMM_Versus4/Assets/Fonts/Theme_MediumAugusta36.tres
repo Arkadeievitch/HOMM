@@ -3,8 +3,7 @@
 [ext_resource path="res://Assets/Fonts/Augusta.ttf" type="DynamicFontData" id=1]
 
 [sub_resource type="DynamicFont" id=1]
-size = 58
-outline_color = Color( 0.988235, 0.988235, 0.988235, 1 )
+size = 36
 font_data = ExtResource( 1 )
 
 [resource]

@@ -7,10 +7,3 @@
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 NAME = "Inferno"
-
-[node name="Container" type="PanelContainer" parent="."]
-show_behind_parent = true
-margin_left = -135.0
-margin_top = -135.0
-margin_right = 135.0
-margin_bottom = 135.0

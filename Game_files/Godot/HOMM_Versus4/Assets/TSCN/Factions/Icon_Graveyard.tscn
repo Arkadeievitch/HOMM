@@ -1,16 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Assets/Graphismes/Factions/Graveyard_Standard.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Graphismes/Factions/Graveyard_Std_264x264.png" type="Texture" id=1]
 [ext_resource path="res://Assets/TSCN/Factions/Icon_Faction.gd" type="Script" id=2]
 
 [node name="Icon_Graveyard" type="Sprite"]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 NAME = "Graveyard"
-
-[node name="Container" type="PanelContainer" parent="."]
-show_behind_parent = true
-margin_left = -132.0
-margin_top = -131.0
-margin_right = 132.0
-margin_bottom = 131.0
