@@ -11,14 +11,12 @@ var Active_Border = load("res://Scenes/FIGHTMODE/B_Fightmode/Resources/Active_Bo
 
 var drawnTempoTiles : bool = false
 
-var TilesColor
+var TilesColor : Color
 
 var X_lowerLimit : int
 var X_upperLimit : int
 var Y_lowerLimit : int
 var Y_upperLimit : int
-
-#signal Temporary_finished
 
 func _ready():
 	TilesColor = Color(1,1,1,1) # valeur par défaut éditée par le Main
@@ -47,7 +45,6 @@ func getNodesfromTree():
 	TURN = get_node("/root/MainNode/Battlefield/Turn")
 	MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	BATTLEFIELD =  get_node("/root/MainNode/Battlefield/UI/Battlefield_Limits")
-
 
 func drawTempoDisplacementTiles():
 	var new_tile

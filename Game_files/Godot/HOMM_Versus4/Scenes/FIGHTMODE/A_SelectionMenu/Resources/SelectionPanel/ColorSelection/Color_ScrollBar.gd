@@ -3,6 +3,8 @@ extends HScrollBar
 var former_value
 var COLOR_NODE2
 
+signal ColorChanged
+
 func _ready():
 	if has_node("/root/MainNode/SelectionMenu/"):
 		if get_parent().name =="Table_Player1":
@@ -32,3 +34,4 @@ func _input(event):
 			else:
 				self.value -= 1
 		former_value = self.value
+		emit_signal("ColorChanged", self.value)
