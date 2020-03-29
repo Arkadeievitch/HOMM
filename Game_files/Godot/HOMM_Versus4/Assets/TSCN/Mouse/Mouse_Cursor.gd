@@ -10,10 +10,13 @@ var Mouse_Inhibition : bool = false
 
 var lastSaved_TargetPosition : Vector2
 
+var FRONT_MOUSE : Node
+
 signal mouse_clic
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	FRONT_MOUSE = get_node("Mouse_Front")
 
 # Cette variable est lue par les tuiles temporaires pour générer la 
 # tuile active  à l'avant ou l'arrière du curseur selon l'objet pointé.
@@ -36,8 +39,8 @@ func _input(event):
 	if (Input.is_action_just_pressed("ui_leftclic")
 		&& Mouse_Inhibition == false):
 		
-		if rotating==true:
-			Action_Position = get_node("Mouse_Front").global_position
+		if FRONT_MOUSE.found_target ==true:
+			Action_Position = FRONT_MOUSE.global_position
 			Tile_position = get_node("Mouse_Rear").global_position
 			lastSaved_TargetPosition = Vector2(0, 0)
 		else:
@@ -58,7 +61,7 @@ func Rotation_Pointeur(Character_position):
 			if sqrt(deltax*deltax + deltay*deltay) !=0:
 				Phi = -acos(-deltax/sqrt(deltax*deltax + deltay*deltay))
 			
-		Theta = PI/4 + Phi
+		Theta = PI/4 +  PI/4*round((Phi)/(PI/4))
 		self.rotation = Theta
 	else:
 		self.rotation = 0
