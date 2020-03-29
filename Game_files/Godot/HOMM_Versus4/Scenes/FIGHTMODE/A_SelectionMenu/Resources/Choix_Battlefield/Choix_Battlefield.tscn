@@ -22,35 +22,33 @@ scale = Vector2( 1, 0.297973 )
 texture = ExtResource( 1 )
 flip_v = true
 
-[node name="ChoixBF_fleche" type="Sprite" parent="."]
-modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
+[node name="ChoixBF_fleche_Top" type="Sprite" parent="."]
 position = Vector2( 16, -239.25 )
 scale = Vector2( 0.941176, 0.821084 )
 texture = ExtResource( 2 )
 
-[node name="ChoixBF_fleche2" type="Sprite" parent="."]
-modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
-position = Vector2( -18, -116.093 )
-scale = Vector2( 0.921569, 0.821083 )
-texture = ExtResource( 2 )
-flip_h = true
-
-[node name="Church" type="Label" parent="."]
-margin_left = -80.0
-margin_top = -275.924
-margin_right = 80.0
-margin_bottom = -206.924
+[node name="Church" type="Label" parent="ChoixBF_fleche_Top"]
+margin_left = -102.0
+margin_top = -45.0
+margin_right = 68.0
+margin_bottom = 42.0
 theme = ExtResource( 3 )
 text = "Church"
 align = 1
 valign = 1
 script = ExtResource( 4 )
 
-[node name="Plaine" type="Label" parent="."]
-margin_left = -80.0
-margin_top = -151.0
-margin_right = 76.0
-margin_bottom = -81.0
+[node name="ChoixBF_fleche_Bot" type="Sprite" parent="."]
+position = Vector2( -18, -116.093 )
+scale = Vector2( 0.921569, 0.821083 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="Plaine" type="Label" parent="ChoixBF_fleche_Bot"]
+margin_left = -67.0
+margin_top = -43.0
+margin_right = 102.0
+margin_bottom = 42.0
 theme = ExtResource( 3 )
 text = "Plaine"
 align = 1

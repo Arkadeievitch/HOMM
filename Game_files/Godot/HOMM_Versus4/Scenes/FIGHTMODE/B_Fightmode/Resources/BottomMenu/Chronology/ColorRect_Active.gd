@@ -27,6 +27,7 @@ func updateActiveIcon(ActiveCharacter):
 		ActiveIcon.scale = Vector2(2.5, 2.5)
 		
 		self.color = TURN.get_child(ActiveCharacter).get_node("Unit_Counter/UnitCounterColor").color
+		ActiveIcon.get_node("BG_Gradient").modulate = self.color
 
 func removeChildren():
 	if get_child_count() > 0 :

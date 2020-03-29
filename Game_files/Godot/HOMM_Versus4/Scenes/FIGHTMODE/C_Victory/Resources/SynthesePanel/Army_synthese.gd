@@ -37,8 +37,8 @@ func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
 		var UnitIconPath = str("res://Assets/TSCN/Units/", Unit_Names[i], "/icon.tscn") 
 		var UnitIconDisplayed = load(UnitIconPath)
 		# warning-ignore:void_assignment
-		new_child = UnitIconDisplayed.instance()
-		add_child(new_child, true)
+		var new_icon = UnitIconDisplayed.instance()
+		new_child.get_node("Unit_BG").add_child(new_icon, true)
 		
-		new_child.scale = Vector2(1, 1)
-		new_child.global_position = BG_position + Vector2(32, 32)
+		new_icon.scale = Vector2(1, 1)
+		new_icon.global_position = BG_position + Vector2(32, 32)

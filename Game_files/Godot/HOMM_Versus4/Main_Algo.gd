@@ -14,9 +14,11 @@ func changeSelectiontoFightmode():
 	var Heroes1 = InfosFromSelection[2]
 	var Heroes2 = InfosFromSelection[3]
 	var Battlefield = InfosFromSelection[4]
+	var Faction1 = InfosFromSelection[5]
+	var Faction2 = InfosFromSelection[6]
 	
-	FightInformations = [ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2]
-	load_Fightmode(Battlefield, ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2)
+	FightInformations = [ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2,  Faction1, Faction2]
+	load_Fightmode(Battlefield, ARMY1_INFOS, ARMY2_INFOS, Heroes1, Heroes2, Faction1, Faction2)
 
 func saveInfoFromSelection():
 	var SELECTIONMENU = get_node("/root/MainNode/SelectionMenu")
@@ -53,73 +55,10 @@ func saveInfoFromSelection():
 			ARMY2_infos[3] = false
 		ARMY2_infos[4] = ARMY2.get_node("Label_Unit1/Unit_BG").ChosenColor
 	
-	return [ARMY1_infos, ARMY2_infos, HEROES1, HEROES2, BATTLEFIELD]
-
-func setUnitsOnBattlefield(Army, Heroes):
+	var FACTION1 : String = ARMY1.get_child(0).name.right(5)
+	var FACTION2 : String = ARMY2.get_child(0).name.right(5)
 	
-	var BATTLEFIELD = get_node("Battlefield/UI/Battlefield_Limits")
-	
-	var X_lowerLimit = BATTLEFIELD.rect_global_position.x
-	var X_upperLimit = BATTLEFIELD.rect_global_position.x + BATTLEFIELD.rect_size.x
-	var Y_lowerLimit = BATTLEFIELD.rect_global_position.y
-	
-	var TURN = get_node("Battlefield/Turn")
-	var Unit_number = Army[0].size()
-	var Units = Army[0]
-	var Side
-	
-	# Unit counter
-	for i in Army[1].size():
-		if Army[1][i] < 1:
-			Units.remove(i)
-			Unit_number = Units.size()
-		else:
-			TURN.NUMBER.append(Army[1][i])
-	
-	for i in Unit_number:
-		var unit_path = str("res://Assets/TSCN/Units/", Units[i], "/", Units[i], ".tscn")
-		var new_unit = load(unit_path)
-		var CHARACTER = new_unit.instance()
-		TURN.add_child(CHARACTER, true)
-		
-		var STATS = CHARACTER.get_node("icon/Stats")
-		var TEMPORARY = CHARACTER.get_node("Temporary")
-		print(STATS.NAME) # controle du character
-		
-		Side = Army[2]
-		STATS.SIDE = Side
-		STATS.IA = Army[3]
-		STATS.NUMBER = Army[1][i]
-		
-		TEMPORARY.TilesColor = Army[4]
-		
-		if Side == 1:
-			CHARACTER.global_position.x = X_lowerLimit+64
-			CHARACTER.global_position.y = 128*i+Y_lowerLimit+32
-		elif Side == 2:
-			CHARACTER.global_position.x = X_upperLimit-64
-			CHARACTER.global_position.y = 128*i+Y_lowerLimit+32
-		else: # Par défaut, on aligne les unités en haut de l'écran.
-			CHARACTER.global_position.x = 256+64*i
-			CHARACTER.global_position.y = 0
-	
-	var HEROES = load(str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn")) # Placement du héros
-	if Side == 1:
-		var heroes = HEROES.instance()
-		get_node("Battlefield/UI/Border_Heroes_L").add_child(heroes, true)
-		heroes.global_position.y -= 12
-		heroes.z_index = 5
-		heroes.z_as_relative = false
-		heroes.scale = Vector2(1.5, 1.5)/0.75
-		get_node("Battlefield/UI/Border_Heroes_L/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
-	elif Side == 2:
-		var heroes = HEROES.instance()
-		get_node("Battlefield/UI/Border_Heroes_R").add_child(heroes, true)
-		heroes.global_position.y -= 12
-		heroes.z_index = 5
-		heroes.z_as_relative = false
-		heroes.scale = Vector2(-1.5, 1.5)/0.75
-		get_node("Battlefield/UI/Border_Heroes_R/Fond").modulate = Color(Army[4][0], Army[4][1], Army[4][2], 1)
+	return [ARMY1_infos, ARMY2_infos, HEROES1, HEROES2, BATTLEFIELD, FACTION1, FACTION2]
 
 func load_Selection_Menu(): # appel bouton
 	if get_child_count() > 0:
@@ -127,24 +66,26 @@ func load_Selection_Menu(): # appel bouton
 	else:
 		var SelectionMenuNode = load(SelectionMenu_path).instance()
 		add_child(SelectionMenuNode, true)
-		
-#		SelectionMenuNode.rect_global_position = Vector2(96, 64)
 	
 	yield(get_tree(), "idle_frame")
 	if get_child_count() > 0:
 		var BUTTON_ENGAGE = get_node("SelectionMenu/Button_Engage/Button_Engage")
 		BUTTON_ENGAGE.connect("Engaged_pressed", self, "changeSelectiontoFightmode")
 
-func load_Fightmode(Battlefield, Army1, Army2, Heroes1, Heroes2):
+func load_Fightmode(Battlefield, Army1, Army2, Heroes1, Heroes2, Faction1, Faction2):
 	
 	changeScene(Battlefield_path)
 	
-	# Draw background and obstacles
-	get_node("Battlefield/Background").Draw_Background(Battlefield)
-	get_node("Battlefield/Obstacles").Draw_ALLObstacles(Battlefield, 2)
+	get_node("Battlefield").Battlefield = Battlefield
+	get_node("Battlefield").Heroes1 = Heroes1
+	get_node("Battlefield").Heroes2 = Heroes2
+	get_node("Battlefield").Army1 = Army1
+	get_node("Battlefield").Army2 = Army2
+	get_node("Battlefield").Faction1 = Faction1
+	get_node("Battlefield").Faction2 = Faction2
 	
-	setUnitsOnBattlefield(Army1, Heroes1)
-	setUnitsOnBattlefield(Army2, Heroes2)
+	get_node("Battlefield").drawBattlefield() # Draw background and obstacles
+	get_node("Battlefield").setArmies() # Set Units and Heroes on Battlefield
 
 func load_Victory_Screen(Winner): # appel depuis Fightmode
 	if get_child_count() > 0:
