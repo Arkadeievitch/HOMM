@@ -15,6 +15,7 @@ script = ExtResource( 3 )
 SIDE = 1
 FACTION = "Necropolis"
 NAME = "Skeleton"
+CODENAME = "Skeleton"
 MAX_HP = 2
 NUMBER = 80
 DAMAGE = 1

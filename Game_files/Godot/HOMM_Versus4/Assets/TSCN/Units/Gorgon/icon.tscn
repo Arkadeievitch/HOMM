@@ -17,6 +17,7 @@ FACTION = "Cave"
 RANGED = true
 ARROW = "Toxicball"
 NAME = "Gorgon"
+CODENAME = "Gorgon"
 MAX_HP = 10
 NUMBER = 8
 DAMAGE = 10

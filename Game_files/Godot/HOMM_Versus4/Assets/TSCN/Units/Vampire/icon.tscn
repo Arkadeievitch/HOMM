@@ -15,6 +15,7 @@ script = ExtResource( 3 )
 SIDE = 1
 FACTION = "Necropolis"
 NAME = "Vampire"
+CODENAME = "Vampire"
 MAX_HP = 29
 NUMBER = 5
 DAMAGE = 20

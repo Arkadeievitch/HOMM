@@ -1,6 +1,5 @@
 extends Node2D
 
-# warning-ignore:unused_class_variable
 export var SIDE : int
 # warning-ignore:unused_class_variable
 export var IA  : bool
@@ -13,6 +12,8 @@ export var ARROW : String = "Pick_in_FightmodeEffects"
 
 # warning-ignore:unused_class_variable
 export var NAME : 			String
+# warning-ignore:unused_class_variable
+export var CODENAME : 			String
 export var MAX_HP : 		int
 export var NUMBER : 		int
 
@@ -21,6 +22,8 @@ export var DISPLACEMENT : 	int
 export var INITIATIVE : 	int
 
 var TOTAL_HP : int
+# warning-ignore:unused_class_variable
+var Unit_ID
 
 var Information_Panel = load("res://Assets/TSCN/UnitInfo_Panel/Information_Panel.tscn")
 var MOUSE_BATTLE : Node

@@ -17,6 +17,7 @@ FACTION = "Cave"
 RANGED = true
 ARROW = "Fireball"
 NAME = "Succubus"
+CODENAME = "Succubus"
 MAX_HP = 14
 NUMBER = 5
 DAMAGE = 15

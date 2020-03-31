@@ -15,6 +15,7 @@ script = ExtResource( 3 )
 SIDE = 2
 FACTION = "Cave"
 NAME = "Black Dragon"
+CODENAME = "BlackDragon"
 MAX_HP = 96
 NUMBER = 1
 DAMAGE = 60

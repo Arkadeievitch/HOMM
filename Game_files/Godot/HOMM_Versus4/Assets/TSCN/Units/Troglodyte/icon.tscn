@@ -15,6 +15,7 @@ script = ExtResource( 3 )
 SIDE = 2
 FACTION = "Cave"
 NAME = "Troglodyte"
+CODENAME = "Troglodyte"
 MAX_HP = 2
 NUMBER = 30
 DAMAGE = 2

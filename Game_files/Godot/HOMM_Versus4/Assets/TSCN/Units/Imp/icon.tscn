@@ -15,6 +15,7 @@ script = ExtResource( 3 )
 SIDE = 2
 FACTION = "Cave"
 NAME = "Imp"
+CODENAME = "Imp"
 MAX_HP = 2
 NUMBER = 40
 DAMAGE = 2

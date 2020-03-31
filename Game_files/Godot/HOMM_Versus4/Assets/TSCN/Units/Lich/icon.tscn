@@ -17,6 +17,7 @@ FACTION = "Necropolis"
 RANGED = true
 ARROW = "Energyball"
 NAME = "Lich"
+CODENAME = "Lich"
 MAX_HP = 10
 NUMBER = 6
 DAMAGE = 8
