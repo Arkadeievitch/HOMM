@@ -69,7 +69,12 @@ func HeroesSelected():
 						Unit_name4, Unit_name5, Unit_name6]
 		Unit_counters = [	Unit_counter1, Unit_counter2, Unit_counter3,
 							Unit_counter4, Unit_counter5, Unit_counter6]
-							
+		
+		for i in range(5, 0, -1):
+			if Unit_counters[i] == 0 || Unit_counters[i] == null:
+				Unit_counters.remove(i)
+				Unit_names.remove(i)
+		
 		# Set Faction Icon
 		SetFactionFlag()
 		# move Heroes icon to its expected position

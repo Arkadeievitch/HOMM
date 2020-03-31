@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/TSCN/Heroes/Rideau128x128.png" type="Texture" id=1]
 [ext_resource path="res://Assets/TSCN/Heroes/Background.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Assets/TSCN/Factions/Icon_Inferno.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/TSCN/Factions/Icon_Cave.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/TSCN/Factions/Icon_Graveyard.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/TSCN/Heroes/Heroesdefault/Heroesdefault.tscn" type="PackedScene" id=11]
 
 [node name="AllHeroesScene" type="Node2D"]
 
@@ -73,3 +74,6 @@ scale = Vector2( 0.3, 0.3 )
 [node name="Icon_Graveyard" parent="." instance=ExtResource( 10 )]
 position = Vector2( 128, 352 )
 scale = Vector2( 0.3, 0.3 )
+
+[node name="Heroesdefault" parent="." instance=ExtResource( 11 )]
+position = Vector2( 448, 96 )
