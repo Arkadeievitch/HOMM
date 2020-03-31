@@ -1,10 +1,10 @@
 extends Node2D
 var LabelUnit_path : String = "res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/UnitsLabel/Label_Unit.tscn"
 
-func loadSynthesis(Heroes, Unit_Names, Unit_InitialCounters, PlayerColor):
+func loadSynthesis(Heroes, Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side, remainingSquad):
 	loadHeroesPortrait(Heroes, PlayerColor)
-	
-	loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor)
+	loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side)
+	writeRemainingUnits(remainingSquad)
 
 func loadHeroesPortrait(Heroes, PlayerColor):
 	var heroesPath = str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn")
@@ -17,7 +17,7 @@ func loadHeroesPortrait(Heroes, PlayerColor):
 	
 	get_parent().get_node("Color_Heroes").color = PlayerColor
 
-func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
+func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side):
 	
 	for i in Unit_Names.size():
 		var unit_template = load(LabelUnit_path)
@@ -34,11 +34,19 @@ func loadArmyLabels(Unit_Names, Unit_InitialCounters, PlayerColor):
 		var BG_position = new_child.get_node("Unit_BG").rect_global_position
 		
 		#Importe l'icône de l'unité
-		var UnitIconPath = str("res://Assets/TSCN/Units/", Unit_Names[i], "/icon.tscn") 
+		var UnitIconPath = str("res://Assets/TSCN/Units/", Unit_Names[i], "/icon.tscn")
 		var UnitIconDisplayed = load(UnitIconPath)
 		# warning-ignore:void_assignment
 		var new_icon = UnitIconDisplayed.instance()
 		new_child.get_node("Unit_BG").add_child(new_icon, true)
+		new_icon.get_node("Stats").SIDE = Side
+		new_icon.get_node("Stats").Unit_ID = Unit_IDs[i]
 		
 		new_icon.scale = Vector2(1, 1)
 		new_icon.global_position = BG_position + Vector2(32, 32)
+		
+		
+
+func writeRemainingUnits(remainingSquad):
+	
+	pass

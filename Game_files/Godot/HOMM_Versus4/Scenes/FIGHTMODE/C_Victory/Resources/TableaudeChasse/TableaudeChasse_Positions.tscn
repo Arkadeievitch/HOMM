@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/FIGHTMODE/C_Victory/Resources/TableaudeChasse/TableaudeChasse_Positions.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/Theme_SmallAugusta18.tres" type="Theme" id=2]
+
+[node name="TableaudeChasse_Positions" type="Position2D"]
+z_index = 10
+z_as_relative = false
+script = ExtResource( 1 )
+
+[node name="Position1" type="Position2D" parent="."]
+position = Vector2( -40, 112 )
+
+[node name="Label_Kills" type="Label" parent="Position1"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "didn't catch a fly..."
+valign = 1
+
+[node name="Position2" type="Position2D" parent="."]
+position = Vector2( -40, 176 )
+
+[node name="Label_Kills" type="Label" parent="Position2"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
+
+[node name="Position3" type="Position2D" parent="."]
+position = Vector2( -40, 240 )
+
+[node name="Label_Kills" type="Label" parent="Position3"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
+
+[node name="Position4" type="Position2D" parent="."]
+position = Vector2( -40, 304 )
+
+[node name="Label_Kills" type="Label" parent="Position4"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
+
+[node name="Position5" type="Position2D" parent="."]
+position = Vector2( -40, 368 )
+
+[node name="Label_Kills" type="Label" parent="Position5"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
+
+[node name="Position6" type="Position2D" parent="."]
+position = Vector2( -40, 432 )
+
+[node name="Label_Kills" type="Label" parent="Position6"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
+
+[node name="Position7" type="Position2D" parent="."]
+position = Vector2( -40, 496 )
+
+[node name="Label_Kills" type="Label" parent="Position7"]
+margin_left = 32.0
+margin_top = -16.0
+margin_right = 400.0
+margin_bottom = 16.0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+valign = 1
