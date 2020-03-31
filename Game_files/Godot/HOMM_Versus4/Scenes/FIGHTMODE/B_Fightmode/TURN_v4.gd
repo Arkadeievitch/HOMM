@@ -11,17 +11,17 @@ var Priorities = []
 var ActiveCharacter_index : 	int = 0
 
 var Count_Turn_number : int = 1
-var underTurn : int = 1
+var underTurn : 		int = 1
 
-var MAIN : Node
-var MOUSE : Node
+var MAIN : 		 Node
+var MOUSE : 	 Node
 var FrontMOUSE : Node
 var CHARACTERS = []
 var STATS = 	 []
 var TEMPORARY =  []
 var TWEEN = 	 Node
-var TIMER : Node
-var MACARON : Node
+var TIMER : 	 Node
+var MACARON : 	 Node
 
 var Control_oneTurn : 		bool = false
 var ActiveCharacterPlayed : bool = false
@@ -44,18 +44,18 @@ var FACTION 	= []
 var RANGED 		= []
 var ARROW  		= []
 
-var NUMBER  	= []
-var DAMAGE  	= []
-var DISPLACEMENT = []
-var INITIATIVE	 = []
-var MAX_HP 		= []
-var TOTAL_HP 	= []
+var NUMBER  		= []
+var DAMAGE  		= []
+var DISPLACEMENT 	= []
+var INITIATIVE	 	= []
+var MAX_HP 			= []
+var TOTAL_HP 		= []
 # ---- STATS ----
 
 # var displacement_allowed : bool = false
-var Active_turn = []
-var COUNTERSTRIKE_READY = []
-var COUNTERSTRIKE_ALLOWED = []
+var Active_turn 			= []
+var COUNTERSTRIKE_READY 	= []
+var COUNTERSTRIKE_ALLOWED 	= []
 # === Characters data ===
 
 var MouseActionTarget : Vector2
@@ -93,7 +93,15 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 	
 	for i in Character_number:
 		CHARACTERS[i].get_node("icon")._ready()
+		
+		if STATS[i].SIDE == 1:
+			get_parent().get_parent().IDs_1.append(CHARACTERS[i])
+		elif STATS[i].SIDE == 2:
+			get_parent().get_parent().IDs_2.append(CHARACTERS[i])
+			
+	get_parent().get_parent().updateFightInformation()
 	
+	get_parent().init_HuntingBoard()
 	retrieveStats()
 	print(Priorities)
 	activatePlayer()
@@ -267,7 +275,7 @@ func retrieveStats():
 	Priorities 		= []
 	
 	for i in Character_number:
-		NAME.append(STATS[i].NAME)
+		NAME.append(STATS[i].CODENAME)
 		SIDE.append(STATS[i].SIDE)
 		FACTION.append(STATS[i].FACTION)
 		RANGED.append(STATS[i].RANGED)
@@ -469,7 +477,7 @@ func drawDisplacementTiles(Char_index):
 			if SIDE[i] != SIDE[Char_index]:
 				new_tile = Ranged_Tile.instance()
 				CHARACTERS[i].add_child(new_tile, true)
-				new_tile.modulate = Color(0, 0, 1, .9)
+				new_tile.modulate = Color(1, 0, 0, .9)
 				
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -498,7 +506,12 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				
 				# Attack damage application
 				TOTAL_HP[DEFENDER] = int(max(0,TOTAL_HP[DEFENDER] - Damage_taken))
+				var Def_number_before_attack : int = NUMBER[DEFENDER]
 				NUMBER[DEFENDER] = int(ceil(float(float(TOTAL_HP[DEFENDER])/float(MAX_HP[DEFENDER]))))
+				var Dead_number = Def_number_before_attack - NUMBER[DEFENDER]
+				if Dead_number > 0:
+					get_parent().updateHuntingBoards(CHARACTERS[ATTACKER], SIDE[ATTACKER], 
+														NAME[DEFENDER], Dead_number)
 				
 				CHARACTERS[DEFENDER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[DEFENDER])
 				
@@ -510,14 +523,20 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				
 				if NUMBER[DEFENDER] > 0:
 					print(NUMBER[DEFENDER], " members left in ", NAME[DEFENDER], " unit")
-				
+					
 					# CounterStrike
 					if (COUNTERSTRIKE_READY[Char_index] == true 
 					&& COUNTERSTRIKE_ALLOWED[Char_index] == true):
 						get_child(Char_index).ANIM_CounterStrike(CHARACTERS[ATTACKER].global_position)
 						var CounterStrikeDmg = ceil(0.5*DAMAGE[DEFENDER]*NUMBER[DEFENDER])
 						TOTAL_HP[ATTACKER] = int(max(0,TOTAL_HP[ATTACKER] - CounterStrikeDmg))
+						var Atk_number_before_attack : int = NUMBER[ATTACKER]
 						NUMBER[ATTACKER] = int(ceil(float(float(TOTAL_HP[ATTACKER])/float(MAX_HP[ATTACKER]))))
+						Dead_number = Atk_number_before_attack - NUMBER[ATTACKER]
+						if Dead_number > 0:
+							get_parent().updateHuntingBoards(CHARACTERS[DEFENDER], SIDE[DEFENDER], 
+																NAME[ATTACKER], Dead_number)
+						
 						CHARACTERS[ATTACKER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[ATTACKER])
 						print(NAME[DEFENDER], " counter-strikes : ", CounterStrikeDmg, " damages")
 						COUNTERSTRIKE_READY[DEFENDER] = false
@@ -566,6 +585,7 @@ func StandardVictory(): #Si un camp n'a plus d'unite, l'autre gagne.
 		print("Player ", Winner," VICTORY")
 		FightVictory = true
 		
+		get_parent().remainingSquad = [CHARACTERS, NUMBER]
 		MAIN_Node.load_Victory_Screen(Winner)
 
 #Si un necromancien ressucite l'equivalent de 25% de l'armee adverse, il gagne.
