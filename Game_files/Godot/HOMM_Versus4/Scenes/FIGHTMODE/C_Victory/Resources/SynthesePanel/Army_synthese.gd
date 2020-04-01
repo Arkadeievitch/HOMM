@@ -1,10 +1,10 @@
 extends Node2D
 var LabelUnit_path : String = "res://Scenes/FIGHTMODE/C_Victory/Resources/SynthesePanel/UnitsLabel/Label_Unit.tscn"
+var RemainingCounter_path : String = "res://Scenes/FIGHTMODE/C_Victory/Resources/RemainingCounter/RemainingCounter.tscn"
 
 func loadSynthesis(Heroes, Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side, remainingSquad):
 	loadHeroesPortrait(Heroes, PlayerColor)
-	loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side)
-	writeRemainingUnits(remainingSquad)
+	loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side, remainingSquad)
 
 func loadHeroesPortrait(Heroes, PlayerColor):
 	var heroesPath = str("res://Assets/TSCN/Heroes/", Heroes, "/", Heroes, ".tscn")
@@ -17,7 +17,7 @@ func loadHeroesPortrait(Heroes, PlayerColor):
 	
 	get_parent().get_node("Color_Heroes").color = PlayerColor
 
-func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side):
+func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Side, remainingSquad):
 	
 	for i in Unit_Names.size():
 		var unit_template = load(LabelUnit_path)
@@ -45,8 +45,23 @@ func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Sid
 		new_icon.scale = Vector2(1, 1)
 		new_icon.global_position = BG_position + Vector2(32, 32)
 		
-		
-
-func writeRemainingUnits(remainingSquad):
-	
-	pass
+		# Ecriture des unités restantes
+		for j in remainingSquad[0].size():
+#			print(remainingSquad)#
+#			print(Unit_IDs)#
+#			print(Unit_InitialCounters)#
+			if remainingSquad[0][j] == Unit_IDs[i]:
+				if remainingSquad[1][j] < Unit_InitialCounters[i]:
+					var NewCounter = load(RemainingCounter_path)
+					NewCounter = NewCounter.instance()
+					new_child.add_child(NewCounter, true)
+					
+					NewCounter.position = Vector2(-32, 32)
+					NewCounter.get_node("Label").text = str(remainingSquad[1][j])
+			else:
+				var NewCounter = load(RemainingCounter_path)
+				NewCounter = NewCounter.instance()
+				new_child.add_child(NewCounter, true)
+				
+				NewCounter.position = Vector2(-32, 32)
+				NewCounter.get_node("Label").text = ""
