@@ -36,12 +36,12 @@ func init_HuntingBoard():
 	for i in TURN.get_child_count():
 		if TURN.get_child(i).STATS.SIDE == 1:
 			HuntingBoard1[0].append(TURN.CHARACTERS[i])
-			HuntingBoard1[1].append(TURN.get_child(i).STATS.NAME)
+			HuntingBoard1[1].append(TURN.get_child(i).STATS.CODENAME)
 			HuntingBoard1[2].append([])
 			HuntingBoard1[3].append([])
 		elif TURN.get_child(i).STATS.SIDE == 2:
 			HuntingBoard2[0].append(TURN.CHARACTERS[i])
-			HuntingBoard2[1].append(TURN.get_child(i).STATS.NAME)
+			HuntingBoard2[1].append(TURN.get_child(i).STATS.CODENAME)
 			HuntingBoard2[2].append([])
 			HuntingBoard2[3].append([])
 

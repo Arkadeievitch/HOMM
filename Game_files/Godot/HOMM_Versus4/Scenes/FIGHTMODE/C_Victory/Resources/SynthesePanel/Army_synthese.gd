@@ -47,9 +47,6 @@ func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Sid
 		
 		# Ecriture des unités restantes
 		for j in remainingSquad[0].size():
-#			print(remainingSquad)#
-#			print(Unit_IDs)#
-#			print(Unit_InitialCounters)#
 			if remainingSquad[0][j] == Unit_IDs[i]:
 				if remainingSquad[1][j] < Unit_InitialCounters[i]:
 					var NewCounter = load(RemainingCounter_path)

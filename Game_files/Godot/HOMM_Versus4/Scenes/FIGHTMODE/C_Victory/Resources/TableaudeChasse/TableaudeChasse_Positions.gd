@@ -1,7 +1,7 @@
 extends Position2D
 
 func loadUnitHunt(Unit_name, Unit_Hunt, PreyColor):
-	
+		
 		var UnitIconPath = str("res://Assets/TSCN/Units/", Unit_name, "/icon.tscn")
 		var UnitIconDisplayed = load(UnitIconPath)
 		# warning-ignore:void_assignment
