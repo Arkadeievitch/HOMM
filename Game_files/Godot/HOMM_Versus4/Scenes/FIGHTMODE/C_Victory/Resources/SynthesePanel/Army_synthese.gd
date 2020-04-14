@@ -46,8 +46,10 @@ func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Sid
 		new_icon.global_position = BG_position + Vector2(32, 32)
 		
 		# Ecriture des unités restantes
+		var NoRemainingUnit : bool = true
 		for j in remainingSquad[0].size():
 			if remainingSquad[0][j] == Unit_IDs[i]:
+				NoRemainingUnit = false
 				if remainingSquad[1][j] < Unit_InitialCounters[i]:
 					var NewCounter = load(RemainingCounter_path)
 					NewCounter = NewCounter.instance()
@@ -55,10 +57,11 @@ func loadArmyLabels(Unit_IDs, Unit_Names, Unit_InitialCounters, PlayerColor, Sid
 					
 					NewCounter.position = Vector2(-32, 32)
 					NewCounter.get_node("Label").text = str(remainingSquad[1][j])
-			else:
-				var NewCounter = load(RemainingCounter_path)
-				NewCounter = NewCounter.instance()
-				new_child.add_child(NewCounter, true)
-				
-				NewCounter.position = Vector2(-32, 32)
-				NewCounter.get_node("Label").text = ""
+		
+		if NoRemainingUnit == true :
+			var NewCounter = load(RemainingCounter_path)
+			NewCounter = NewCounter.instance()
+			new_child.add_child(NewCounter, true)
+			
+			NewCounter.position = Vector2(-32, 32)
+			NewCounter.get_node("Label").text = ""

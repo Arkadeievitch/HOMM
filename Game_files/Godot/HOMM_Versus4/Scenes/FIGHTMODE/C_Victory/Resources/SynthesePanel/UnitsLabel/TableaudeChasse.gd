@@ -18,7 +18,7 @@ func _process(delta):
 			var Unit_name : String
 			var PreyColor : Color
 			
-			if get_child_count()>0:
+			if get_child_count() > 0:
 				Unit_ID = get_node("icon/Stats").Unit_ID
 				if get_node("icon/Stats").SIDE == 1:
 					HuntingBoard = VICTORY_SCREEN.HuntingBoard1.duplicate(true)
