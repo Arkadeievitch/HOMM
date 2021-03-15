@@ -131,7 +131,8 @@ func setUnitsOnBattlefield(Army, Heroes, Faction, Side, playerColor, AI):
 		faction.z_index += 5
 		faction.position.x -= 51
 
-func updateHuntingBoards(Hunter_ID, Hunter_Side, Prey_name, Prey_number):
+
+func update_allHuntingBoards(Hunter_ID, Hunter_Side, Prey_name, Prey_number):
 	if Hunter_Side == 1:
 		updateHuntingBoard(HuntingBoard1, Hunter_ID, Prey_name, Prey_number)
 	elif Hunter_Side == 2:

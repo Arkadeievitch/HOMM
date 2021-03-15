@@ -38,30 +38,6 @@ func getNodesfromTree():
 	TEMPORARY = get_node("Temporary")
 
 #=========================================
-func ANIM_rangedAttack(Target):
-	var arrow = load(str("res://Assets/TSCN/FightmodeEffects/", STATS.ARROW, ".tscn"))
-	arrow = arrow.instance()
-	add_child(arrow, true)
-	
-	if self.global_position.x - Target.x < 0:
-		arrow.scale.x = 1
-	else:
-		arrow.scale.x = -1
-	
-	var TWEEN_ARROW = arrow.get_node("Tween_Arrow")
-	# warning-ignore:return_value_discarded
-	TWEEN_ARROW.connect("user_tween_completed", self, "removeArrow")
-	TWEEN_ARROW.interpolate_property(arrow, 
-								"global_position", 
-								self.global_position, 
-								Target, 
-								0.4, 
-								Tween.TRANS_LINEAR, 
-								Tween.EASE_OUT)
-	TWEEN_ARROW.start()
-
-func removeArrow(ObjectArrow):
-	ObjectArrow.queue_free()
 
 func ANIM_MeleeAttack(Target_position):
 	var Fauchage = load(str("res://Assets/TSCN/FightmodeEffects/Fauchage.tscn"))
@@ -124,6 +100,31 @@ func ANIM_CounterStrike(Target_position):
 									Tween.TRANS_LINEAR,
 									Tween.EASE_OUT)
 	TWEEN_REAP.start()
+	
+func ANIM_rangedAttack(Target):
+	var arrow = load(str("res://Assets/TSCN/FightmodeEffects/", STATS.ARROW, ".tscn"))
+	arrow = arrow.instance()
+	add_child(arrow, true)
+	
+	if self.global_position.x - Target.x < 0:
+		arrow.scale.x = 1
+	else:
+		arrow.scale.x = -1
+	
+	var TWEEN_ARROW = arrow.get_node("Tween_Arrow")
+	# warning-ignore:return_value_discarded
+	TWEEN_ARROW.connect("user_tween_completed", self, "removeArrow")
+	TWEEN_ARROW.interpolate_property(arrow, 
+								"global_position", 
+								self.global_position, 
+								Target, 
+								0.4, 
+								Tween.TRANS_LINEAR, 
+								Tween.EASE_OUT)
+	TWEEN_ARROW.start()
+
+func removeArrow(ObjectArrow):
+	ObjectArrow.queue_free()
 
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
