@@ -38,6 +38,7 @@ var Y_upperLimit : int
 # === Characters data ===
 # ---- STATS ----
 var NAME  		= []
+var IA			= []
 
 var SIDE 		= []
 var FACTION 	= []
@@ -58,8 +59,8 @@ var COUNTERSTRIKE_READY 	= []
 var COUNTERSTRIKE_ALLOWED 	= []
 # === Characters data ===
 
-var MouseActionTarget : Vector2
-var TargetTile_Position : Vector2
+var MouseActionTarget : 	Vector2
+var TargetTile_Position : 	Vector2
 
 # Victory utilitaries ---
 #var Resurection_score : int
@@ -110,8 +111,11 @@ func initialize(): # Attend la fermeture du menu pour démarrer
 	for i in Character_number:
 		if Active_turn[i] == true:
 			print(STATS[i].NAME, " is going to play")
-#			if STATS[i].IA == true:
-#				MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
+			if STATS[i].IA == true: # IA IA IA IA IA IA IA IA IA
+				IA[i].connect("IA_finished", self, "NothingIA")
+				TIMER.start(0.5)
+				yield(TIMER, "timeout")
+				MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
 
 #==============================================================
 func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
@@ -133,10 +137,14 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		# 1 / Active player
 		for i in Character_number:
 			if Active_turn[i] == true:
-				# if STATS[i].IA == true:
-					# var IA_result = IA[i].IA()
-					# Mouse_ActionTarget =  IA_result[1]
-					# Mouse_TileTarget = 	IA_result[0]
+				if STATS[i].IA == true: # IA IA IA IA IA IA IA IA IA
+					
+#					TIMER.start(0.1)
+#					yield(TIMER, "timeout")
+					
+					var IA_result = IA[i].IA()
+					Mouse_ActionTarget =  IA_result[1]
+					Mouse_TileTarget = 	IA_result[0]
 				
 				TEMPORARY[i].deleteDisplacementTiles()
 				_PlayAction(CHARACTERS[i], Mouse_TileTarget, Mouse_ActionTarget)
@@ -158,7 +166,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 			# 3 / End active player turn
 			for i in Character_number:
 				if Active_turn[i] == true:
-					endAction(i)
+					_endAction(i)
 				
 				if NUMBER[i] == 0 :
 					Dead_index.append(i)
@@ -222,7 +230,7 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 			
 			yield(get_tree(), "idle_frame")
 			print(Priorities)
-			PrepareNextTurn(ActiveCharacter_index)
+			_PrepareNextTurn(ActiveCharacter_index)
 		else:
 			activatePlayer()
 		
@@ -233,8 +241,11 @@ func _TURN_MainFunction(Mouse_ActionTarget, Mouse_TileTarget):
 		for i in Character_number:
 			if Active_turn[i] == true:
 				print(STATS[i].NAME, " is going to play")
-#				if STATS[i].IA == true:
-#					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
+				
+				if STATS[i].IA == true: # IA IA IA IA IA IA IA IA IA
+					TIMER.start(0.5)
+					yield(TIMER, "timeout")
+					MOUSE.emit_signal("mouse_clic", MOUSE.Action_Position, MOUSE.Tile_position)
 	
 	MOUSE.Mouse_Inhibition = false
 #==============================================================
@@ -256,8 +267,8 @@ func retrieveNodes():
 	for i in Character_number:
 		TEMPORARY.append(0)
 		TEMPORARY[i] = CHARACTERS[i].get_node("Temporary")
-#		IA.append(0)
-#		IA[i] = CHARACTERS[i].get_node("IA")
+		IA.append(0)
+		IA[i] = CHARACTERS[i].get_node("IA")
 		STATS.append(0)
 		STATS[i] = CHARACTERS[i].get_node("icon/Stats")
 
@@ -309,7 +320,7 @@ func activatePlayer():
 	Active_turn[ActiveCharacter_index] = true
 	COUNTERSTRIKE_READY[ActiveCharacter_index] = true
 	get_child(ActiveCharacter_index).active_turn = true
-	drawDisplacementTiles(ActiveCharacter_index)
+	drawTILES(ActiveCharacter_index)
 	FrontMOUSE.Current_Side = STATS[ActiveCharacter_index].SIDE
 	
 	# Update Macaron
@@ -326,7 +337,7 @@ func updateTurnChronology():
 	var savePriorities = Priorities.duplicate()
 	CHRONOLOGY.updateChronology(savePriorities)
 
-func PrepareNextTurn(Char_index):
+func _PrepareNextTurn(Char_index):
 	underTurn = (underTurn+ 1) % Character_number
 	if underTurn == 1:
 		Count_Turn_number += 1
@@ -342,34 +353,34 @@ func PrepareNextTurn(Char_index):
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # === PLAYING CHARACTER ===
-func _PlayAction(Character, Mouse_tile, Mouse_Action):
-	
-#	if STATS.IA == true: # si IA (pas de Target_tile)
-#		displacement_allowed = true
+func _PlayAction(Current_Character, Mouse_tile, Mouse_Action):
+	 # IA IA IA IA IA IA IA IA IA
+	var isIAon = Current_Character.get_node("icon/Stats").IA
+	if isIAon == true: # si IA (pas de Target_tile)
+		Current_Character.displacement_allowed = true
 		
-	var CharacterPosition = Character.global_position
+	var CharacterPosition = Current_Character.global_position
 	
 	if(abs(Mouse_tile.x - CharacterPosition.x) <= 32 
 	&& abs(Mouse_tile.y - CharacterPosition.y) <= 32): 	# Cas où l'unité attaque ou CaC
 		ActiveCharacterPlayed = true					# Si deplacement+attaque géré dans TURN_MainFunction
-		Character.ANIM_MeleeAttack(Mouse_Action)
+		Current_Character.ANIM_MeleeAttack(Mouse_Action)
 		yield(TWEEN, "tween_completed")
 		
-	elif (Character.displacement_allowed == true): 			# Cas où l'unité se déplace.
-#		if STATS.IA == true: # si IA (pas de Target_tile)
-#			var IA_Tile_position
-#			Mouse_tile = IA_Tile_position
+	elif (Current_Character.displacement_allowed == true): 			# Cas où l'unité se déplace.
+		if isIAon == true: # si IA (pas de Target_tile)
+			TargetTile_Position = Mouse_tile
 		CharacterIsMoving = true
-		ANIM_displacement(TargetTile_Position, Character)
+		ANIM_displacement(TargetTile_Position, Current_Character)
 		ActiveCharacterPlayed = true
 		
-	elif Character.get_node("icon/Stats").RANGED == true : # Cas d'attaque à distance
+	elif Current_Character.get_node("icon/Stats").RANGED == true : # Cas d'attaque à distance
 		var warning_count : int = 0
 		for i in Character_number:
 			if (abs(Mouse_Action.x-CHARACTERS[i].global_position.x) < 32
 			 && abs(Mouse_Action.y-CHARACTERS[i].global_position.y) < 32):
 				ActiveCharacterPlayed = true
-				Character.ANIM_rangedAttack(Mouse_Action)
+				Current_Character.ANIM_rangedAttack(Mouse_Action)
 				COUNTERSTRIKE_ALLOWED[i] = false
 				yield(TWEEN, "tween_completed")
 				break
@@ -378,6 +389,7 @@ func _PlayAction(Character, Mouse_tile, Mouse_Action):
 				warning_count +=1
 	else:
 		print("clicked outside")
+
 
 func allowing_movement(Target_tile_position): # triggered by target tile
 	# displacement_allowed = true
@@ -395,14 +407,14 @@ func ANIM_displacement(displacement_Tile, Character_Node):
 	TWEEN.start()
 	yield(TWEEN, "tween_completed")
 
-func endAction(Char_index):
+func _endAction(Char_index):
 		Priorities[Char_index] = 0.0
 		Active_turn[Char_index] = false
 		if CHARACTERS[Char_index].has_node("Active_Border"):
 			CHARACTERS[Char_index].get_node("Active_Border").queue_free()
 #=======================================
 
-func drawDisplacementTiles(Char_index):
+func drawTILES(Char_index):
 	var new_tile
 	var tile_size : int = 64
 	
@@ -510,7 +522,7 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 				NUMBER[DEFENDER] = int(ceil(float(float(TOTAL_HP[DEFENDER])/float(MAX_HP[DEFENDER]))))
 				var Dead_number = Def_number_before_attack - NUMBER[DEFENDER]
 				if Dead_number > 0:
-					get_parent().updateHuntingBoards(CHARACTERS[ATTACKER], SIDE[ATTACKER], 
+					get_parent().update_allHuntingBoards(CHARACTERS[ATTACKER], SIDE[ATTACKER], 
 														NAME[DEFENDER], Dead_number)
 				
 				CHARACTERS[DEFENDER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[DEFENDER])
@@ -534,7 +546,7 @@ func Character_attacked(Attacked_Action_position, Mouse_Tile, Char_index):
 						NUMBER[ATTACKER] = int(ceil(float(float(TOTAL_HP[ATTACKER])/float(MAX_HP[ATTACKER]))))
 						Dead_number = Atk_number_before_attack - NUMBER[ATTACKER]
 						if Dead_number > 0:
-							get_parent().updateHuntingBoards(CHARACTERS[DEFENDER], SIDE[DEFENDER], 
+							get_parent().update_allHuntingBoards(CHARACTERS[DEFENDER], SIDE[DEFENDER], 
 																NAME[ATTACKER], Dead_number)
 						
 						CHARACTERS[ATTACKER].get_node("Unit_Counter/UnitCounterColor/ColorRect/Label").text = String(NUMBER[ATTACKER])
@@ -608,3 +620,6 @@ func NothingTWEEN(a,b):
 func NothingTIMER():
 	pass
 	print("Timer completed")
+func NothingIA():
+	pass
+	print("IA completed")
