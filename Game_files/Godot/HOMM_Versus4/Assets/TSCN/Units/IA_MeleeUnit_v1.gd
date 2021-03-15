@@ -4,13 +4,11 @@ signal IA_finished
 func IA():
 	
 # warning-ignore:return_value_discarded
-	get_parent().get_node("Temporary").connect("Temporary_finished", self, "wait")
-	yield(get_parent().get_node("Temporary"), "Temporary_finished")
 	var MOUSE = get_node("/root/MainNode/Battlefield/Mouse_Cursor")
 	MOUSE.Mouse_Inhibition = true
 	
 	var chosenTile : Vector2
-	var chosenTarget : Vector2 = Vector2(0,0)
+	var chosenTarget : Vector2 = Vector2(32,32)
 	# init --- Ne sert qu'à s'assurer de reset toutes les variables.
 	var temp_Array = []
 	temp_Array = initialize()
@@ -84,10 +82,13 @@ func IA():
 		temp_Array = scoreTiles(Tiles, Tiles_number, 
 								onMapEnemies, onMapEnemies_number)
 		Tiles_scores = temp_Array
-		
+	
 	temp_Array = []
 	temp_Array = chooseTile(Tiles, Tiles_number, Tiles_scores)
 	chosenTile = temp_Array
+	
+	if chosenTarget == Vector2(0,0): # déplacement simple
+		chosenTarget = chosenTile
 	
 	MOUSE.Mouse_Inhibition = false
 	emit_signal("IA_finished")
@@ -189,7 +190,7 @@ func scoreOnRangeEnemies(onRangeEnemies, onRangeEnemies_number, onRangeEnemies_c
 			if (abs(onRangeEnemies[i].global_position.x - self.global_position.x) <= 64*DISPLACEMENT
 			&& abs(onRangeEnemies[i].global_position.y - self.global_position.y) <= 64*DISPLACEMENT):
 				onRangeEnemies_scores[i] += 3
-			# score ranged enemies			
+			# score ranged enemies
 			if onRangeEnemies[i].get_node("icon/Stats").RANGED == true:
 				onRangeEnemies_scores[i] += 2
 				
@@ -212,7 +213,7 @@ func scoreOnRangeEnemies(onRangeEnemies, onRangeEnemies_number, onRangeEnemies_c
 	return onRangeEnemies_scores
 
 func chooseTarget(onRangeEnemies, onRangeEnemies_scores, onRangeEnemies_number):
-	var chosenTarget : Vector2
+	var chosenTarget : Vector2 = onRangeEnemies[0].global_position
 	var STATS = get_parent().get_node("icon/Stats")
 	
 	var highest_score : int = -10
@@ -224,6 +225,7 @@ func chooseTarget(onRangeEnemies, onRangeEnemies_scores, onRangeEnemies_number):
 					chosenTarget = onRangeEnemies[i].global_position
 					highest_score = onRangeEnemies_scores[i]
 					chosenIndex = i
+				
 		print(STATS.NAME, " attacks ", onRangeEnemies[chosenIndex].get_node("icon/Stats").NAME)
 	else:
 		chosenTarget = Vector2(0, 0)
@@ -315,6 +317,7 @@ func scoreEnemies(onMapEnemies, onMapEnemies_number, onMapEnemies_counters):
 func scoreTiles(Tiles, Tiles_number, 
 				onMapEnemies, onMapEnemies_number):
 	var Tiles_scores = []
+	var aScoreWasSet : bool = false
 	for i in Tiles.size():
 		Tiles_scores.append(0) 
 	
@@ -331,11 +334,14 @@ func scoreTiles(Tiles, Tiles_number,
 			|| (delta_x <= DISPLACEMENT && delta_y == DISPLACEMENT+1)
 			|| (delta_x == DISPLACEMENT+1 && delta_y <= DISPLACEMENT )):
 				Tiles_scores[i] += 1
+				aScoreWasSet = true
 	
+	if aScoreWasSet ==false:
+		Tiles_scores = null
 	return Tiles_scores
 
 func chooseTile(Tiles, Tiles_number, Tiles_scores):
-	var chosenTile : Vector2
+	var chosenTile : Vector2 = self.global_position
 		
 	var highest_score : int = -10
 #	var chosenIndex : int = 0
@@ -349,26 +355,32 @@ func chooseTile(Tiles, Tiles_number, Tiles_scores):
 	#				chosenIndex = i
 			print("Moving to ", chosenTile)
 		else:
-			# Si aucune option ne donne de résultat, le personnage se déplace de (dx=2, dy=1) cases vers le centre.
+			# Si aucune option ne donne de résultat, le personnage se déplace de (dx, dy) cases vers le centre.
+			var dx : int = 2
+			var dy : int = 1
 			for i in Tiles_number:
 				if get_viewport().size.x/2-self.global_position.x < 0:
 					if get_viewport().size.y/2-self.global_position.y < 0:
-						if (abs(Tiles[i].global_position.x +128) < 0.1
-						&& abs(Tiles[i].global_position.y +64) < 0.1):
+						if (abs(Tiles[i].position.x +64*dx) < 32.1
+						&& abs(Tiles[i].position.y +64*dy) < 32.1):
 							chosenTile = Tiles[i].global_position
+							break
 					else:
-						if (abs(Tiles[i].global_position.x +128) < 0.1
-						&& abs(Tiles[i].global_position.y -64) < 0.1):
+						if (abs(Tiles[i].position.x +64*dx) < 32.1
+						&& abs(Tiles[i].position.y -64*dy) < 32.1):
 							chosenTile = Tiles[i].global_position
+							break
 				else:
 					if get_viewport().size.y/2-self.global_position.y < 0:
-						if (abs(Tiles[i].global_position.x -128) < 0.1
-						&& abs(Tiles[i].global_position.y +64) < 0.1):
+						if (abs(Tiles[i].position.x -64*dx) < 32.1
+						&& abs(Tiles[i].position.y +64*dy) < 32.1):
 							chosenTile = Tiles[i].global_position
+							break
 					else:
-						if (abs(Tiles[i].global_position.x -128) < 0.1
-						&& abs(Tiles[i].global_position.y -64) < 0.1):
+						if (abs(Tiles[i].position.x -64*dx) < 32.1
+						&& abs(Tiles[i].position.y -64*dy) < 32.1):
 							chosenTile = Tiles[i].global_position
+							break
 			print("No ennemy at range; moving to ", chosenTile)
 	else:
 		chosenTile = self.global_position
