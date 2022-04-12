@@ -9,6 +9,8 @@ var NavWeightsGrid : PoolIntArray
 var neighbors 		: Array = []
 var index_in_grid 	: PoolIntArray = []
 
+var hero_path : Array = []
+
 func _ready():
 	Navigable = get_node("Navigable")
 	gather_navigationTilemaps()
@@ -19,6 +21,13 @@ func _input(event):
 			var Start_position = $TestHero.global_position
 			var End_position = target_position(event, NavigationGrid)
 			Dijkstra(NavigationGrid, NavWeightsGrid, Start_position, End_position)
+			
+			var PathLine = $TestHero/Line2D
+			var hero_path_local = hero_path.duplicate()
+			for i in hero_path_local.size():
+				hero_path_local[i] = $TestHero.to_local(hero_path_local[i])
+			PathLine.points = PoolVector2Array(hero_path_local)
+			PathLine.show()
 
 func gather_navigationTilemaps():
 	var Tiles_array: PoolVector2Array = []
@@ -46,7 +55,6 @@ func gather_navigationTilemaps():
 	
 	NavigationGrid = Tiles_array
 	NavWeightsGrid = weights_array
-#	return [Tiles_array, weights_array]
 
 
 func target_position(event, Tiles):
@@ -72,7 +80,6 @@ func Dijkstra(Grid, Grid_weights, Start_position, End_position):
 	var search_index 	: int = -1
 	var start_index 	: int = -1
 	var end_index 		: int = -1
-	# var unchecked_Grid : PoolVector2Array = Grid
 	var result_Grid 	: PoolIntArray = []
 	
 	# INITIALIZE
@@ -89,7 +96,8 @@ func Dijkstra(Grid, Grid_weights, Start_position, End_position):
 	var while_count : int = 0
 	var temp_Grid = Grid.duplicate()
 	result_Grid[search_index] = 0
-	while while_count <=1000:
+	while (search_index != end_index 
+	and while_count <=1000):
 		while_count+=1
 		find_neighborTiles(temp_Grid[search_index], Grid)
 		temp_Grid.remove(search_index)
@@ -109,43 +117,25 @@ func Dijkstra(Grid, Grid_weights, Start_position, End_position):
 				current_min_ind = index_in_grid[i]
 		
 		search_index = current_min_ind
-		
-		if  search_index == end_index:
-			while_count = 1002
+	
 	
 	# CHOSE PATH
 	# starting from destination
-	var path : Array = [Grid[search_index]]
-	if  search_index == end_index:
+	hero_path = [Grid[end_index]]
+	search_index = end_index
+	
+	while search_index != start_index:
+		var current_min     : int = int_INF
+		var current_min_ind : int = int_INF
 		find_neighborTiles(Grid[search_index], Grid)
-		
-		while search_index != start_index:
-			var current_min     : int = int_INF
-			var current_min_ind : int = int_INF
-			find_neighborTiles(Grid[search_index], Grid)
-			for i in neighbors.size():
-				if result_Grid[index_in_grid[i]] < current_min:
-					current_min = result_Grid[index_in_grid[i]]
-					current_min_ind = index_in_grid[i]
+		for i in neighbors.size():
+			if result_Grid[index_in_grid[i]] < current_min:
+				current_min = result_Grid[index_in_grid[i]]
+				current_min_ind = index_in_grid[i]
 				
-				# warning-ignore:return_value_discarded
-				path.push_front(Grid[current_min_ind])
+				hero_path.push_front(Grid[current_min_ind])
 				search_index = current_min_ind
-		
-	else:
-		print("No path found")
-	
-	
-	return path
-			
 
-func find_index(ArrayIn : Array, Adress: Vector2):
-	var indexOut : PoolVector2Array
-	for i in ArrayIn.size():
-		if ArrayIn[i] == Adress:
-			indexOut = i
-			break
-	return indexOut
 
 func find_neighborTiles(currentTile : Vector2, Tiles_array: Array):
 	var neighbour_count : int = 0
@@ -183,4 +173,4 @@ func find_neighborTiles(currentTile : Vector2, Tiles_array: Array):
 	
 	neighbors = neighbours
 	index_in_grid = neighbours_index
-#	return [neighbours, neighbours_index]
+
