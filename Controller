@@ -1,0 +1,42 @@
+Extends Node
+
+enum Gstate {MENU, GAME_LEVEL, GAME_FIGHT}
+
+var GAME_STATE : int = Gstate.MENU
+
+var MAIN : Node
+var MENU : Node
+var LEVEL : Node
+var FIGHT : Node
+
+func _ready():
+    MAIN = get_node("/MAIN")
+    MENU = MAIN.get_node("MENU")
+    LEVEL = MAIN.get_node("GAME/LEVEL")
+    FIGHT = MAIN.get_node("GAME/FIGHT")
+
+func _inputs(event):
+    if event != InputEvent.NONE:
+        if GAME_STATE == Gstate.MENU:
+            MENU.Controller(event)
+        elif GAME_STATE == Gstate.GAME_FIGHT:
+            FIGHT.Controller(event)
+        elif GAME_STATE == Gstate.GAME_LEVEL:
+            LEVEL.Controller(event)
+        
+        StateMachine(event)
+
+func StateMachine(event):
+    if Input.is_action_just_pressed("ui_exit"):
+        GAME_STATE = Gstate.MENU
+        MENU.Controller(event)
+        
+    elif MENU.get_child_count() > 0:
+        GAME_STATE = Gstate.MENU
+        
+    elif FIGHT.get_child_count() > 0:
+        GAME_STATE = Gstate.GAME_FIGHT
+        
+    elif LEVEL.get_child_count() > 0:
+        GAME_STATE = Gstate.GAME_LEVEL
+
