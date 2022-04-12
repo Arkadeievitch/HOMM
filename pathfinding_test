@@ -1,0 +1,67 @@
+Start_position
+End_position
+Grid
+Grid_weights
+
+var search_index : int = 0
+var start_index : int = 0
+var target_index : int = 0
+# var unchecked_Grid : PoolVector2Array = Grid
+var neighbors : PoolVector2Array = []
+var index_in_grid : PoolIntArray = []
+var result_Grid : PoolIntArray = []
+
+# INITIALIZE
+for i in unchecked_Grid.size():
+    result_Grid.append(INF)
+    if unchecked_Grid[i] == Start_position:
+        start_index = i
+        search_index = i
+    if unchecked_Grid[i] == End_position:
+        target_index = i
+
+# WEIGH CELLS
+var while_count : int = 0
+while while_count <=500:
+    while_count+=1
+    [neighbors, index_in_grid] = get_neighbors(Grid[search_index])
+    
+    var current_min     : int = INF
+    var current_min_ind : int = INF
+    for i in neighbors.size():
+        var weight : int = Grid_weights[index_in_grid[i]]
+        var current_result = result_Grid[search_index] + weight
+        
+        if current_result < result_Grid[index_in_grid[i]]:
+            result_Grid[index_in_grid[i]] = current_result
+        
+        if current_result < current_min:
+            current_min = current_result
+            current_min_ind = index_in_grid[i]
+    
+    search_index = current_min_ind
+    
+    if  search_index == target_index:
+        while_count = 498
+
+# CHOSE PATH
+var path : PoolVector2Array = Grid[search_index]
+if  search_index == target_index:
+    [neighbors, index_in_grid] = get_neighbors(Grid[search_index])
+    
+    while search_index != start_index:
+        var current_min     : int = INF
+        var current_min_ind : int = INF
+        for i in neighbors.size():
+            if result_Grid[index_in_grid[i]] < current_min:
+                current_min = result_Grid[index_in_grid[i]]
+                current_min_ind = index_in_grid[i]
+            
+            path.append(Grid[current_min_ind])
+            search_index = current_min_ind
+    
+else:
+    print("No path found")
+
+
+return path
