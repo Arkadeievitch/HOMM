@@ -1,0 +1,20 @@
+Extends Node2D
+func _ready():
+    pause_mode = Node.PAUSE_MODE_PROCESS
+
+func Controller(event):
+    if Input.is_action_just_pressed("ui_exit"):
+        print("Exit menu called")
+        # PAUSE_MODE
+        clearChildren()
+        get_tree().pause = true
+        load_Menu("ExitMenu_path")
+
+
+func clearChildren():
+    for i in get_child_count():
+        get_child(i).queue_free()
+
+func load_Menu(MenuPath : String):
+    var Menu2load : Node = load(MenuPath)
+    add_child(Menu2load)
