@@ -5,7 +5,7 @@ Grid_weights
 
 var search_index : int = 0
 var start_index : int = 0
-var target_index : int = 0
+var end_index : int = 0
 # var unchecked_Grid : PoolVector2Array = Grid
 var neighbors : PoolVector2Array = []
 var index_in_grid : PoolIntArray = []
@@ -18,9 +18,10 @@ for i in unchecked_Grid.size():
         start_index = i
         search_index = i
     if unchecked_Grid[i] == End_position:
-        target_index = i
+        end_index = i
 
 # WEIGH CELLS
+# relatively to start cell.
 var while_count : int = 0
 while while_count <=500:
     while_count+=1
@@ -41,12 +42,13 @@ while while_count <=500:
     
     search_index = current_min_ind
     
-    if  search_index == target_index:
+    if  search_index == end_index:
         while_count = 498
 
 # CHOSE PATH
+# starting from destination
 var path : PoolVector2Array = Grid[search_index]
-if  search_index == target_index:
+if  search_index == end_index:
     [neighbors, index_in_grid] = get_neighbors(Grid[search_index])
     
     while search_index != start_index:
@@ -57,7 +59,7 @@ if  search_index == target_index:
                 current_min = result_Grid[index_in_grid[i]]
                 current_min_ind = index_in_grid[i]
             
-            path.append(Grid[current_min_ind])
+            path.push_front(Grid[current_min_ind])
             search_index = current_min_ind
     
 else:
