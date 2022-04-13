@@ -198,6 +198,15 @@ func chosepath(Grid, start_index, end_index,
 	var neighbours : PoolVector2Array = []
 	var neighbours_index : PoolIntArray = []
 	var Grid_finished : PoolBoolArray = []
+
+    # # Optimisation "ligne droite"
+    # var deltaX = Grid[start_index].x - Grid[end_index].x
+    # var deltaY = Grid[start_index].y - Grid[end_index].y
+    # var angle_end2start : float = atan2(deltaY, deltaX)
+    # var angle_current : float = 0
+    # var angle_min : float = 0
+    # # Optimisation "ligne droite"
+            
     for i in Grid.size():
         Grid_finished[i] = false
     
@@ -211,8 +220,21 @@ func chosepath(Grid, start_index, end_index,
 			if result_Grid[neighbours_index[i]] < current_min:
 				current_min = result_Grid[neighbours_index[i]]
 				current_min_ind = neighbours_index[i]
+                
+                # # Optimisation "ligne droite"
+                # deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
+                # deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
+                # angle_min = atan2(deltaY, deltaX)
+            # elif result_Grid[neighbours_index[i]] == current_min:
+                # deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
+                # deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
+                # angle_current = atan2(deltaY, deltaX)
+                # if abs(angle_current-angle_end2start) < abs(angle_min-angle_end2start):
+                    # current_min = result_Grid[neighbours_index[i]]
+                    # current_min_ind = neighbours_index[i]
+                    # angle_min = angle_current
+                # # Optimisation "ligne droite"
 				
         hero_path.push_front(Grid[current_min_ind])
         Grid_finished[current_min_ind] = true
         search_index = current_min_ind
-    
