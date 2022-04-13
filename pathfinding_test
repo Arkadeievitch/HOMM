@@ -6,10 +6,10 @@ var Navigable : Node
 var NavigationGrid : Array
 var NavWeightsGrid : PoolIntArray
 
-# var neighbors 		: Array = []
-# var index_in_grid 	: PoolIntArray = []
+var neighbors 		: Array = []
+var index_in_grid 	: PoolIntArray = []
 
-var hero_path : Array = []
+#var hero_path : Array = []
 
 func _ready():
 	Navigable = get_node("Navigable")
@@ -18,16 +18,22 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton:
 		if (event.button_index == BUTTON_LEFT and event.pressed):
+			var hero_path : Array = []
 			var Start_position = $TestHero.global_position
-			var End_position = target_position(event, NavigationGrid)
-			Dijkstra(NavigationGrid, NavWeightsGrid, Start_position, End_position)
+			var output = target_position(event, NavigationGrid)
+			var End_position = output.vect2
+			var position_is_valid = output.ok
+			$TestHero.get_node("Cross").global_position = End_position
 			
-			var PathLine = $TestHero/Line2D
-			var hero_path_local = hero_path.duplicate()
-			for i in hero_path_local.size():
-				hero_path_local[i] = $TestHero.to_local(hero_path_local[i])
-			PathLine.points = PoolVector2Array(hero_path_local)
-			PathLine.show()
+			if position_is_valid:
+				hero_path = DIJKSTRA(NavigationGrid, NavWeightsGrid, Start_position, End_position)
+			
+				var PathLine = $TestHero/Line2D
+				var hero_path_local = hero_path.duplicate()
+				for i in hero_path_local.size():
+					hero_path_local[i] = $TestHero.to_local(hero_path_local[i])
+				PathLine.points = PoolVector2Array(hero_path_local)
+				PathLine.show()
 
 func gather_navigationTilemaps():
 	var Tiles_array: PoolVector2Array = []
@@ -56,38 +62,38 @@ func gather_navigationTilemaps():
 	NavigationGrid = Tiles_array
 	NavWeightsGrid = weights_array
 
-
 func target_position(event, Tiles):
 	var newGoal : Vector2
-	var clickPosition_global = Vector2(
-								round(event.position.x/32)*32, 
-								round(event.position.y/16)*16)
+	var hasGoal : bool = false
+	
+	var Center_dist : float = INF
 	for i in Tiles.size():
 		var Tile_Center = Tiles[i]
-#		var Tile_Center = Vector2(
-#							32*(Tiles[i].x - Tiles[i].y),
-#							16* (1+ Tiles[i].x + Tiles[i].y)
-#							)
 		
-		if (abs(Tile_Center.x - clickPosition_global.x) <= 33
-		and abs(Tile_Center.y - clickPosition_global.y) <= 17):
-			newGoal = Tile_Center
-			break
-	return newGoal
+		if (abs(Tile_Center.x - event.position.x) <= 33
+		and abs(Tile_Center.y - event.position.y) <= 17):
+			var newCenter_dist = (abs(Tile_Center.x - event.position.x) 
+								+ abs(Tile_Center.y - event.position.y))
+			
+			if newCenter_dist < Center_dist:
+				hasGoal = true
+				newGoal = Tile_Center
+				Center_dist = newCenter_dist
+			
+	return {"vect2": newGoal, "ok": hasGoal}
+
 
 
 func DIJKSTRA(Grid, Grid_weights, Start_position, End_position):
-	var search_index 	: int = -1
+#	var hero_path : Array = []
+#	var search_index 	: int = -1
 	var start_index 	: int = -1
 	var end_index 		: int = -1
-	var result_Grid 	: PoolIntArray = []
+#	var result_Grid 	: PoolIntArray = []
 	
-	var neighbours : PoolVector2Array = []
-	var neighbours_index : PoolIntArray = []
-    
 	# INITIALIZE
 	for i in Grid.size():
-		result_Grid.append(int_INF)
+#		result_Grid.append(int_INF)
 		if Grid[i] == Start_position:
 			start_index = i
 		if Grid[i] == End_position:
@@ -95,26 +101,26 @@ func DIJKSTRA(Grid, Grid_weights, Start_position, End_position):
 	
 	# WEIGH CELLS
 	# relatively to start cell.
-    # update result_Grid
-	weigh_cells(Grid : Array, start_index : int, end_index : int, 
-                result_Grid : PoolIntArray)
-	
+	# update result_Grid
+	var result_Grid : PoolIntArray = DJ_weigh_cells(Grid, Grid_weights, 
+													start_index, end_index)
 	
 	# CHOSE PATH
-	chosepath(Grid, start_index, end_index,
-                hero_path)
+	var hero_path : Array = DJ_chosepath(Grid, result_Grid, 
+										start_index, end_index)
+				
+	return hero_path
 
 
-func find_neighborTiles(currentTile : Vector2, Tiles_array: Array, Tiles2Pass: PoolBoolArray,
-                        neighbours : Array, neighbours_index : PoolIntArray):
+func find_neighborTiles(currentTile : Vector2, Tiles_array: Array, Tiles2Pass: Array):
 	var neighbour_count : int = 0
-	# var neighbours : PoolVector2Array = []
-	# var neighbours_index : PoolIntArray = []
+	var neighbours : Array = []
+	var neighbours_index : PoolIntArray = []
 	
 	for i in Tiles_array.size():
 		if ((abs(Tiles_array[i].x - currentTile.x) < 1
 		and abs(Tiles_array[i].y - currentTile.y) < 1)
-        or Tiles2Pass(i) == true):
+		or Tiles2Pass[i] == true):
 			continue
 		
 		if (abs(Tiles_array[i].x - currentTile.x) < 65
@@ -141,100 +147,144 @@ func find_neighborTiles(currentTile : Vector2, Tiles_array: Array, Tiles2Pass: P
 		if neighbour_count == 8 :
 			break
 	
+	return {"vect2": neighbours, "ind": neighbours_index}
 	# neighbors = neighbours
 	# index_in_grid = neighbours_index
 
 
-func weigh_cells(Grid : Array, start_index : int, end_index : int, 
-                result_Grid : PoolIntArray):
-    # WEIGH CELLS
-	# relatively to start cell.
-	var while_count : int = 0
-	var Grid_finished : PoolBoolArray = []
-    for i in Grid.size():
-        Grid_finished[i] = false
-    
-	result_Grid[start_index] = 0
-    
-    search_index = start_index
-	while (search_index != end_index 
-	and while_count <=1000):
-		while_count+=1
-        # update neighbours, neighbours_index
-        Grid_finished(search_index) = true
-		find_neighborTiles( Grid[search_index], Grid, Grid_finished
-                            neighbours, neighbours_index)
-		
-		var current_min     : int = int_INF
-		var current_min_ind : int = int_INF
-		for i in neighbours.size():
-            if size(neighbours, 1) > 1:
-                Current_Neighbour = neighbours(i, :);
-                Current_neighbour_index = neighbours_index(i);
-            else:
-                Current_Neighbour = neighbours;
-                Current_neighbour_index = neighbours_index;
-            
-			var weight : int = Grid_weights[neighbours_index[i]]
-			var current_result : int
-			current_result = result_Grid[search_index] + weight
-			
-			if current_result < result_Grid[Current_neighbour_index]:
-					result_Grid[Current_neighbour_index] = current_result
-			
-			if current_result < current_min:
-				current_min = current_result
-				current_min_ind = Current_neighbour_index
-		
-		search_index = current_min_ind
-
-func chosepath(Grid, start_index, end_index,
-                hero_path):
-	# CHOSE PATH
-	# starting from destination
-	hero_path = [Grid[end_index]]
-	search_index = end_index
+func DJ_weigh_cells(Grid : Array, Grid_weights : PoolIntArray, 
+					start_index : int, end_index : int):
+	var result_Grid : PoolIntArray = []
+	for i in Grid.size():
+		result_Grid.append(int_INF)
 	
 	var neighbours : PoolVector2Array = []
 	var neighbours_index : PoolIntArray = []
-	var Grid_finished : PoolBoolArray = []
+	
+	# WEIGH CELLS
+	# relatively to start cell.
+	var while_count : int = 0
+	var Grid_finished : Array = []
+	for i in Grid.size():
+		Grid_finished.append(false)
+	
+	result_Grid[start_index] = 0
+	
+	var search_index = start_index
+	
+	while (search_index != end_index 
+	and while_count <=1000):
+		while_count+=1
+		Grid_finished[search_index] = true
+		var output = find_neighborTiles( Grid[search_index], Grid, Grid_finished)
+		neighbours = output.vect2
+		neighbours_index = output.ind
+		
+		if neighbours.size() > 0:
+			var current_min     : int = int_INF
+			var current_min_ind : int = int_INF
+	#		var Current_Neighbour : Vector2
+			var Current_neighbour_index : int = 0
+			for i in neighbours.size():
+	#			if neighbours.size() > 1:
+	#			Current_Neighbour = neighbours[i]
+				Current_neighbour_index = neighbours_index[i]
+	#			else:
+	#				Current_Neighbour = neighbours
+	#				Current_neighbour_index = neighbours_index
+				
+				var weight : int = Grid_weights[neighbours_index[i]]
+				var current_result : int
+				current_result = result_Grid[search_index] + weight
+				
+				if current_result < result_Grid[Current_neighbour_index]:
+						result_Grid[Current_neighbour_index] = current_result
+				
+				if current_result < current_min:
+					current_min = current_result
+					current_min_ind = Current_neighbour_index
+			
+			search_index = current_min_ind
+			
+		else: 
+			# impasse erronée => chercher un nouveau départ ou s'arrêter
+			# 1/ on calcul les tuiles non calculées à partir des voisines terminées.
+			# 2/ on repart de celle obtenant le score le plus faible.
+			for i in result_Grid.size():
+				if result_Grid[i] == int_INF:
+					for j in Grid_finished.size():
+						Grid_finished[i] = not(Grid_finished[i])
+					output = find_neighborTiles( Grid[i], Grid, Grid_finished)
+					neighbours = output.vect2
+					neighbours_index = output.ind
+					
+					# 1/
+					var result : int
+					var smallest_res : int = int_INF
+					for j in neighbours.size():
+						if result_Grid[neighbours_index[j]] < int_INF:
+							result = result_Grid[neighbours_index[j]] + Grid_weights[i]
+							if result < result_Grid[i]:
+								result_Grid[i] = result
+					if result < smallest_res:
+						smallest_res = result
+						# 2/
+						search_index = i
+	
+	return result_Grid
 
-    # # Optimisation "ligne droite"
-    # var deltaX = Grid[start_index].x - Grid[end_index].x
-    # var deltaY = Grid[start_index].y - Grid[end_index].y
-    # var angle_end2start : float = atan2(deltaY, deltaX)
-    # var angle_current : float = 0
-    # var angle_min : float = 0
-    # # Optimisation "ligne droite"
-            
-    for i in Grid.size():
-        Grid_finished[i] = false
-    
+func DJ_chosepath(Grid, result_Grid, start_index, end_index):
+	# CHOSE PATH
+	# starting from destination
+	var hero_path : Array = [Grid[end_index]]
+	var search_index = end_index
+	
+	var neighbours : PoolVector2Array = []
+	var neighbours_index : PoolIntArray = []
+	var Grid_finished : Array = []
+
+	# Optimisation "ligne droite"
+	var deltaX = Grid[start_index].x - Grid[end_index].x
+	var deltaY = Grid[start_index].y - Grid[end_index].y
+	var angle_end2start : float = atan2(deltaY, deltaX)
+	var angle_current : float = 0
+	var angle_min : float = 0
+	# Optimisation "ligne droite"
+			
+	for i in Grid.size():
+		Grid_finished.append(false)
+	
 	while search_index != start_index:
 		var current_min     : int = int_INF
 		var current_min_ind : int = int_INF
-        # update neighbours, neighbours_index
-		find_neighborTiles( Grid[search_index], Grid, Grid_finished 
-                            neighbours, neighbours_index)
+		# update neighbours, neighbours_index
+		var output = find_neighborTiles( Grid[search_index], Grid, Grid_finished)
+		neighbours = output.vect2
+		neighbours_index = output.ind
+		
 		for i in neighbours.size():
 			if result_Grid[neighbours_index[i]] < current_min:
 				current_min = result_Grid[neighbours_index[i]]
 				current_min_ind = neighbours_index[i]
-                
-                # # Optimisation "ligne droite"
-                # deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
-                # deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
-                # angle_min = atan2(deltaY, deltaX)
-            # elif result_Grid[neighbours_index[i]] == current_min:
-                # deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
-                # deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
-                # angle_current = atan2(deltaY, deltaX)
-                # if abs(angle_current-angle_end2start) < abs(angle_min-angle_end2start):
-                    # current_min = result_Grid[neighbours_index[i]]
-                    # current_min_ind = neighbours_index[i]
-                    # angle_min = angle_current
-                # # Optimisation "ligne droite"
 				
-        hero_path.push_front(Grid[current_min_ind])
-        Grid_finished[current_min_ind] = true
-        search_index = current_min_ind
+				# Optimisation "ligne droite"
+				deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
+				deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
+				angle_min = atan2(deltaY, deltaX)
+			elif result_Grid[neighbours_index[i]] == current_min:
+				deltaX = Grid[search_index].x -Grid[neighbours_index[i]].x
+				deltaY = Grid[search_index].y -Grid[neighbours_index[i]].y
+				angle_current = atan2(deltaY, deltaX)
+				if abs(angle_current-angle_end2start) < abs(angle_min-angle_end2start):
+					current_min = result_Grid[neighbours_index[i]]
+					current_min_ind = neighbours_index[i]
+					angle_min = angle_current
+				# Optimisation "ligne droite"
+				
+		hero_path.push_front(Grid[current_min_ind])
+		Grid_finished[current_min_ind] = true
+		search_index = current_min_ind
+	
+	return hero_path
+
+
