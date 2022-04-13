@@ -101,23 +101,8 @@ func DIJKSTRA(Grid, Grid_weights, Start_position, End_position):
 	
 	
 	# CHOSE PATH
-	# starting from destination
-	hero_path = [Grid[end_index]]
-	search_index = end_index
-	
-	while search_index != start_index:
-		var current_min     : int = int_INF
-		var current_min_ind : int = int_INF
-        # update neighbours, neighbours_index
-		find_neighborTiles( Grid[search_index], Grid, 
-                            neighbours, neighbours_index)
-		for i in neighbours.size():
-			if result_Grid[neighbours_index[i]] < current_min:
-				current_min = result_Grid[neighbours_index[i]]
-				current_min_ind = neighbours_index[i]
-				
-				hero_path.push_front(Grid[current_min_ind])
-				search_index = current_min_ind
+	chosepath(Grid, start_index, end_index,
+                hero_path)
 
 
 func find_neighborTiles(currentTile : Vector2, Tiles_array: Array, Tiles2Pass: PoolBoolArray,
@@ -183,15 +168,51 @@ func weigh_cells(Grid : Array, start_index : int, end_index : int,
 		var current_min     : int = int_INF
 		var current_min_ind : int = int_INF
 		for i in neighbours.size():
+            if size(neighbours, 1) > 1:
+                Current_Neighbour = neighbours(i, :);
+                Current_neighbour_index = neighbours_index(i);
+            else:
+                Current_Neighbour = neighbours;
+                Current_neighbour_index = neighbours_index;
+            
 			var weight : int = Grid_weights[neighbours_index[i]]
 			var current_result : int
 			current_result = result_Grid[search_index] + weight
 			
-			if current_result < result_Grid[neighbours_index[i]]:
-					result_Grid[neighbours_index[i]] = current_result
+			if current_result < result_Grid[Current_neighbour_index]:
+					result_Grid[Current_neighbour_index] = current_result
 			
 			if current_result < current_min:
 				current_min = current_result
-				current_min_ind = neighbours_index[i]
+				current_min_ind = Current_neighbour_index
 		
 		search_index = current_min_ind
+
+func chosepath(Grid, start_index, end_index,
+                hero_path):
+	# CHOSE PATH
+	# starting from destination
+	hero_path = [Grid[end_index]]
+	search_index = end_index
+	
+	var neighbours : PoolVector2Array = []
+	var neighbours_index : PoolIntArray = []
+	var Grid_finished : PoolBoolArray = []
+    for i in Grid.size():
+        Grid_finished[i] = false
+    
+	while search_index != start_index:
+		var current_min     : int = int_INF
+		var current_min_ind : int = int_INF
+        # update neighbours, neighbours_index
+		find_neighborTiles( Grid[search_index], Grid, Grid_finished 
+                            neighbours, neighbours_index)
+		for i in neighbours.size():
+			if result_Grid[neighbours_index[i]] < current_min:
+				current_min = result_Grid[neighbours_index[i]]
+				current_min_ind = neighbours_index[i]
+				
+        hero_path.push_front(Grid[current_min_ind])
+        Grid_finished[current_min_ind] = true
+        search_index = current_min_ind
+    
